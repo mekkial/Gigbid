@@ -1,0 +1,16 @@
+# GigSim platform rules. The "policy update" change request edits ONLY this file.
+rate_limit_per_minute: 60
+error_rate_5xx: 0.03
+connects:
+  starting_balance: 200
+  base_cost_from_job: true      # use job.connects_cost
+  surcharge_boosted: 0          # change request example: add a boosted-bid surcharge
+  max_per_proposal: 30
+proposal:
+  max_chars: 3000
+  min_chars: 150
+reply_model:
+  seed: 4016
+  generic_opening_penalty: 0.35
+  skill_overlap_weight: 0.5
+  budget_fit_weight: 0.2
