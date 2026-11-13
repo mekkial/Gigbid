@@ -40,9 +40,15 @@ def _load():
             j = json.loads(line)
             j.pop("gold", None)  # gold labels never exposed through the API
             JOBS[j["job_id"]] = j
-    if cl.exists():
-        for c in json.loads(cl.read_text()):
-            CLIENTS[c["client_id"]] = c
+    real = ROOT / "data" / "processed" / "real_jobs.jsonl"
+    if real.exists():  # REAL Kaggle jobs (synthetic=false) mixed into the stream
+        for line in real.read_text().splitlines():
+            j = json.loads(line)
+            JOBS[j["job_id"]] = j
+    for f in (cl, ROOT / "data" / "processed" / "real_clients.json"):
+        if f.exists():
+            for c in json.loads(f.read_text()):
+                CLIENTS[c["client_id"]] = c
 
 
 _load()

@@ -12,3 +12,4 @@ build/
 data/processed/
 evals/results/*
 !evals/results/.gitkeep
+data/raw/
