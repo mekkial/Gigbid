@@ -27,21 +27,25 @@ def mask_pii(obj):
 
 
 def token_map() -> dict[str, str]:
-    raw = os.environ.get("MARKETPLACE_TOKENS", "dev-mcp-token:demo")
+    raw = os.environ.get("MARKETPLACE_TOKENS", "dev-mcp-token:service")
     return dict(p.split(":", 1) for p in raw.split(",") if ":" in p)
 
 
 def identity(ctx) -> tuple[str, str]:
     """(user, trace_id) from the HTTP request headers; in-memory transports fall back to a local identity."""
-    req = getattr(getattr(ctx, "request_context", None), "request", None) if ctx is not None else None
+    rc = getattr(ctx, "request_context", None) if ctx is not None else None
+    meta = (getattr(rc, "meta", None).model_dump() if getattr(rc, "meta", None) is not None else {}) or {}
+    req = getattr(rc, "request", None)
     headers = getattr(req, "headers", None)
+    trace = meta.get("trace_id") or (headers.get("x-trace-id") if headers is not None else None) or "trace-" + uuid.uuid4().hex[:8]
     if headers is None:
-        return "local", "trace-" + uuid.uuid4().hex[:8]
-    auth = headers.get("authorization", "")
-    user = token_map().get(auth.removeprefix("Bearer ").strip())
+        return meta.get("user") or "local", trace
+    user = token_map().get(headers.get("authorization", "").removeprefix("Bearer ").strip())
     if not user:
         raise PermissionError("invalid bearer token")
-    return user, headers.get("x-trace-id") or "trace-" + uuid.uuid4().hex[:8]
+    if user == "service" and meta.get("user"):                 # trusted API service acts on behalf of a tenant
+        user = meta["user"]
+    return user, trace
 
 
 class BearerAuthMiddleware:

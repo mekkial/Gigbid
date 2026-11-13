@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import contextvars
 import json
 import os
 import sys
@@ -14,6 +15,9 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 
 from agent.marketplace_port import MarketplaceUnavailable
 from agent.tools import NODE_TOOL_ALLOWLIST, ToolNotAllowed
+
+# identity of the current run (set by the API executor): forwarded to MCP servers as call metadata
+CURRENT: contextvars.ContextVar[dict | None] = contextvars.ContextVar("mcp_identity", default=None)
 
 TOOL_SERVER = {
     **{t: "portfolio" for t in ("search_evidence", "get_case_study", "list_skills")},
@@ -108,7 +112,7 @@ class MCPToolbox:
         for attempt in range(self.retries + 1):
             try:
                 session = await self._ensure(server)
-                res = await asyncio.wait_for(session.call_tool(tool, args), self.timeout)
+                res = await asyncio.wait_for(session.call_tool(tool, args, meta=CURRENT.get()), self.timeout)
             except (asyncio.TimeoutError, MarketplaceUnavailable, OSError, Exception) as e:  # noqa: BLE001
                 last = e
                 if isinstance(e, MarketplaceUnavailable) and "down" in str(e):

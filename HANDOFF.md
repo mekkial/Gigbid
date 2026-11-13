@@ -36,7 +36,11 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 - ✅ conversation graph (`agent/graphs/conversation_graph.py`) + tests; graphs rendered to `docs/images/*.mmd` (`scripts/render_graphs.py`)
 - ✅ live-LLM e2e: 24.8s, ~15k tokens, ~$0.0046 list cost, 1 critic revision, submitted, client replied
 - ⬜ R&D-C comparison (single ReAct vs supervisor vs graph), fit_matcher is slow (9.5s: sequential per-requirement MCP searches) -> parallelise
-### Phase 5 — API + worker  ⬜
+### Phase 5 — API + worker
+- ✅ `apps/api/` (FastAPI): auth (scrypt+JWT), settings, jobs/inbox, runs+SSE stream+history/replay, approvals (atomic check-and-set -> exactly-once), proposals/studio/regenerate/pipeline, messages, analytics, memory viewer, portfolio upload (incremental index), /health/tools (degraded banner source), trace-id middleware, PII log filter, encrypted token vault
+- ✅ `worker/` Arq tasks (run_bid, scout, resume_run, run_conversation, replay_run, cron scout_saved_searches + retry_waiting); queue falls back inline w/o Redis
+- ✅ tests/api (9 pass; uses DB `gigbid_test`, offline LLM stubs). Redis on :6380 (`redis-server --port 6380 --daemonize yes --dir .local`)
+- ⬜ run Arq worker for real once (`arq worker.settings.WorkerSettings`) + worker-restart test
 ### Phase 6 — Web UI + Playwright  ⬜
 ### Phase 7 — prod (CI, tracing, guardrails, compose, deploy)  ⬜
 ### Phase 8 — X3 Portfolio builder  ⬜
@@ -54,3 +58,4 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 - 2026-11-13: MCP servers + client + conversation graph done; 39 tests pass.
   Servers for manual runs: `set -a; . ./.env; set +a; export GIGSIM_API_TOKEN=dev-token GIGSIM_BASE_URL=http://127.0.0.1:8081`
   `.venv/bin/uvicorn gigsim.app:app --port 8081 &` ; `.venv/bin/python -m mcp_servers.marketplace.server &` (port 8082)
+- 2026-11-13: API + worker done; 48 tests pass total. Next: web UI (apps/web), then evals.

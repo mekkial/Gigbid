@@ -42,3 +42,13 @@ class Index:
         s = self.bm25.get_scores(tok(query))
         top = np.argsort(-s)[:n]
         return [(int(i), float(s[i])) for i in top]
+
+    def add(self, new_chunks: list[dict]) -> None:
+        """Incremental re-index (B1): embed only the new chunks and append; BM25 is rebuilt over the corpus (cheap)."""
+        ids = {c["chunk_id"] for c in self.chunks}
+        new = [c for c in new_chunks if c["chunk_id"] not in ids]
+        if not new:
+            return
+        self.emb = np.vstack([self.emb, embedder().encode([c["text"] for c in new], normalize_embeddings=True, show_progress_bar=False)])
+        self.chunks = self.chunks + new
+        self.bm25 = BM25Okapi([tok(c["text"] + " " + " ".join(c["skills"])) for c in self.chunks])
