@@ -1,0 +1,242 @@
+[
+  {
+    "id": "churn-prediction",
+    "title": "Customer churn model",
+    "skills": [
+      "scikit-learn",
+      "pandas",
+      "Python"
+    ],
+    "industry": "fintech",
+    "year": 2023,
+    "case_study_md": "# Customer churn model\n\nClient industry: fintech. I delivered customer churn model for a fintech client, using scikit-learn, pandas.  Result: reduced manual work by 40% and shipped in 9 weeks.",
+    "readme_md": "# churn-prediction\n\nCustomer churn model. Stack: scikit-learn, pandas, Python.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# churn-prediction/main.py\nimport scikit-learn\nimport pandas\nimport python",
+    "synthetic": true
+  },
+  {
+    "id": "support-bot-rag",
+    "title": "Support chatbot with retrieval",
+    "skills": [
+      "RAG",
+      "LangChain",
+      "FastAPI"
+    ],
+    "industry": "e-commerce",
+    "year": 2024,
+    "case_study_md": "# Support chatbot with retrieval\n\nClient industry: e-commerce. I delivered support chatbot with retrieval for a e-commerce client, using RAG, LangChain. Grounded answers in the client's own documents. Result: reduced manual work by 44% and shipped in 4 weeks.",
+    "readme_md": "# support-bot-rag\n\nSupport chatbot with retrieval. Stack: RAG, LangChain, FastAPI.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# support-bot-rag/main.py\nimport rag\nimport langchain\nimport fastapi",
+    "synthetic": true
+  },
+  {
+    "id": "doc-classifier",
+    "title": "Medical document classifier",
+    "skills": [
+      "PyTorch",
+      "Hugging Face",
+      "NLP"
+    ],
+    "industry": "healthcare",
+    "year": 2025,
+    "case_study_md": "# Medical document classifier\n\nClient industry: healthcare. I delivered medical document classifier for a healthcare client, using PyTorch, Hugging Face.  Result: reduced manual work by 42% and shipped in 6 weeks.",
+    "readme_md": "# doc-classifier\n\nMedical document classifier. Stack: PyTorch, Hugging Face, NLP.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# doc-classifier/main.py\nimport pytorch\nimport hugging_face\nimport nlp",
+    "synthetic": true
+  },
+  {
+    "id": "recsys",
+    "title": "Product recommender",
+    "skills": [
+      "Python",
+      "PyTorch",
+      "SQL"
+    ],
+    "industry": "e-commerce",
+    "year": 2025,
+    "case_study_md": "# Product recommender\n\nClient industry: e-commerce. I delivered product recommender for a e-commerce client, using Python, PyTorch. Wrote the queries that joined orders, users and events. Result: reduced manual work by 22% and shipped in 10 weeks.",
+    "readme_md": "# recsys\n\nProduct recommender. Stack: Python, PyTorch, SQL.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# recsys/main.py\nimport python\nimport pytorch\nimport sql",
+    "synthetic": true
+  },
+  {
+    "id": "mlops-pipeline",
+    "title": "Model serving pipeline",
+    "skills": [
+      "Docker",
+      "MLflow",
+      "FastAPI"
+    ],
+    "industry": "fintech",
+    "year": 2025,
+    "case_study_md": "# Model serving pipeline\n\nClient industry: fintech. I delivered model serving pipeline for a fintech client, using Docker, MLflow. Packaged the service so it ran identically on any machine. Result: reduced manual work by 48% and shipped in 5 weeks.",
+    "readme_md": "# mlops-pipeline\n\nModel serving pipeline. Stack: Docker, MLflow, FastAPI.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# mlops-pipeline/main.py\nimport docker\nimport mlflow\nimport fastapi",
+    "synthetic": true
+  },
+  {
+    "id": "quiz-gen",
+    "title": "Quiz generation with LLMs",
+    "skills": [
+      "NLP",
+      "LangChain",
+      "Python"
+    ],
+    "industry": "education",
+    "year": 2023,
+    "case_study_md": "# Quiz generation with LLMs\n\nClient industry: education. I delivered quiz generation with llms for a education client, using NLP, LangChain.  Result: reduced manual work by 42% and shipped in 3 weeks.",
+    "readme_md": "# quiz-gen\n\nQuiz generation with LLMs. Stack: NLP, LangChain, Python.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# quiz-gen/main.py\nimport nlp\nimport langchain\nimport python",
+    "synthetic": true
+  },
+  {
+    "id": "fraud-detect",
+    "title": "Fraud anomaly detection",
+    "skills": [
+      "scikit-learn",
+      "pandas",
+      "SQL"
+    ],
+    "industry": "fintech",
+    "year": 2023,
+    "case_study_md": "# Fraud anomaly detection\n\nClient industry: fintech. I delivered fraud anomaly detection for a fintech client, using scikit-learn, pandas. Wrote the queries that joined orders, users and events. Result: reduced manual work by 51% and shipped in 8 weeks.",
+    "readme_md": "# fraud-detect\n\nFraud anomaly detection. Stack: scikit-learn, pandas, SQL.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# fraud-detect/main.py\nimport scikit-learn\nimport pandas\nimport sql",
+    "synthetic": true
+  },
+  {
+    "id": "sentiment",
+    "title": "Sentiment analysis dashboard",
+    "skills": [
+      "NLP",
+      "Hugging Face",
+      "FastAPI"
+    ],
+    "industry": "e-commerce",
+    "year": 2024,
+    "case_study_md": "# Sentiment analysis dashboard\n\nClient industry: e-commerce. I delivered sentiment analysis dashboard for a e-commerce client, using NLP, Hugging Face.  Result: reduced manual work by 28% and shipped in 10 weeks.",
+    "readme_md": "# sentiment\n\nSentiment analysis dashboard. Stack: NLP, Hugging Face, FastAPI.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# sentiment/main.py\nimport nlp\nimport hugging_face\nimport fastapi",
+    "synthetic": true
+  },
+  {
+    "id": "churn-prediction-v2",
+    "title": "Customer churn model (phase 2)",
+    "skills": [
+      "scikit-learn",
+      "pandas",
+      "Python"
+    ],
+    "industry": "fintech",
+    "year": 2022,
+    "case_study_md": "# Customer churn model (phase 2)\n\nClient industry: fintech. I delivered customer churn model (phase 2) for a fintech client, using scikit-learn, pandas.  Result: reduced manual work by 48% and shipped in 4 weeks.",
+    "readme_md": "# churn-prediction-v2\n\nCustomer churn model (phase 2). Stack: scikit-learn, pandas, Python.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# churn-prediction-v2/main.py\nimport scikit-learn\nimport pandas\nimport python",
+    "synthetic": true
+  },
+  {
+    "id": "support-bot-rag-v2",
+    "title": "Support chatbot with retrieval (phase 2)",
+    "skills": [
+      "RAG",
+      "LangChain",
+      "FastAPI"
+    ],
+    "industry": "e-commerce",
+    "year": 2025,
+    "case_study_md": "# Support chatbot with retrieval (phase 2)\n\nClient industry: e-commerce. I delivered support chatbot with retrieval (phase 2) for a e-commerce client, using RAG, LangChain. Grounded answers in the client's own documents. Result: reduced manual work by 54% and shipped in 10 weeks.",
+    "readme_md": "# support-bot-rag-v2\n\nSupport chatbot with retrieval (phase 2). Stack: RAG, LangChain, FastAPI.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# support-bot-rag-v2/main.py\nimport rag\nimport langchain\nimport fastapi",
+    "synthetic": true
+  },
+  {
+    "id": "doc-classifier-v2",
+    "title": "Medical document classifier (phase 2)",
+    "skills": [
+      "PyTorch",
+      "Hugging Face",
+      "NLP"
+    ],
+    "industry": "healthcare",
+    "year": 2024,
+    "case_study_md": "# Medical document classifier (phase 2)\n\nClient industry: healthcare. I delivered medical document classifier (phase 2) for a healthcare client, using PyTorch, Hugging Face.  Result: reduced manual work by 57% and shipped in 3 weeks.",
+    "readme_md": "# doc-classifier-v2\n\nMedical document classifier (phase 2). Stack: PyTorch, Hugging Face, NLP.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# doc-classifier-v2/main.py\nimport pytorch\nimport hugging_face\nimport nlp",
+    "synthetic": true
+  },
+  {
+    "id": "recsys-v2",
+    "title": "Product recommender (phase 2)",
+    "skills": [
+      "Python",
+      "PyTorch",
+      "SQL"
+    ],
+    "industry": "e-commerce",
+    "year": 2025,
+    "case_study_md": "# Product recommender (phase 2)\n\nClient industry: e-commerce. I delivered product recommender (phase 2) for a e-commerce client, using Python, PyTorch. Wrote the queries that joined orders, users and events. Result: reduced manual work by 27% and shipped in 3 weeks.",
+    "readme_md": "# recsys-v2\n\nProduct recommender (phase 2). Stack: Python, PyTorch, SQL.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# recsys-v2/main.py\nimport python\nimport pytorch\nimport sql",
+    "synthetic": true
+  },
+  {
+    "id": "mlops-pipeline-v2",
+    "title": "Model serving pipeline (phase 2)",
+    "skills": [
+      "Docker",
+      "MLflow",
+      "FastAPI"
+    ],
+    "industry": "fintech",
+    "year": 2022,
+    "case_study_md": "# Model serving pipeline (phase 2)\n\nClient industry: fintech. I delivered model serving pipeline (phase 2) for a fintech client, using Docker, MLflow. Packaged the service so it ran identically on any machine. Result: reduced manual work by 35% and shipped in 8 weeks.",
+    "readme_md": "# mlops-pipeline-v2\n\nModel serving pipeline (phase 2). Stack: Docker, MLflow, FastAPI.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# mlops-pipeline-v2/main.py\nimport docker\nimport mlflow\nimport fastapi",
+    "synthetic": true
+  },
+  {
+    "id": "quiz-gen-v2",
+    "title": "Quiz generation with LLMs (phase 2)",
+    "skills": [
+      "NLP",
+      "LangChain",
+      "Python"
+    ],
+    "industry": "education",
+    "year": 2023,
+    "case_study_md": "# Quiz generation with LLMs (phase 2)\n\nClient industry: education. I delivered quiz generation with llms (phase 2) for a education client, using NLP, LangChain.  Result: reduced manual work by 51% and shipped in 3 weeks.",
+    "readme_md": "# quiz-gen-v2\n\nQuiz generation with LLMs (phase 2). Stack: NLP, LangChain, Python.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# quiz-gen-v2/main.py\nimport nlp\nimport langchain\nimport python",
+    "synthetic": true
+  },
+  {
+    "id": "fraud-detect-v2",
+    "title": "Fraud anomaly detection (phase 2)",
+    "skills": [
+      "scikit-learn",
+      "pandas",
+      "SQL"
+    ],
+    "industry": "fintech",
+    "year": 2025,
+    "case_study_md": "# Fraud anomaly detection (phase 2)\n\nClient industry: fintech. I delivered fraud anomaly detection (phase 2) for a fintech client, using scikit-learn, pandas. Wrote the queries that joined orders, users and events. Result: reduced manual work by 33% and shipped in 9 weeks.",
+    "readme_md": "# fraud-detect-v2\n\nFraud anomaly detection (phase 2). Stack: scikit-learn, pandas, SQL.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# fraud-detect-v2/main.py\nimport scikit-learn\nimport pandas\nimport sql",
+    "synthetic": true
+  },
+  {
+    "id": "sentiment-v2",
+    "title": "Sentiment analysis dashboard (phase 2)",
+    "skills": [
+      "NLP",
+      "Hugging Face",
+      "FastAPI"
+    ],
+    "industry": "e-commerce",
+    "year": 2025,
+    "case_study_md": "# Sentiment analysis dashboard (phase 2)\n\nClient industry: e-commerce. I delivered sentiment analysis dashboard (phase 2) for a e-commerce client, using NLP, Hugging Face.  Result: reduced manual work by 50% and shipped in 7 weeks.",
+    "readme_md": "# sentiment-v2\n\nSentiment analysis dashboard (phase 2). Stack: NLP, Hugging Face, FastAPI.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# sentiment-v2/main.py\nimport nlp\nimport hugging_face\nimport fastapi",
+    "synthetic": true
+  }
+]

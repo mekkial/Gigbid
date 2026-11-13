@@ -1,0 +1,27 @@
+{
+  "persona": "ai_ml",
+  "name": "Ayesha Khan",
+  "title": "AI/ML Engineer",
+  "floor_hourly": 35,
+  "skills": [
+    "Python",
+    "PyTorch",
+    "scikit-learn",
+    "NLP",
+    "LangChain",
+    "RAG",
+    "FastAPI",
+    "Docker",
+    "MLflow",
+    "Hugging Face",
+    "pandas",
+    "SQL"
+  ],
+  "industries": [
+    "fintech",
+    "healthcare",
+    "e-commerce",
+    "education"
+  ],
+  "synthetic": true
+}

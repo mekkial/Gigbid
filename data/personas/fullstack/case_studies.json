@@ -1,0 +1,242 @@
+[
+  {
+    "id": "shop-storefront",
+    "title": "Headless e-commerce storefront",
+    "skills": [
+      "Next.js",
+      "Stripe",
+      "TypeScript"
+    ],
+    "industry": "e-commerce",
+    "year": 2024,
+    "case_study_md": "# Headless e-commerce storefront\n\nClient industry: e-commerce. I delivered headless e-commerce storefront for a e-commerce client, using Next.js, Stripe. Handled card payments and webhooks. Added static types to catch bugs before release. Result: reduced manual work by 59% and shipped in 4 weeks.",
+    "readme_md": "# shop-storefront\n\nHeadless e-commerce storefront. Stack: Next.js, Stripe, TypeScript.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# shop-storefront/main.py\nimport nextjs\nimport stripe\nimport typescript",
+    "synthetic": true
+  },
+  {
+    "id": "saas-dashboard",
+    "title": "Multi-tenant SaaS dashboard",
+    "skills": [
+      "React",
+      "PostgreSQL",
+      "Node.js"
+    ],
+    "industry": "saas",
+    "year": 2024,
+    "case_study_md": "# Multi-tenant SaaS dashboard\n\nClient industry: saas. I delivered multi-tenant saas dashboard for a saas client, using React, PostgreSQL. Designed the relational schema and indexes. Result: reduced manual work by 43% and shipped in 4 weeks.",
+    "readme_md": "# saas-dashboard\n\nMulti-tenant SaaS dashboard. Stack: React, PostgreSQL, Node.js.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# saas-dashboard/main.py\nimport react\nimport postgresql\nimport nodejs",
+    "synthetic": true
+  },
+  {
+    "id": "lms-portal",
+    "title": "Learning management portal",
+    "skills": [
+      "Django",
+      "PostgreSQL",
+      "REST APIs"
+    ],
+    "industry": "education",
+    "year": 2025,
+    "case_study_md": "# Learning management portal\n\nClient industry: education. I delivered learning management portal for a education client, using Django, PostgreSQL. Designed the relational schema and indexes. Result: reduced manual work by 59% and shipped in 6 weeks.",
+    "readme_md": "# lms-portal\n\nLearning management portal. Stack: Django, PostgreSQL, REST APIs.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# lms-portal/main.py\nimport django\nimport postgresql\nimport rest_apis",
+    "synthetic": true
+  },
+  {
+    "id": "property-listings",
+    "title": "Property listing marketplace",
+    "skills": [
+      "React",
+      "GraphQL",
+      "AWS"
+    ],
+    "industry": "real-estate",
+    "year": 2023,
+    "case_study_md": "# Property listing marketplace\n\nClient industry: real-estate. I delivered property listing marketplace for a real-estate client, using React, GraphQL.  Result: reduced manual work by 45% and shipped in 5 weeks.",
+    "readme_md": "# property-listings\n\nProperty listing marketplace. Stack: React, GraphQL, AWS.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# property-listings/main.py\nimport react\nimport graphql\nimport aws",
+    "synthetic": true
+  },
+  {
+    "id": "booking-app",
+    "title": "Appointment booking app",
+    "skills": [
+      "Next.js",
+      "Tailwind",
+      "Stripe"
+    ],
+    "industry": "saas",
+    "year": 2024,
+    "case_study_md": "# Appointment booking app\n\nClient industry: saas. I delivered appointment booking app for a saas client, using Next.js, Tailwind. Handled card payments and webhooks. Result: reduced manual work by 33% and shipped in 10 weeks.",
+    "readme_md": "# booking-app\n\nAppointment booking app. Stack: Next.js, Tailwind, Stripe.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# booking-app/main.py\nimport nextjs\nimport tailwind\nimport stripe",
+    "synthetic": true
+  },
+  {
+    "id": "admin-panel",
+    "title": "Internal admin panel",
+    "skills": [
+      "React",
+      "TypeScript",
+      "REST APIs"
+    ],
+    "industry": "saas",
+    "year": 2022,
+    "case_study_md": "# Internal admin panel\n\nClient industry: saas. I delivered internal admin panel for a saas client, using React, TypeScript. Added static types to catch bugs before release. Result: reduced manual work by 40% and shipped in 6 weeks.",
+    "readme_md": "# admin-panel\n\nInternal admin panel. Stack: React, TypeScript, REST APIs.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# admin-panel/main.py\nimport react\nimport typescript\nimport rest_apis",
+    "synthetic": true
+  },
+  {
+    "id": "api-gateway",
+    "title": "REST API backend",
+    "skills": [
+      "Node.js",
+      "Docker",
+      "PostgreSQL"
+    ],
+    "industry": "e-commerce",
+    "year": 2023,
+    "case_study_md": "# REST API backend\n\nClient industry: e-commerce. I delivered rest api backend for a e-commerce client, using Node.js, Docker. Packaged the service so it ran identically on any machine. Designed the relational schema and indexes. Result: reduced manual work by 25% and shipped in 8 weeks.",
+    "readme_md": "# api-gateway\n\nREST API backend. Stack: Node.js, Docker, PostgreSQL.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# api-gateway/main.py\nimport nodejs\nimport docker\nimport postgresql",
+    "synthetic": true
+  },
+  {
+    "id": "cms-site",
+    "title": "Content site on a custom CMS",
+    "skills": [
+      "Django",
+      "Tailwind",
+      "AWS"
+    ],
+    "industry": "education",
+    "year": 2025,
+    "case_study_md": "# Content site on a custom CMS\n\nClient industry: education. I delivered content site on a custom cms for a education client, using Django, Tailwind.  Result: reduced manual work by 50% and shipped in 7 weeks.",
+    "readme_md": "# cms-site\n\nContent site on a custom CMS. Stack: Django, Tailwind, AWS.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# cms-site/main.py\nimport django\nimport tailwind\nimport aws",
+    "synthetic": true
+  },
+  {
+    "id": "shop-storefront-v2",
+    "title": "Headless e-commerce storefront (phase 2)",
+    "skills": [
+      "Next.js",
+      "Stripe",
+      "TypeScript"
+    ],
+    "industry": "e-commerce",
+    "year": 2025,
+    "case_study_md": "# Headless e-commerce storefront (phase 2)\n\nClient industry: e-commerce. I delivered headless e-commerce storefront (phase 2) for a e-commerce client, using Next.js, Stripe. Handled card payments and webhooks. Added static types to catch bugs before release. Result: reduced manual work by 21% and shipped in 9 weeks.",
+    "readme_md": "# shop-storefront-v2\n\nHeadless e-commerce storefront (phase 2). Stack: Next.js, Stripe, TypeScript.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# shop-storefront-v2/main.py\nimport nextjs\nimport stripe\nimport typescript",
+    "synthetic": true
+  },
+  {
+    "id": "saas-dashboard-v2",
+    "title": "Multi-tenant SaaS dashboard (phase 2)",
+    "skills": [
+      "React",
+      "PostgreSQL",
+      "Node.js"
+    ],
+    "industry": "saas",
+    "year": 2025,
+    "case_study_md": "# Multi-tenant SaaS dashboard (phase 2)\n\nClient industry: saas. I delivered multi-tenant saas dashboard (phase 2) for a saas client, using React, PostgreSQL. Designed the relational schema and indexes. Result: reduced manual work by 53% and shipped in 9 weeks.",
+    "readme_md": "# saas-dashboard-v2\n\nMulti-tenant SaaS dashboard (phase 2). Stack: React, PostgreSQL, Node.js.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# saas-dashboard-v2/main.py\nimport react\nimport postgresql\nimport nodejs",
+    "synthetic": true
+  },
+  {
+    "id": "lms-portal-v2",
+    "title": "Learning management portal (phase 2)",
+    "skills": [
+      "Django",
+      "PostgreSQL",
+      "REST APIs"
+    ],
+    "industry": "education",
+    "year": 2023,
+    "case_study_md": "# Learning management portal (phase 2)\n\nClient industry: education. I delivered learning management portal (phase 2) for a education client, using Django, PostgreSQL. Designed the relational schema and indexes. Result: reduced manual work by 41% and shipped in 4 weeks.",
+    "readme_md": "# lms-portal-v2\n\nLearning management portal (phase 2). Stack: Django, PostgreSQL, REST APIs.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# lms-portal-v2/main.py\nimport django\nimport postgresql\nimport rest_apis",
+    "synthetic": true
+  },
+  {
+    "id": "property-listings-v2",
+    "title": "Property listing marketplace (phase 2)",
+    "skills": [
+      "React",
+      "GraphQL",
+      "AWS"
+    ],
+    "industry": "real-estate",
+    "year": 2022,
+    "case_study_md": "# Property listing marketplace (phase 2)\n\nClient industry: real-estate. I delivered property listing marketplace (phase 2) for a real-estate client, using React, GraphQL.  Result: reduced manual work by 30% and shipped in 8 weeks.",
+    "readme_md": "# property-listings-v2\n\nProperty listing marketplace (phase 2). Stack: React, GraphQL, AWS.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# property-listings-v2/main.py\nimport react\nimport graphql\nimport aws",
+    "synthetic": true
+  },
+  {
+    "id": "booking-app-v2",
+    "title": "Appointment booking app (phase 2)",
+    "skills": [
+      "Next.js",
+      "Tailwind",
+      "Stripe"
+    ],
+    "industry": "saas",
+    "year": 2024,
+    "case_study_md": "# Appointment booking app (phase 2)\n\nClient industry: saas. I delivered appointment booking app (phase 2) for a saas client, using Next.js, Tailwind. Handled card payments and webhooks. Result: reduced manual work by 59% and shipped in 6 weeks.",
+    "readme_md": "# booking-app-v2\n\nAppointment booking app (phase 2). Stack: Next.js, Tailwind, Stripe.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# booking-app-v2/main.py\nimport nextjs\nimport tailwind\nimport stripe",
+    "synthetic": true
+  },
+  {
+    "id": "admin-panel-v2",
+    "title": "Internal admin panel (phase 2)",
+    "skills": [
+      "React",
+      "TypeScript",
+      "REST APIs"
+    ],
+    "industry": "saas",
+    "year": 2025,
+    "case_study_md": "# Internal admin panel (phase 2)\n\nClient industry: saas. I delivered internal admin panel (phase 2) for a saas client, using React, TypeScript. Added static types to catch bugs before release. Result: reduced manual work by 33% and shipped in 10 weeks.",
+    "readme_md": "# admin-panel-v2\n\nInternal admin panel (phase 2). Stack: React, TypeScript, REST APIs.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# admin-panel-v2/main.py\nimport react\nimport typescript\nimport rest_apis",
+    "synthetic": true
+  },
+  {
+    "id": "api-gateway-v2",
+    "title": "REST API backend (phase 2)",
+    "skills": [
+      "Node.js",
+      "Docker",
+      "PostgreSQL"
+    ],
+    "industry": "e-commerce",
+    "year": 2022,
+    "case_study_md": "# REST API backend (phase 2)\n\nClient industry: e-commerce. I delivered rest api backend (phase 2) for a e-commerce client, using Node.js, Docker. Packaged the service so it ran identically on any machine. Designed the relational schema and indexes. Result: reduced manual work by 31% and shipped in 3 weeks.",
+    "readme_md": "# api-gateway-v2\n\nREST API backend (phase 2). Stack: Node.js, Docker, PostgreSQL.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# api-gateway-v2/main.py\nimport nodejs\nimport docker\nimport postgresql",
+    "synthetic": true
+  },
+  {
+    "id": "cms-site-v2",
+    "title": "Content site on a custom CMS (phase 2)",
+    "skills": [
+      "Django",
+      "Tailwind",
+      "AWS"
+    ],
+    "industry": "education",
+    "year": 2023,
+    "case_study_md": "# Content site on a custom CMS (phase 2)\n\nClient industry: education. I delivered content site on a custom cms (phase 2) for a education client, using Django, Tailwind.  Result: reduced manual work by 23% and shipped in 3 weeks.",
+    "readme_md": "# cms-site-v2\n\nContent site on a custom CMS (phase 2). Stack: Django, Tailwind, AWS.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# cms-site-v2/main.py\nimport django\nimport tailwind\nimport aws",
+    "synthetic": true
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "persona": "data_analyst",
+  "name": "Sana Malik",
+  "title": "Data Analyst",
+  "floor_hourly": 25,
+  "skills": [
+    "SQL",
+    "Excel",
+    "Power BI",
+    "Tableau",
+    "Python",
+    "pandas",
+    "dbt",
+    "BigQuery",
+    "A/B testing",
+    "statistics",
+    "Looker Studio",
+    "ETL"
+  ],
+  "industries": [
+    "retail",
+    "marketing",
+    "logistics",
+    "healthcare"
+  ],
+  "synthetic": true
+}

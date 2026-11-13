@@ -1,0 +1,27 @@
+{
+  "persona": "fullstack",
+  "name": "Bilal Ahmed",
+  "title": "Full-Stack Web Developer",
+  "floor_hourly": 30,
+  "skills": [
+    "React",
+    "TypeScript",
+    "Node.js",
+    "Next.js",
+    "PostgreSQL",
+    "Tailwind",
+    "Django",
+    "REST APIs",
+    "Docker",
+    "AWS",
+    "Stripe",
+    "GraphQL"
+  ],
+  "industries": [
+    "e-commerce",
+    "saas",
+    "education",
+    "real-estate"
+  ],
+  "synthetic": true
+}

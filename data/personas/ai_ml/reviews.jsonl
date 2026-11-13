@@ -1,0 +1,12 @@
+{"id": "ai_ml-rev-0", "project": "churn-prediction", "rating": 5, "text": "Great work on customer churn model; communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-1", "project": "support-bot-rag", "rating": 5, "text": "Great work on support chatbot with retrieval; communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-2", "project": "doc-classifier", "rating": 5, "text": "Great work on medical document classifier; communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-3", "project": "recsys", "rating": 4, "text": "Great work on product recommender; communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-4", "project": "mlops-pipeline", "rating": 5, "text": "Great work on model serving pipeline; communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-5", "project": "quiz-gen", "rating": 5, "text": "Great work on quiz generation with llms; communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-6", "project": "fraud-detect", "rating": 5, "text": "Great work on fraud anomaly detection; communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-7", "project": "sentiment", "rating": 5, "text": "Great work on sentiment analysis dashboard; communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-8", "project": "churn-prediction-v2", "rating": 5, "text": "Great work on customer churn model (phase 2); communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-9", "project": "support-bot-rag-v2", "rating": 5, "text": "Great work on support chatbot with retrieval (phase 2); communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-10", "project": "doc-classifier-v2", "rating": 4, "text": "Great work on medical document classifier (phase 2); communicated clearly and delivered on time.", "synthetic": true}
+{"id": "ai_ml-rev-11", "project": "recsys-v2", "rating": 5, "text": "Great work on product recommender (phase 2); communicated clearly and delivered on time.", "synthetic": true}

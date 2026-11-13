@@ -1,0 +1,242 @@
+[
+  {
+    "id": "sales-dashboard",
+    "title": "Executive sales dashboard",
+    "skills": [
+      "Power BI",
+      "SQL",
+      "Excel"
+    ],
+    "industry": "retail",
+    "year": 2023,
+    "case_study_md": "# Executive sales dashboard\n\nClient industry: retail. I delivered executive sales dashboard for a retail client, using Power BI, SQL. Wrote the queries that joined orders, users and events. Result: reduced manual work by 35% and shipped in 3 weeks.",
+    "readme_md": "# sales-dashboard\n\nExecutive sales dashboard. Stack: Power BI, SQL, Excel.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# sales-dashboard/main.py\nimport power_bi\nimport sql\nimport excel",
+    "synthetic": true
+  },
+  {
+    "id": "marketing-attribution",
+    "title": "Marketing attribution analysis",
+    "skills": [
+      "SQL",
+      "Python",
+      "statistics"
+    ],
+    "industry": "marketing",
+    "year": 2022,
+    "case_study_md": "# Marketing attribution analysis\n\nClient industry: marketing. I delivered marketing attribution analysis for a marketing client, using SQL, Python. Wrote the queries that joined orders, users and events. Tested whether the lift was real or noise. Result: reduced manual work by 57% and shipped in 9 weeks.",
+    "readme_md": "# marketing-attribution\n\nMarketing attribution analysis. Stack: SQL, Python, statistics.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# marketing-attribution/main.py\nimport sql\nimport python\nimport statistics",
+    "synthetic": true
+  },
+  {
+    "id": "warehouse-dbt",
+    "title": "dbt warehouse models",
+    "skills": [
+      "dbt",
+      "BigQuery",
+      "SQL"
+    ],
+    "industry": "logistics",
+    "year": 2025,
+    "case_study_md": "# dbt warehouse models\n\nClient industry: logistics. I delivered dbt warehouse models for a logistics client, using dbt, BigQuery. Wrote the queries that joined orders, users and events. Result: reduced manual work by 34% and shipped in 7 weeks.",
+    "readme_md": "# warehouse-dbt\n\ndbt warehouse models. Stack: dbt, BigQuery, SQL.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# warehouse-dbt/main.py\nimport dbt\nimport bigquery\nimport sql",
+    "synthetic": true
+  },
+  {
+    "id": "ab-test-suite",
+    "title": "A/B test analysis toolkit",
+    "skills": [
+      "A/B testing",
+      "statistics",
+      "Python"
+    ],
+    "industry": "marketing",
+    "year": 2024,
+    "case_study_md": "# A/B test analysis toolkit\n\nClient industry: marketing. I delivered a/b test analysis toolkit for a marketing client, using A/B testing, statistics. Tested whether the lift was real or noise. Result: reduced manual work by 31% and shipped in 4 weeks.",
+    "readme_md": "# ab-test-suite\n\nA/B test analysis toolkit. Stack: A/B testing, statistics, Python.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# ab-test-suite/main.py\nimport a/b_testing\nimport statistics\nimport python",
+    "synthetic": true
+  },
+  {
+    "id": "kpi-tableau",
+    "title": "KPI reporting in Tableau",
+    "skills": [
+      "Tableau",
+      "SQL",
+      "Excel"
+    ],
+    "industry": "healthcare",
+    "year": 2022,
+    "case_study_md": "# KPI reporting in Tableau\n\nClient industry: healthcare. I delivered kpi reporting in tableau for a healthcare client, using Tableau, SQL. Wrote the queries that joined orders, users and events. Result: reduced manual work by 42% and shipped in 4 weeks.",
+    "readme_md": "# kpi-tableau\n\nKPI reporting in Tableau. Stack: Tableau, SQL, Excel.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# kpi-tableau/main.py\nimport tableau\nimport sql\nimport excel",
+    "synthetic": true
+  },
+  {
+    "id": "etl-pipeline",
+    "title": "Nightly ETL pipeline",
+    "skills": [
+      "ETL",
+      "Python",
+      "pandas"
+    ],
+    "industry": "logistics",
+    "year": 2022,
+    "case_study_md": "# Nightly ETL pipeline\n\nClient industry: logistics. I delivered nightly etl pipeline for a logistics client, using ETL, Python.  Result: reduced manual work by 36% and shipped in 6 weeks.",
+    "readme_md": "# etl-pipeline\n\nNightly ETL pipeline. Stack: ETL, Python, pandas.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# etl-pipeline/main.py\nimport etl\nimport python\nimport pandas",
+    "synthetic": true
+  },
+  {
+    "id": "cohort-analysis",
+    "title": "Customer cohort analysis",
+    "skills": [
+      "pandas",
+      "SQL",
+      "Looker Studio"
+    ],
+    "industry": "retail",
+    "year": 2022,
+    "case_study_md": "# Customer cohort analysis\n\nClient industry: retail. I delivered customer cohort analysis for a retail client, using pandas, SQL. Wrote the queries that joined orders, users and events. Result: reduced manual work by 53% and shipped in 6 weeks.",
+    "readme_md": "# cohort-analysis\n\nCustomer cohort analysis. Stack: pandas, SQL, Looker Studio.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# cohort-analysis/main.py\nimport pandas\nimport sql\nimport looker_studio",
+    "synthetic": true
+  },
+  {
+    "id": "inventory-forecast",
+    "title": "Inventory forecasting model",
+    "skills": [
+      "Python",
+      "statistics",
+      "pandas"
+    ],
+    "industry": "retail",
+    "year": 2024,
+    "case_study_md": "# Inventory forecasting model\n\nClient industry: retail. I delivered inventory forecasting model for a retail client, using Python, statistics. Tested whether the lift was real or noise. Result: reduced manual work by 41% and shipped in 7 weeks.",
+    "readme_md": "# inventory-forecast\n\nInventory forecasting model. Stack: Python, statistics, pandas.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# inventory-forecast/main.py\nimport python\nimport statistics\nimport pandas",
+    "synthetic": true
+  },
+  {
+    "id": "sales-dashboard-v2",
+    "title": "Executive sales dashboard (phase 2)",
+    "skills": [
+      "Power BI",
+      "SQL",
+      "Excel"
+    ],
+    "industry": "retail",
+    "year": 2023,
+    "case_study_md": "# Executive sales dashboard (phase 2)\n\nClient industry: retail. I delivered executive sales dashboard (phase 2) for a retail client, using Power BI, SQL. Wrote the queries that joined orders, users and events. Result: reduced manual work by 25% and shipped in 6 weeks.",
+    "readme_md": "# sales-dashboard-v2\n\nExecutive sales dashboard (phase 2). Stack: Power BI, SQL, Excel.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# sales-dashboard-v2/main.py\nimport power_bi\nimport sql\nimport excel",
+    "synthetic": true
+  },
+  {
+    "id": "marketing-attribution-v2",
+    "title": "Marketing attribution analysis (phase 2)",
+    "skills": [
+      "SQL",
+      "Python",
+      "statistics"
+    ],
+    "industry": "marketing",
+    "year": 2024,
+    "case_study_md": "# Marketing attribution analysis (phase 2)\n\nClient industry: marketing. I delivered marketing attribution analysis (phase 2) for a marketing client, using SQL, Python. Wrote the queries that joined orders, users and events. Tested whether the lift was real or noise. Result: reduced manual work by 45% and shipped in 3 weeks.",
+    "readme_md": "# marketing-attribution-v2\n\nMarketing attribution analysis (phase 2). Stack: SQL, Python, statistics.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# marketing-attribution-v2/main.py\nimport sql\nimport python\nimport statistics",
+    "synthetic": true
+  },
+  {
+    "id": "warehouse-dbt-v2",
+    "title": "dbt warehouse models (phase 2)",
+    "skills": [
+      "dbt",
+      "BigQuery",
+      "SQL"
+    ],
+    "industry": "logistics",
+    "year": 2024,
+    "case_study_md": "# dbt warehouse models (phase 2)\n\nClient industry: logistics. I delivered dbt warehouse models (phase 2) for a logistics client, using dbt, BigQuery. Wrote the queries that joined orders, users and events. Result: reduced manual work by 41% and shipped in 6 weeks.",
+    "readme_md": "# warehouse-dbt-v2\n\ndbt warehouse models (phase 2). Stack: dbt, BigQuery, SQL.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# warehouse-dbt-v2/main.py\nimport dbt\nimport bigquery\nimport sql",
+    "synthetic": true
+  },
+  {
+    "id": "ab-test-suite-v2",
+    "title": "A/B test analysis toolkit (phase 2)",
+    "skills": [
+      "A/B testing",
+      "statistics",
+      "Python"
+    ],
+    "industry": "marketing",
+    "year": 2022,
+    "case_study_md": "# A/B test analysis toolkit (phase 2)\n\nClient industry: marketing. I delivered a/b test analysis toolkit (phase 2) for a marketing client, using A/B testing, statistics. Tested whether the lift was real or noise. Result: reduced manual work by 26% and shipped in 4 weeks.",
+    "readme_md": "# ab-test-suite-v2\n\nA/B test analysis toolkit (phase 2). Stack: A/B testing, statistics, Python.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# ab-test-suite-v2/main.py\nimport a/b_testing\nimport statistics\nimport python",
+    "synthetic": true
+  },
+  {
+    "id": "kpi-tableau-v2",
+    "title": "KPI reporting in Tableau (phase 2)",
+    "skills": [
+      "Tableau",
+      "SQL",
+      "Excel"
+    ],
+    "industry": "healthcare",
+    "year": 2025,
+    "case_study_md": "# KPI reporting in Tableau (phase 2)\n\nClient industry: healthcare. I delivered kpi reporting in tableau (phase 2) for a healthcare client, using Tableau, SQL. Wrote the queries that joined orders, users and events. Result: reduced manual work by 28% and shipped in 5 weeks.",
+    "readme_md": "# kpi-tableau-v2\n\nKPI reporting in Tableau (phase 2). Stack: Tableau, SQL, Excel.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# kpi-tableau-v2/main.py\nimport tableau\nimport sql\nimport excel",
+    "synthetic": true
+  },
+  {
+    "id": "etl-pipeline-v2",
+    "title": "Nightly ETL pipeline (phase 2)",
+    "skills": [
+      "ETL",
+      "Python",
+      "pandas"
+    ],
+    "industry": "logistics",
+    "year": 2025,
+    "case_study_md": "# Nightly ETL pipeline (phase 2)\n\nClient industry: logistics. I delivered nightly etl pipeline (phase 2) for a logistics client, using ETL, Python.  Result: reduced manual work by 56% and shipped in 10 weeks.",
+    "readme_md": "# etl-pipeline-v2\n\nNightly ETL pipeline (phase 2). Stack: ETL, Python, pandas.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# etl-pipeline-v2/main.py\nimport etl\nimport python\nimport pandas",
+    "synthetic": true
+  },
+  {
+    "id": "cohort-analysis-v2",
+    "title": "Customer cohort analysis (phase 2)",
+    "skills": [
+      "pandas",
+      "SQL",
+      "Looker Studio"
+    ],
+    "industry": "retail",
+    "year": 2025,
+    "case_study_md": "# Customer cohort analysis (phase 2)\n\nClient industry: retail. I delivered customer cohort analysis (phase 2) for a retail client, using pandas, SQL. Wrote the queries that joined orders, users and events. Result: reduced manual work by 45% and shipped in 4 weeks.",
+    "readme_md": "# cohort-analysis-v2\n\nCustomer cohort analysis (phase 2). Stack: pandas, SQL, Looker Studio.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# cohort-analysis-v2/main.py\nimport pandas\nimport sql\nimport looker_studio",
+    "synthetic": true
+  },
+  {
+    "id": "inventory-forecast-v2",
+    "title": "Inventory forecasting model (phase 2)",
+    "skills": [
+      "Python",
+      "statistics",
+      "pandas"
+    ],
+    "industry": "retail",
+    "year": 2024,
+    "case_study_md": "# Inventory forecasting model (phase 2)\n\nClient industry: retail. I delivered inventory forecasting model (phase 2) for a retail client, using Python, statistics. Tested whether the lift was real or noise. Result: reduced manual work by 32% and shipped in 4 weeks.",
+    "readme_md": "# inventory-forecast-v2\n\nInventory forecasting model (phase 2). Stack: Python, statistics, pandas.\n\n## Setup\n`pip install -r requirements.txt`\n## Usage\nSee /docs. License: MIT.",
+    "code_snippet": "# inventory-forecast-v2/main.py\nimport python\nimport statistics\nimport pandas",
+    "synthetic": true
+  }
+]
