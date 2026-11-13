@@ -1,6 +1,6 @@
 """End-to-end: bid graph (live Groq LLM) against REAL MCP servers (portfolio+workspace over stdio, marketplace over HTTP+bearer).
 Prereq: GigSim on :8081 and `python -m mcp_servers.marketplace.server` on :8082."""
-import asyncio, json, sys, time, uuid
+import asyncio, sys, time, uuid
 from dotenv import load_dotenv; load_dotenv(".env")
 from langgraph.types import Command
 from langgraph.store.memory import InMemoryStore

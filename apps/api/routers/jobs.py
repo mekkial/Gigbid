@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-import json
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException
 
 from agent.marketplace_port import MarketplaceUnavailable
-from agent.nodes.scout import fingerprint
 from apps.api import db, queue
 from apps.api.service import create_run
 from apps.api.auth.security import current_user

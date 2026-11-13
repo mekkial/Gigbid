@@ -9,8 +9,6 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 
 from agent.memory.store import delete_item, list_items
-from apps.api import db
-from apps.api.auth import vault
 from apps.api.auth.security import current_user
 from apps.api.runtime import RUNTIME
 from apps.api.schemas.models import MemoryItem, PortfolioUploadOut

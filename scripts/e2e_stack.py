@@ -1,6 +1,6 @@
 """Offline stack for Playwright: GigSim (:8101) + API (:8100) with deterministic LLM stand-ins (no network, no cost).
 Never used for reported quality numbers."""
-import os, subprocess, sys, threading, time
+import os, threading
 
 os.environ.update(DATABASE_URL="postgresql://gigbid@localhost:5433/gigbid_e2e", GIGBID_TOOLS="local", GIGBID_QUEUE="inline",
                   GIGSIM_BASE_URL="http://127.0.0.1:8101", GIGSIM_API_TOKEN="dev-token", GIGBID_E2E="1")

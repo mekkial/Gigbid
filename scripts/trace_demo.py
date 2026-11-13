@@ -1,6 +1,6 @@
 """Run representative jobs through the real pipeline with tracing on, so traces exist in Phoenix: a skipped scam, an approved proposal
 (with Critic loop if triggered). Usage: PHOENIX_COLLECTOR_ENDPOINT=http://localhost:6006 python scripts/trace_demo.py"""
-import asyncio, json, os, uuid
+import asyncio, os, uuid
 os.environ.setdefault("PHOENIX_COLLECTOR_ENDPOINT", "http://localhost:6006")
 from evals.runners.common import marketplace   # loads .env, GigSim in-process
 from agent import tracing

@@ -16,7 +16,7 @@ from typing import Any, Callable
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import RetryPolicy, Send, interrupt
 
-from agent.handoffs import BidDecision, ComplianceVerdict, Critique, FitReport, JobSpec, PriceQuote, ProposalDraft, RiskReport
+from agent.handoffs import BidDecision, FitReport, JobSpec, PriceQuote, ProposalDraft, RiskReport
 from agent.llm import USAGE, cost_usd, load_config
 from agent.memory import promotion_rules as mem
 from agent.nodes import analyst, compliance, critic, fit_matcher, pricing, risk_assessor, writer
@@ -77,7 +77,6 @@ def build_bid_graph(tools, store, checkpointer=None, impl: Impl | None = None):
     impl = impl or Impl()
     cfg = load_config()
     max_rev = cfg["budgets"]["max_revisions"]
-    th = cfg["thresholds"]
 
     async def intake(state: BidState):
         return {"status": "running", "revision": 0}

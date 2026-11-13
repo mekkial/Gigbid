@@ -55,7 +55,7 @@ def retrieve_flags(query: str, index, k: int = 5, *, decompose=False, sparse=Fal
         reqs = requirements or requirements_from_query(query)
         title = query.split(".")[0]
         queries = [f"{r} - {title}" for r in reqs] or [query]
-    ranked_lists, scores = [], defaultdict(float)
+    ranked_lists = []
     for q in queries:
         cand = [i for i, _ in index.dense(q, pool)]
         lists = [cand]

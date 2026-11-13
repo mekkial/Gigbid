@@ -1,6 +1,5 @@
 import json
 
-import pytest
 from mcp.shared.memory import create_connected_server_and_client_session as connect
 
 from mcp_servers.portfolio.server import mcp

@@ -1,5 +1,5 @@
 """Create the reviewer account (credentials come from env, never committed): REVIEWER_EMAIL / REVIEWER_PASSWORD / REVIEWER_PERSONA."""
-import asyncio, os, uuid
+import asyncio, os
 from dotenv import load_dotenv; load_dotenv(".env")
 from apps.api import db
 from apps.api.auth.security import hash_password

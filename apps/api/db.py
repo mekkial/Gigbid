@@ -1,7 +1,6 @@
 """Postgres access (psycopg pool). EVERY query on user data is scoped by user_id (tenant isolation, E4)."""
 from __future__ import annotations
 
-import json
 import os
 
 from psycopg.rows import dict_row

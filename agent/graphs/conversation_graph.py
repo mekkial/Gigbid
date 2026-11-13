@@ -58,7 +58,7 @@ def build_conversation_graph(tools, checkpointer=None, respond=None):
 
     async def send(state: ConvState, config):
         tid = config["configurable"]["thread_id"]
-        res = await tools.call("client_liaison", "send_message", proposal_id=state["proposal_id"], text=state["approval"]["text"],
+        await tools.call("client_liaison", "send_message", proposal_id=state["proposal_id"], text=state["approval"]["text"],
                                idempotency_key=f"{tid}:send")
         slot = state["approval"].get("slot")
         if slot and state["intent"]["intent"] == "interview_request":

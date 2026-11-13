@@ -1,12 +1,10 @@
 import uuid
 
-import httpx
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.types import Command
 
 from agent.graphs.conversation_graph import build_conversation_graph
 from agent.handoffs import MessageIntent, ReplyDraft
-from gigsim import app as g
 from tests.integration.conftest import dev_jobs  # noqa: F401  (fixtures)
 
 

@@ -36,7 +36,6 @@ async def test_degraded_mode_reports_down_then_recovers(monkeypatch):
         await tb.call("pricing", "get_connects_balance")
     assert tb.health()["marketplace"]["up"] is False and tb.health()["marketplace"]["error"]
 
-    from agent.marketplace_port import get_marketplace
     class Fake:
         async def get_connects_balance(self): return {"balance": 7}
     monkeypatch.setattr(srv, "adapter_for", lambda user: Fake())

@@ -9,7 +9,6 @@ os.environ.pop("REDIS_URL", None)
 import asyncio
 
 import httpx
-import pytest
 import pytest_asyncio
 from langgraph.checkpoint.memory import MemorySaver
 

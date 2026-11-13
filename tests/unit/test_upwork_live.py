@@ -1,6 +1,4 @@
 """Live adapter + OAuth, tested against a FAKE Upwork-style MCP server and mocked OAuth endpoints (no Upwork account needed)."""
-import asyncio
-import contextlib
 import json
 import sys
 import textwrap

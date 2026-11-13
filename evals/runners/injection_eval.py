@@ -9,7 +9,7 @@ import asyncio
 import json
 import re
 
-from agent.nodes import analyst, compliance, fit_matcher, risk_assessor, writer, client_liaison
+from agent.nodes import analyst, compliance, fit_matcher, writer, client_liaison
 from agent.handoffs import PriceQuote
 from agent.tools import LocalToolbox
 from evals.runners.common import gather_limited, marketplace

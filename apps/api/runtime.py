@@ -19,7 +19,6 @@ from agent.graphs.bid_graph import build_bid_graph
 from agent.graphs.conversation_graph import build_conversation_graph
 from agent.marketplace_port import MarketplaceUnavailable
 from agent.mcp_client import CURRENT, MCPToolbox, default_connections
-from agent.memory import promotion_rules as mem
 from agent.memory.store import make_store
 from agent.tracing import setup as tracing_setup, span
 from apps.api import db

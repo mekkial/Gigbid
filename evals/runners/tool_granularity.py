@@ -4,10 +4,8 @@ descriptions) x 2 model sizes. Metrics: tool-selection accuracy, argument accura
 so tool/parameter naming is not penalised), prompt tokens per task. Run: python -m evals.runners.tool_granularity"""
 from __future__ import annotations
 
-import asyncio
 import json
 import os
-import random
 import time
 from pathlib import Path
 
@@ -143,7 +141,7 @@ def run(tier: str, toolsets: dict, tasks: list[dict]) -> dict:
                                                          messages=[{"role": "system", "content": SYSTEM}, {"role": "user", "content": t["text"]}])
                     THROTTLE.settle(r["model"], slot, res.usage.total_tokens)
                     break
-                except Exception as e:  # noqa: BLE001
+                except Exception:  # noqa: BLE001
                     time.sleep(2 ** attempt)
                     res = None
             api_err += res is None

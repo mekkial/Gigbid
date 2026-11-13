@@ -71,3 +71,21 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 - 2026-11-13: API + worker done; 48 tests pass total. Next: web UI (apps/web), then evals.
 - 2026-11-13: Web UI + 7 Playwright tests pass. Next: evals (V1/V4/V8, decision, injection ASR, claim verification, tool granularity, arch comparison), then CI/compose/docs/report, X3, Upwork adapter.
 - 2026-11-13 (late): throttle in agent/llm.py (token bucket per model), 'mid' tier = qwen3.8-27b for critic+liaison, reasoning_effort config. LLM eval suite launched (decision -> tool granularity -> proposals V0/V3 -> injection -> arch compare). Next while waiting: docs (DATA_CARD, ARCHITECTURE, RUNBOOK, EXTENSION, AI_USAGE), README generator, Upwork adapter, X3, packaging.
+
+## STATE AT END OF SESSION 1 (2026-11-13, evening) — read this first
+**Running now (background, started ~19:00):** `python -m evals.run_all ablation decision tool proposals injection architecture` (log `/tmp/run_all.log`).
+ - done: decision_eval.json (n=20/persona, config A: bid/skip F1 0.92/0.87/0.92, scam recall 1.0; latency numbers include throttle queueing, NOT per-job latency)
+ - the `rag ablation` child got SIGTERM after 113 s -> `evals/results/rag_ablation.json` is MISSING: rerun `python -m evals.runners.ablation` alone when nothing else is running (CPU/RAM heavy, ~25 min).
+ - in progress/pending: tool_granularity (~2 h on free tier), proposal_eval V0 vs V3 (n=8/persona), injection_eval, arch_compare (n=16).
+ - DO NOT edit agent/ or rag/ code while those subprocesses are still starting (each step re-imports the code).
+ - Only ONE heavy process at a time (16 GB RAM; running ablation + evals + Phoenix together got processes killed).
+**After the suite finishes, in this order:**
+ 1. rerun ablation (alone); optional config B/C decision comparison: `python -m evals.runners.decision_eval --n 12 --configs B C` (needs `evals/results/decision_eval.json` merge — it overwrites! copy A first)
+ 2. clean latency/budget run (sequential, concurrency 1, ~10 jobs) -> `evals/results/budget_run.json` (not written yet); one optimisation to report = parallel fit matcher (measure before/after) + token trimming
+ 3. change-request exercise (simulate: new GigSim rule + new policy rule); record lines changed / minutes taken in report section 6
+ 4. judge calibration: `python -m evals.runners.judge_calibration --make-sheet` then the USER labels 30 items, then `--score`
+ 5. X3 eval on real repos (needs GitHub token or local repos), `evals/results/x3_eval.json`
+ 6. set `evals/thresholds.yaml` from measured baseline; `python -m evals.runners.smoke_eval`; `python scripts/make_readme_tables.py`
+ 7. full `make test` + Playwright once more; build report PDF (HTML -> Playwright page.pdf; no pandoc), blog draft, resume bullets, viva cheat-sheet
+**Needs the USER:** public GitHub repo + push; deploy host + reviewer password; Upwork account (for live mode + X6); 30 human judge labels (+ classmates pairwise panel); record the 3-min video; publish write-up; LangSmith/Phoenix public trace links; confirm real deadline; verify Kaggle dataset licences; Docker install to test compose.
+**Demo assets:** docs/images/screens/*.png and demo.gif (slideshow); `node scripts/record_demo.mjs` re-records against the offline stack (`python scripts/e2e_stack.py` + `npx vite --port 3100`).

@@ -38,8 +38,8 @@ export function Inbox() {
               <td><FitBar v={j.fit} /></td><td><RiskBadge v={j.risk} flags={(j.summary as any)?.risk_flags} /></td>
               <td>{j.decision ? <span className={`badge ${j.decision === "bid" ? "ok" : j.decision === "watch" ? "warn" : ""}`}>{j.decision}</span> : "…"}</td>
               <td>{j.price ? `$${j.price}` : "–"}</td><td>{j.connects ?? "–"}</td>
-              <td className="row">{j.status === "awaiting_approval" ? <Link className="btn primary" to={`/studio/${enc(j.thread_id)}`}>Review draft</Link> : <Link className="btn" to={`/jobs/${enc(j.job_id)}`}>Open</Link>}
-                {!["submitted", "skipped"].includes(j.status) && <button className="btn" onClick={() => skip.mutate(j.job_id)}>Skip</button>}</td>
+              <td><div className="row">{j.status === "awaiting_approval" ? <Link className="btn primary" to={`/studio/${enc(j.thread_id)}`}>Review draft</Link> : <Link className="btn" to={`/jobs/${enc(j.job_id)}`}>Open</Link>}
+                {!["submitted", "skipped"].includes(j.status) && <button className="btn" onClick={() => skip.mutate(j.job_id)}>Skip</button>}</div></td>
             </tr>))}
         </tbody></table>
         <div className="joblist">{jobs.data.map((j) => (

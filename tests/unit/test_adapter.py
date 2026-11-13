@@ -1,5 +1,4 @@
 import httpx
-import pytest
 
 from gigsim import app as g
 from mcp_servers.marketplace.adapters.gigsim import GigSimAdapter
