@@ -84,19 +84,24 @@ def fail_next(n: int):
     return {"ok": True}
 
 
+def _eff(job: dict) -> dict:
+    """Jobs are returned with the EFFECTIVE Connects cost (platform rules applied)."""
+    return {**job, "connects_cost": _cost(job, False)}
+
+
 @app.get("/jobs")
 def search_jobs(q: str = "", limit: int = 20, offset: int = 0, user: str = Depends(guard)):
     ql = q.lower()
     hits = [j for j in JOBS.values() if not ql or ql in j["title"].lower() or ql in j["description"].lower()
             or any(ql in s.lower() for s in j["required_skills"])]
-    return {"total": len(hits), "items": hits[offset: offset + limit]}
+    return {"total": len(hits), "items": [_eff(j) for j in hits[offset: offset + limit]]}
 
 
 @app.get("/jobs/{job_id}")
 def get_job(job_id: str, user: str = Depends(guard)):
     if job_id not in JOBS:
         raise HTTPException(404, "job not found")
-    return JOBS[job_id]
+    return _eff(JOBS[job_id])
 
 
 @app.get("/clients/{client_id}")
@@ -122,6 +127,9 @@ class ProposalIn(BaseModel):
 def _cost(job: dict, boosted: bool) -> int:
     c = RULES["connects"]
     cost = job["connects_cost"] if c["base_cost_from_job"] else 0
+    sb = c.get("small_budget_surcharge")
+    if sb and (job.get("budget", {}).get("max") or 0) < sb["below_budget"]:
+        cost += sb["extra"]
     return min(c["max_per_proposal"], cost + (c["surcharge_boosted"] if boosted else 0))
 
 

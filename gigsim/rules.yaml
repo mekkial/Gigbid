@@ -5,6 +5,7 @@ connects:
   starting_balance: 200
   base_cost_from_job: true      # use job.connects_cost
   surcharge_boosted: 0          # change request example: add a boosted-bid surcharge
+  small_budget_surcharge: {below_budget: 500, extra: 2}   # POLICY UPDATE: jobs paying under $500 cost +2 Connects
   max_per_proposal: 30
 proposal:
   max_chars: 3000
