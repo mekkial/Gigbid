@@ -16,6 +16,7 @@ manages the client conversation. A team of LangGraph agents does the legwork; **
 | Data | real Kaggle Upwork jobs for the stream and prices; **synthetic** personas, proposals, clients, scams, injections and labels (`docs/DATA_CARD.md`) |
 | Docker / public deploy / GitHub Actions | files written, **not yet run** (`docs/RUNBOOK.md`) |
 | LLM judge | uncalibrated until the 30 human labels are added (`evals/runners/judge_calibration.py`) |
+| LLM quota | Groq's free tier caps **200,000 tokens/day per model**; evaluation beyond the first experiments therefore ran on a **local Qwen3 8B (Ollama)**. Every results file records which models produced it (`llm` field). The hosted deployment needs paid quota (see `docs/RUNBOOK.md`) |
 | Evaluation sizes | small, because the free LLM tier allows 8,000 tokens/min per model; each results file records its `n` and confidence intervals |
 
 ## Architecture

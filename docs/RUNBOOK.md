@@ -10,6 +10,11 @@
 | Upwork live mode | adapter + OAuth implemented and tested with fakes; **not run against the real Upwork server** (no account yet) |
 | GitHub Actions | workflows written; never run on GitHub |
 
+## LLM providers and quotas (important for deployment)
+* **Hosted open profile (Groq, free tier):** 8,000 tokens/min **and 200,000 tokens/day per model**. A proposal costs ~15-20k tokens, so the free tier serves roughly a dozen proposals per model per day. That is enough for development, **not** for a reviewer plus a hidden grading run. Before deploying, add paid quota (Groq Dev tier is pay-as-you-go; list-price cost per proposal is about $0.005) or point `agent/config.yaml` at another OpenAI-compatible provider.
+* **Local profile (`MODEL_PROFILE=local`):** Ollama `qwen3:8b` on a 16 GB laptop, ~13-18 tokens/s, thinking disabled (`reasoning_effort: none`, 7x faster), no quota. Used for the larger evaluations; results files are keyed by profile.
+* The client throttles per model (`agent/llm.py::_Throttle`) and fails over to the fallback model, but **cannot beat a daily cap**.
+
 ## Run locally (no Docker)
 ```bash
 cp .env.example .env            # add GROQ_API_KEY (free: console.groq.com/keys); never commit .env
