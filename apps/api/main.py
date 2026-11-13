@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv(".env")
 
 from apps.api import db, logging_config, queue  # noqa: E402
-from apps.api.routers import analytics, approvals, auth, jobs, messages, proposals, runs, settings  # noqa: E402
+from apps.api.routers import analytics, approvals, auth, jobs, messages, proposals, runs, settings, upwork_oauth  # noqa: E402
 from apps.api.runtime import RUNTIME  # noqa: E402
 
 
@@ -44,5 +44,5 @@ async def health():
     return {"status": "ok", "service": "gigbid-api"}
 
 
-for r in (auth, jobs, runs, approvals, proposals, messages, analytics, settings):
+for r in (auth, jobs, runs, approvals, proposals, messages, analytics, settings, upwork_oauth):
     app.include_router(r.router, prefix="/api")

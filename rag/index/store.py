@@ -1,6 +1,7 @@
 """Dense + BM25 index over chunks. Embeddings and reranker are open models running on CPU."""
 from __future__ import annotations
 
+import os
 import re
 from functools import lru_cache
 
@@ -13,13 +14,13 @@ from agent.llm import load_config
 @lru_cache(maxsize=1)
 def embedder():
     from sentence_transformers import SentenceTransformer
-    return SentenceTransformer(load_config()["models"]["embeddings"])
+    return SentenceTransformer(load_config()["models"]["embeddings"], device=os.environ.get("GIGBID_DEVICE", "cpu"))   # open models on CPU (reproducible, no GPU needed)
 
 
 @lru_cache(maxsize=1)
 def reranker():
     from sentence_transformers import CrossEncoder
-    return CrossEncoder(load_config()["models"]["reranker"])
+    return CrossEncoder(load_config()["models"]["reranker"], device=os.environ.get("GIGBID_DEVICE", "cpu"))
 
 
 def tok(s: str) -> list[str]:

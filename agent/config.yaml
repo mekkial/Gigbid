@@ -1,7 +1,12 @@
 # All models, thresholds, budgets and policy knobs live here -- never in code.
 marketplace:
-  mode: gigsim            # gigsim | upwork_live
+  mode: gigsim            # gigsim | upwork_live  (the ONLY switch between simulator and live; the graphs never know)
   max_requests_per_minute: 20
+  live:
+    mcp_url: https://mcp.upwork.com/mcp
+    min_poll_interval_min: 180        # polite: saved searches never run more often than this in live mode (justified in docs/RUNBOOK.md)
+    # port method -> Upwork MCP tool name. Leave null to auto-discover by keywords from list_tools(); set explicitly once seen.
+    tool_map: {search_jobs: null, get_job: null, get_client_history: null, get_connects_balance: null, list_messages: null, create_proposal_draft: null, send_message: null}
 
 models:
   profile: open           # open | paid

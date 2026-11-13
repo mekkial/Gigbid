@@ -70,6 +70,9 @@ async def list_searches(user: dict = Depends(current_user)):
 
 @router.post("/saved-searches", response_model=SavedSearchOut)
 async def add_search(body: SavedSearchIn, user: dict = Depends(current_user)):
+    from agent.llm import load_config
+    if (user["settings"] or {}).get("marketplace_mode") == "upwork_live" and body.interval_min < load_config()["marketplace"]["live"]["min_poll_interval_min"]:
+        raise HTTPException(422, f"live mode requires an interval of at least {load_config()['marketplace']['live']['min_poll_interval_min']} minutes")
     return (await db.fetch("INSERT INTO saved_searches(user_id,query,interval_min) VALUES(%s,%s,%s) RETURNING id, query, interval_min",
                            user["id"], body.query, body.interval_min))[0]
 
