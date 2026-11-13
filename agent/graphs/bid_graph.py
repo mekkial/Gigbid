@@ -102,7 +102,7 @@ def build_bid_graph(tools, store, checkpointer=None, impl: Impl | None = None):
     @_tracked("decide")
     async def decide(state):
         risk, fit = RiskReport(**state["risk_report"]), FitReport(**state["fit_report"])
-        d = decide_rule(risk, fit, state.get("settings", {}).get("autonomy"))
+        d = decide_rule(risk, fit, state.get("settings", {}).get("autonomy"), state["job"], state.get("settings", {}).get("floor_hourly", 30))
         return {"decision": d.model_dump(), "status": "skipped" if d.action == "skip" else "running"}
 
     def after_decide(state):

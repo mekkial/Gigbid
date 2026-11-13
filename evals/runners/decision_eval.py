@@ -19,7 +19,7 @@ CONFIGS = {"A": {}, "B": {"small": "qwen/qwen3.8-27b"}, "C": {"small": "openai/g
 async def analyse_job(tb, job, floor):
     spec = await asyncio.to_thread(analyst.analyse, job)
     risk, (fit, _) = await asyncio.gather(risk_assessor.assess(tb, job), fit_matcher.match(tb, spec))
-    d = decide(risk, fit)
+    d = decide(risk, fit, None, job, floor)
     price = await pricing.quote(tb, spec, fit, risk, floor, job["connects_cost"]) if d.action == "bid" else None
     return {"action": d.action, "scam": risk.is_scam, "inj": risk.injection_detected, "price": price.amount if price else None, "fit": fit.score, "risk": risk.score}
 
@@ -52,14 +52,15 @@ async def main(n, configs):
     f = ROOT / "evals/results/decision_eval.json"
     out = json.loads(f.read_text()) if f.exists() else {"configs": {}}
     out.setdefault("configs", {})
+    from agent.llm import active_profile, active_profile_info
     for name in configs:
-        with model_config(CONFIGS[name]):
-            from agent.llm import active_profile_info
-            out["configs"][name] = {"overrides": CONFIGS[name] or "shipped default", "llm": active_profile_info(), "n_per_persona": n, "personas": {}}
+        label = name if active_profile() == "open" else f"{name}@{active_profile()}"      # Groq and local results never overwrite each other
+        with model_config(CONFIGS[name] if active_profile() == "open" else {}):
+            out["configs"][label] = {"overrides": (CONFIGS[name] if active_profile() == "open" else None) or "shipped default", "llm": active_profile_info(), "n_per_persona": n, "personas": {}}
             for p in PERSONAS:
                 r = await run_persona(p, n, name)
-                out["configs"][name]["personas"][p] = r
-                print(name, p, json.dumps({k: r[k] for k in ("bid_or_skip", "scam", "p95_latency_s", "errors")}), flush=True)
+                out["configs"][label]["personas"][p] = r
+                print(label, p, json.dumps({k: r[k] for k in ("bid_or_skip", "scam", "p95_latency_s", "errors")}), flush=True)
     f.write_text(json.dumps(out, indent=2)); print("wrote decision_eval.json")
 
 

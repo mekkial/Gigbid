@@ -76,6 +76,7 @@ budgets:
 thresholds:
   minimum_fit_score: 0.60
   maximum_risk_score: 0.70
+  min_fixed_hours: 8          # a fixed-price job must pay at least floor_hourly x this many hours
 
 policy:
   # Platform rules (Connects cost etc.). Policy-change request edits ONLY this block / policy_rules.yaml.

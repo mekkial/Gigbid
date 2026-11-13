@@ -33,6 +33,16 @@ def quad_kappa(a: list[int], b: list[int], lo=1, hi=5) -> float:
     return 1.0 if den == 0 else 1 - num / den
 
 
+weighted_kappa = quad_kappa      # public name used by the tests and the report
+
+
+def binom_two_sided(k: int, n: int, p: float = 0.5) -> float:
+    """Exact two-sided binomial (sign) test: used for the blind pairwise human panel (is variant A preferred more often than chance?)."""
+    from math import comb
+    pm = [comb(n, i) * p ** i * (1 - p) ** (n - i) for i in range(n + 1)]
+    return min(1.0, sum(x for x in pm if x <= pm[k] + 1e-12))
+
+
 def make_sheet(n=30, seed=4016):
     rows = []
     for f in glob.glob(str(RES / "proposals_*.jsonl")):
