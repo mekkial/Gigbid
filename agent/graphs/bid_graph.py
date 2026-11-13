@@ -44,7 +44,7 @@ def _tracked(name: str):
         @functools.wraps(fn)
         async def wrapper(state: BidState, config=None):
             cfg = load_config()["budgets"]
-            if state.get("steps", 0) >= cfg["max_graph_steps"] or state.get("tokens", 0) >= cfg["max_tokens_per_job"] * 4:
+            if state.get("steps", 0) >= cfg["max_graph_steps"] or state.get("tokens", 0) >= cfg["max_tokens_per_job"]:
                 return {"status": "needs_attention", "errors": [f"budget exceeded before {name}"]}
             usage: list = []
             tok = USAGE.set(usage)
@@ -184,7 +184,7 @@ def build_bid_graph(tools, store, checkpointer=None, impl: Impl | None = None):
                    "send_text": state["send_text"], "claims": state.get("claims", []), "evidence": state["evidence"],
                    "risk_report": state["risk_report"], "price_quote": state["price_quote"],
                    "critiques": state.get("critiques", []), "compliance": state["compliance"],
-                   "dry_run": await tools.call("submit", "create_proposal_draft", dry_run=True, idempotency_key="preview",
+                   "dry_run": await tools.call("submit", "create_proposal_draft", dry_run=True, idempotency_key="preview-dry-run",
                                                payload={"job_id": state["job"]["job_id"], "cover_letter": state["send_text"],
                                                         "bid_amount": state["price_quote"]["amount"]})}
         resp = interrupt(payload)

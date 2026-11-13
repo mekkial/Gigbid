@@ -56,6 +56,12 @@ class GigSimAdapter:
     async def list_messages(self, proposal_id: str):
         return await self._req("GET", f"/proposals/{proposal_id}/messages")
 
+    async def get_proposal(self, proposal_id: str):
+        for p in await self._req("GET", "/proposals"):
+            if p["proposal_id"] == proposal_id:
+                return p
+        raise ValueError(f"proposal {proposal_id} not found")
+
     async def create_proposal_draft(self, payload, idempotency_key, dry_run=False):
         if dry_run:  # exact preview + cost, nothing sent
             job = await self.get_job(payload["job_id"])

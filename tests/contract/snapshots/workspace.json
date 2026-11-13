@@ -1,0 +1,177 @@
+{
+  "prompts": {},
+  "resource_templates": [],
+  "tools": {
+    "create_email_draft": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "readOnlyHint": false
+      },
+      "description": "Create an email DRAFT in the user's mailbox. It is never sent by this server.",
+      "input": {
+        "properties": {
+          "body": {
+            "maxLength": 5000,
+            "minLength": 1,
+            "title": "Body",
+            "type": "string"
+          },
+          "subject": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Subject",
+            "type": "string"
+          },
+          "to": {
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "to",
+          "subject",
+          "body"
+        ],
+        "title": "create_email_draftArguments",
+        "type": "object"
+      },
+      "output": {
+        "properties": {
+          "body": {
+            "title": "Body",
+            "type": "string"
+          },
+          "draft_id": {
+            "title": "Draft Id",
+            "type": "string"
+          },
+          "status": {
+            "default": "draft",
+            "title": "Status",
+            "type": "string"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "to": {
+            "title": "To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "draft_id",
+          "to",
+          "subject",
+          "body"
+        ],
+        "title": "EmailDraft",
+        "type": "object"
+      }
+    },
+    "create_tentative_hold": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "readOnlyHint": false
+      },
+      "description": "Create a TENTATIVE hold for an interview slot (not confirmed with anyone). Same slot+title returns the existing hold.",
+      "input": {
+        "properties": {
+          "slot": {
+            "maxLength": 40,
+            "minLength": 8,
+            "title": "Slot",
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 120,
+            "minLength": 3,
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "slot",
+          "title"
+        ],
+        "title": "create_tentative_holdArguments",
+        "type": "object"
+      },
+      "output": {
+        "properties": {
+          "hold_id": {
+            "title": "Hold Id",
+            "type": "string"
+          },
+          "slot": {
+            "title": "Slot",
+            "type": "string"
+          },
+          "status": {
+            "default": "tentative",
+            "title": "Status",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hold_id",
+          "slot",
+          "title"
+        ],
+        "title": "Hold",
+        "type": "object"
+      }
+    },
+    "free_slots": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "readOnlyHint": true
+      },
+      "description": "List free 30-minute interview slots in the next N days (business hours, Mon-Fri).",
+      "input": {
+        "properties": {
+          "days": {
+            "default": 5,
+            "maximum": 14,
+            "minimum": 1,
+            "title": "Days",
+            "type": "integer"
+          },
+          "max_slots": {
+            "default": 6,
+            "maximum": 20,
+            "minimum": 1,
+            "title": "Max Slots",
+            "type": "integer"
+          }
+        },
+        "title": "free_slotsArguments",
+        "type": "object"
+      },
+      "output": {
+        "properties": {
+          "result": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Result",
+            "type": "array"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "free_slotsOutput",
+        "type": "object"
+      }
+    }
+  }
+}

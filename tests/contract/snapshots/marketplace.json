@@ -1,0 +1,381 @@
+{
+  "prompts": {},
+  "resource_templates": [],
+  "tools": {
+    "create_proposal_draft": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "description": "Create a proposal DRAFT (nothing is sent, no Connects spent). With dry_run=true returns exactly what would be created and its Connects cost.",
+      "input": {
+        "properties": {
+          "bid_amount": {
+            "exclusiveMinimum": 0,
+            "maximum": 100000,
+            "title": "Bid Amount",
+            "type": "number"
+          },
+          "cover_letter": {
+            "maxLength": 3000,
+            "minLength": 150,
+            "title": "Cover Letter",
+            "type": "string"
+          },
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "Unique per logical action; a retry with the same key never repeats the effect",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "job_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Job Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id",
+          "cover_letter",
+          "bid_amount",
+          "idempotency_key"
+        ],
+        "title": "create_proposal_draftArguments",
+        "type": "object"
+      },
+      "output": {
+        "properties": {
+          "data": {
+            "additionalProperties": true,
+            "title": "Data",
+            "type": "object"
+          },
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          },
+          "replayed": {
+            "default": false,
+            "description": "true if this idempotency key was already applied",
+            "title": "Replayed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "WriteResult",
+        "type": "object"
+      }
+    },
+    "get_client_history": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "description": "Get a client's public history: spend, rating, hire rate, payment verification.",
+      "input": {
+        "properties": {
+          "client_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Client Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_id"
+        ],
+        "title": "get_client_historyArguments",
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": true,
+        "title": "get_client_historyDictOutput",
+        "type": "object"
+      }
+    },
+    "get_connects_balance": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "description": "Get the user's current Connects balance.",
+      "input": {
+        "properties": {},
+        "title": "get_connects_balanceArguments",
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": true,
+        "title": "get_connects_balanceDictOutput",
+        "type": "object"
+      }
+    },
+    "get_job": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "description": "Get one job post by id.",
+      "input": {
+        "properties": {
+          "job_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Job Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id"
+        ],
+        "title": "get_jobArguments",
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": true,
+        "title": "get_jobDictOutput",
+        "type": "object"
+      }
+    },
+    "get_market_stats": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "description": "Market price statistics (p25/p50/p75, fixed and hourly USD) from real historical job postings for a category: ai_ml, fullstack or data_analyst.",
+      "input": {
+        "properties": {
+          "category": {
+            "maxLength": 40,
+            "minLength": 2,
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "category"
+        ],
+        "title": "get_market_statsArguments",
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": true,
+        "title": "get_market_statsDictOutput",
+        "type": "object"
+      }
+    },
+    "list_messages": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "description": "List messages in a proposal's conversation thread.",
+      "input": {
+        "properties": {
+          "proposal_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Proposal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "proposal_id"
+        ],
+        "title": "list_messagesArguments",
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": true,
+        "title": "list_messagesDictOutput",
+        "type": "object"
+      }
+    },
+    "search_jobs": {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": true
+      },
+      "description": "Search open jobs by keyword (title, description or skill). Returns up to `limit` jobs.",
+      "input": {
+        "properties": {
+          "limit": {
+            "default": 20,
+            "maximum": 50,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "query": {
+            "default": "",
+            "maxLength": 200,
+            "title": "Query",
+            "type": "string"
+          }
+        },
+        "title": "search_jobsArguments",
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": true,
+        "title": "search_jobsDictOutput",
+        "type": "object"
+      }
+    },
+    "send_message": {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "description": "Send a message to the client in a proposal thread. Only after human approval.",
+      "input": {
+        "properties": {
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "Unique per logical action; a retry with the same key never repeats the effect",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "proposal_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Proposal Id",
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "proposal_id",
+          "text",
+          "idempotency_key"
+        ],
+        "title": "send_messageArguments",
+        "type": "object"
+      },
+      "output": {
+        "properties": {
+          "data": {
+            "additionalProperties": true,
+            "title": "Data",
+            "type": "object"
+          },
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          },
+          "replayed": {
+            "default": false,
+            "description": "true if this idempotency key was already applied",
+            "title": "Replayed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "WriteResult",
+        "type": "object"
+      }
+    },
+    "submit_proposal": {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "description": "SUBMIT a drafted proposal to the client. Spends Connects and cannot be undone. Only call after explicit human approval. dry_run=true previews the cost.",
+      "input": {
+        "properties": {
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "Unique per logical action; a retry with the same key never repeats the effect",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "proposal_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Proposal Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "proposal_id",
+          "idempotency_key"
+        ],
+        "title": "submit_proposalArguments",
+        "type": "object"
+      },
+      "output": {
+        "properties": {
+          "data": {
+            "additionalProperties": true,
+            "title": "Data",
+            "type": "object"
+          },
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          },
+          "replayed": {
+            "default": false,
+            "description": "true if this idempotency key was already applied",
+            "title": "Replayed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "WriteResult",
+        "type": "object"
+      }
+    }
+  }
+}

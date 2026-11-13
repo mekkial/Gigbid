@@ -49,7 +49,7 @@ rag:
 budgets:
   max_graph_steps: 30
   max_revisions: 2
-  max_tokens_per_job: 12000
+  max_tokens_per_job: 30000   # declared budget; measured ~15k for a proposed job (see evals/results)
 
 thresholds:
   minimum_fit_score: 0.60

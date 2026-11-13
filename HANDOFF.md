@@ -21,8 +21,10 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 - ⬜ `docs/DATA_CARD.md`
 ### Phase 2 — MCP / port
 - ✅ `agent/marketplace_port.py` + GigSim adapter (retries, dry_run)
-- ⬜ Portfolio MCP server, Marketplace MCP server (auth, idempotency, audit), Workspace MCP server
-- ⬜ `agent/mcp_client.py` (allowlists, timeouts, degraded mode), Upwork live adapter (needs Upwork account), schema snapshot tests, `docs/TOOLS.md`, R&D-A tool-granularity eval
+- ✅ Portfolio / Marketplace (HTTP+bearer, idempotency, dry_run, audit, rate limit) / Workspace MCP servers + tests
+- ✅ `agent/mcp_client.py` (MultiServerMCPClient, allowlists, retries, degraded mode+recovery), schema snapshot tests, `docs/TOOLS.md`
+- ✅ e2e through real MCP + live Groq: `scripts/e2e_mcp.py` (needs GigSim :8081 and marketplace MCP :8082 running; see Log)
+- ⬜ Upwork live adapter (`upwork_live.py`, needs Upwork account), R&D-A tool-granularity eval (`evals/runners/tool_granularity.py`)
 ### Phase 3 — RAG
 - ✅ Ingestion with metadata, dense+BM25 index, V0/V2/V3, `evals/runners/rag_eval.py` → `evals/results/rag_eval.json`
 - ⬜ V1 decomposition, V4 outcome-aware, V8 corrective, claim verifier, judge calibration, ablation, GigSim outcome eval
@@ -31,7 +33,9 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 - ✅ `agent/graphs/bid_graph.py`: parallel Send fan-out, decide, pricing, writer->verify->critic loop (<=2), compliance, interrupt approval, idempotent submit
 - ✅ memory: `agent/memory/{store,promotion_rules}.py` (style + outcome, PostgresStore), async checkpointer `agent/checkpoint.py` (Postgres/SQLite)
 - ✅ tests/integration/test_bid_graph.py (scam skip, injection, bounded critic, exactly-once, reject, edit->style memory, crash-resume) — 16 tests pass
-- ⬜ conversation graph, live-LLM end-to-end run, R&D-C comparison, graph PNG render
+- ✅ conversation graph (`agent/graphs/conversation_graph.py`) + tests; graphs rendered to `docs/images/*.mmd` (`scripts/render_graphs.py`)
+- ✅ live-LLM e2e: 24.8s, ~15k tokens, ~$0.0046 list cost, 1 critic revision, submitted, client replied
+- ⬜ R&D-C comparison (single ReAct vs supervisor vs graph), fit_matcher is slow (9.5s: sequential per-requirement MCP searches) -> parallelise
 ### Phase 5 — API + worker  ⬜
 ### Phase 6 — Web UI + Playwright  ⬜
 ### Phase 7 — prod (CI, tracing, guardrails, compose, deploy)  ⬜
@@ -47,3 +51,6 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 ## Log
 - 2026-11-13: Phases 0–1 done, RAG V0/V2/V3 measured.
 - 2026-11-13: Nodes + bid graph + memory done; 16 tests pass.
+- 2026-11-13: MCP servers + client + conversation graph done; 39 tests pass.
+  Servers for manual runs: `set -a; . ./.env; set +a; export GIGSIM_API_TOKEN=dev-token GIGSIM_BASE_URL=http://127.0.0.1:8081`
+  `.venv/bin/uvicorn gigsim.app:app --port 8081 &` ; `.venv/bin/python -m mcp_servers.marketplace.server &` (port 8082)

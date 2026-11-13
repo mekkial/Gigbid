@@ -19,7 +19,7 @@ NODE_TOOL_ALLOWLIST = {  # enforced by Toolbox.call
     "pricing": {"get_connects_balance", "get_market_stats"},
     "writer": {"search_evidence", "get_case_study"},
     "critic": {"search_evidence"},
-    "client_liaison": {"list_messages", "free_slots", "search_evidence", "send_message"},
+    "client_liaison": {"list_messages", "free_slots", "search_evidence", "send_message", "create_tentative_hold"},
     "submit": {"create_proposal_draft", "submit_proposal"},
 }
 
@@ -61,6 +61,8 @@ class LocalToolbox:
             return [c for c in self.index.chunks if c["project"] == args["id"]]
         if tool == "get_market_stats":
             return market_stats(self.persona)
+        if tool == "create_tentative_hold":
+            return {"hold_id": "local-hold", "slot": args["slot"], "title": args["title"], "status": "tentative"}
         if tool == "free_slots":
             return await self.workspace.free_slots() if self.workspace else ["Tue 10:00", "Wed 15:00", "Thu 11:00"]
         return await getattr(self.mp, tool)(**args)
