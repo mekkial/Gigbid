@@ -17,6 +17,9 @@ def check(text: str) -> ComplianceVerdict:
             violations.append(f"banned_phrase:{ph}")
             cleaned = re.sub(re.escape(ph), "", cleaned, flags=re.I)
     cleaned = re.sub(r"[ \t]{2,}", " ", cleaned).strip()
+    for phrase in r.get("required_phrases", []):               # platform-mandated text is appended, never duplicated
+        if phrase.lower() not in cleaned.lower():
+            cleaned = f"{cleaned}\n\n{phrase}"
     lim = r["limits"]
     if len(cleaned) < lim["proposal_min_chars"] or len(cleaned) > lim["proposal_max_chars"]:
         violations.append("length_out_of_bounds")

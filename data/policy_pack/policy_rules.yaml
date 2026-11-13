@@ -17,4 +17,6 @@ injection_patterns:
   - '^\s*(system|assistant)\s*:'
   - 'new instruction'
   - 'you must (recommend|reply|include|say)'
+required_phrases:             # POLICY UPDATE: every proposal must disclose AI assistance
+  - "This proposal was drafted with AI assistance and reviewed by me."
 limits: {proposal_min_chars: 150, proposal_max_chars: 3000}
