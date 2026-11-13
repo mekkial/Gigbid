@@ -1,3 +1,57 @@
-# TODO: Define web, API, worker, MCP servers, GigSim, Postgres, Redis,
-# vector store and local model service as appropriate.
-services: {}
+# docker compose -f infra/docker-compose.yml up --build      (copy .env.example to .env first; secrets only come from the environment)
+# NOTE: written but not executed on the author's machine (Docker was not installed there); see docs/RUNBOOK.md "Verification status".
+x-py: &py
+  build: {context: .., dockerfile: infra/docker/python.Dockerfile}
+  env_file: ../.env
+  environment: &pyenv
+    DATABASE_URL: postgresql://gigbid:gigbid@postgres:5432/gigbid
+    REDIS_URL: redis://redis:6379/0
+    GIGSIM_BASE_URL: http://gigsim:8081
+    MARKETPLACE_MCP_URL: http://mcp-marketplace:8082/mcp
+    PHOENIX_COLLECTOR_ENDPOINT: http://phoenix:6006
+    MCP_LEDGER_PATH: /data/mcp_ledger.sqlite
+  depends_on: {postgres: {condition: service_healthy}, redis: {condition: service_started}}
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment: {POSTGRES_USER: gigbid, POSTGRES_PASSWORD: gigbid, POSTGRES_DB: gigbid}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U gigbid"], interval: 5s, retries: 10}
+  redis:
+    image: redis:7-alpine
+  gigsim:
+    <<: *py
+    command: uvicorn gigsim.app:app --host 0.0.0.0 --port 8081
+    ports: ["8081:8081"]
+  mcp-marketplace:
+    <<: *py
+    command: python -m mcp_servers.marketplace.server
+    environment: {<<: *pyenv, MCP_HOST: 0.0.0.0, MARKETPLACE_MCP_PORT: "8082"}
+    volumes: [mcpdata:/data]
+    depends_on: [gigsim]
+  api:
+    <<: *py
+    command: uvicorn apps.api.main:app --host 0.0.0.0 --port 8000
+    environment: {<<: *pyenv, GIGBID_TOOLS: mcp}      # portfolio + workspace MCP servers are spawned over stdio by the API/worker client
+    ports: ["8000:8000"]
+    depends_on: [postgres, redis, mcp-marketplace]
+  worker:
+    <<: *py
+    command: arq worker.settings.WorkerSettings
+    environment: {<<: *pyenv, GIGBID_TOOLS: mcp}
+    depends_on: [postgres, redis, mcp-marketplace]
+  web:
+    build: {context: .., dockerfile: infra/docker/web.Dockerfile}
+    ports: ["3000:80"]
+    depends_on: [api]
+  phoenix:                                           # tracing UI: http://localhost:6006
+    image: arizephoenix/phoenix:latest
+    ports: ["6006:6006"]
+  ollama:                                            # local open-model profile (optional at runtime; the 'open' profile can also use hosted open models)
+    image: ollama/ollama:latest
+    ports: ["11434:11434"]
+    volumes: [ollama:/root/.ollama]
+
+volumes: {pgdata: {}, mcpdata: {}, ollama: {}}

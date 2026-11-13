@@ -21,6 +21,7 @@ from agent.marketplace_port import MarketplaceUnavailable
 from agent.mcp_client import CURRENT, MCPToolbox, default_connections
 from agent.memory import promotion_rules as mem
 from agent.memory.store import make_store
+from agent.tracing import setup as tracing_setup, span
 from apps.api import db
 
 TERMINAL = {"submitted", "skipped", "watch", "rejected", "blocked", "needs_attention", "dead_letter", "sent", "scam_flagged"}
@@ -80,6 +81,7 @@ class Runtime:
         self.impl = None                                                 # test hook: offline node implementations
 
     async def start(self):
+        tracing_setup()
         await db.init()
         self.store = make_store()
         self.checkpointer = await make_checkpointer()
@@ -126,11 +128,12 @@ class Runtime:
         await db.run("UPDATE runs SET status='running', updated_at=now(), error=NULL WHERE thread_id=%s AND user_id=%s", thread_id, user["id"])
         await self.bus.publish(thread_id, {"type": "run_started", "thread_id": thread_id})
         try:
-            async for chunk in graph.astream(payload, cfg, stream_mode="updates"):
-                for node, upd in chunk.items():
-                    if node == "__interrupt__":
-                        continue
-                    await self.bus.publish(thread_id, {"type": "node", "node": node, "update": _brief(upd)})
+            with span("run", trace_id=trace_id or thread_id, thread_id=thread_id, user_id=user["id"], kind=kind):
+                async for chunk in graph.astream(payload, cfg, stream_mode="updates"):
+                    for node, upd in chunk.items():
+                        if node == "__interrupt__":
+                            continue
+                        await self.bus.publish(thread_id, {"type": "node", "node": node, "update": _brief(upd)})
             await self.sync(thread_id, user, kind, graph, cfg, time.time() - t0)
         except MarketplaceUnavailable as e:
             await db.run("UPDATE runs SET status='waiting_marketplace', error=%s, updated_at=now() WHERE thread_id=%s AND user_id=%s",

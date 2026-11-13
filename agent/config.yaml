@@ -17,8 +17,10 @@ models:
     open:
       small:  {provider: groq, model: openai/gpt-oss-20b}
       strong: {provider: groq, model: openai/gpt-oss-120b}
+      mid:    {provider: groq, model: qwen/qwen3.8-27b}
       fallback: {provider: groq, model: qwen/qwen3.8-27b}   # switch to openrouter ":free" model if a key is added
     paid:
+      mid:    {provider: openrouter, model: anthropic/claude-sonnet-4.5}
       small:  {provider: openrouter, model: anthropic/claude-haiku-4.5}
       strong: {provider: openrouter, model: anthropic/claude-sonnet-4.5}
       fallback: {provider: groq, model: openai/gpt-oss-20b}
@@ -30,10 +32,13 @@ models:
     fit_matcher: small
     pricing: small
     writer: strong
-    critic: strong
+    critic: mid          # different model family from the writer: no self-review; also spreads free-tier token budgets
     verifier: small
     compliance: small
-    client_liaison: strong
+    client_liaison: mid
+  # Provider limits observed on the free tier (Groq): 8000 tokens/min and 1000 requests/day PER MODEL.
+  rate_limits: {tokens_per_minute: 7000}     # headroom under the 8000 TPM limit; enforced client-side in agent/llm.py
+  reasoning_effort: {small: low, strong: medium}   # gpt-oss only; fewer hidden reasoning tokens = lower latency and TPM use
   # list-price equivalent USD per 1M tokens [input, output]; free tier = $0 actual, we still report list cost
   pricing_usd_per_mtok:
     openai/gpt-oss-20b: [0.075, 0.30]
@@ -43,8 +48,10 @@ models:
   reranker: BAAI/bge-reranker-base
 
 rag:
-  variant: v3_rerank      # chosen by evaluation in Phase 3
+  variant: v3_rerank      # chosen by evaluation (see evals/results/rag_eval.json); revisited after the full run
   k: 5
+  outcome_boost: 1.0
+  v8_threshold: 0.45      # cross-encoder PROBABILITY (CrossEncoder applies a sigmoid). Calibrated on ai_ml only, verified on the other personas: evals/results/v8_threshold.json
 
 budgets:
   max_graph_steps: 30

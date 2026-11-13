@@ -111,6 +111,9 @@ class Ledger:
             self.db.execute("INSERT OR IGNORE INTO idempotency VALUES (?,?,?,?)", (user, tool, key, json.dumps(result)))
 
     def audit(self, user, tool, arguments, result, trace_id):
+        from agent.tracing import span
+        with span(f"mcp.{tool}", trace_id=trace_id, user=user):      # correlate the MCP call with the same trace id
+            pass
         with self.lock, self.db:
             self.db.execute("INSERT INTO audit(ts,user,tool,arguments,result,trace_id) VALUES (?,?,?,?,?,?)",
                             (time.time(), user, tool, json.dumps(mask_pii(arguments), default=str),

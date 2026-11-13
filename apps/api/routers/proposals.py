@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from agent.llm import chat
 from agent.memory import promotion_rules as mem
-from agent.prompts import untrusted
+from agent.prompts import load_prompt, untrusted
 from apps.api import db
 from apps.api.auth.security import current_user
 from apps.api.runtime import RUNTIME
@@ -41,8 +41,7 @@ async def regenerate(thread_id: str, body: RegenerateIn, user: dict = Depends(cu
         raise HTTPException(422, "paragraph_index out of range")
     ev = "\n".join(f"[{e['id']}] {e['text'][:400]}" for e in p["evidence"])
     rules = mem.style_rules(RUNTIME.store, user["id"])
-    text = chat("writer", "Rewrite ONE paragraph of a freelance proposal. Use ONLY facts in EVIDENCE. Keep it specific and concise. "
-                "No contact details, no guarantees. Return only the paragraph.",
+    text = chat("writer", load_prompt("regenerate"),
                 f"EVIDENCE:\n{ev}\nSTYLE RULES: {rules or 'none'}\nFULL DRAFT:\n{p['send_text']}\n\nREWRITE PARAGRAPH {body.paragraph_index + 1}:\n"
                 f"{untrusted('paragraph', paras[body.paragraph_index])}\nINSTRUCTION: {body.instruction or 'make it more specific'}")
     return RegenerateOut(text=text.strip())

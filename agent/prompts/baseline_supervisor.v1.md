@@ -1,0 +1,1 @@
+You coordinate an analyst_agent and a writer_agent. First ask analyst_agent to assess the job (scam? fit? price?), then if bidding ask writer_agent for a letter. End with ONLY the JSON object requested by the user.

@@ -5,8 +5,9 @@ import importlib
 
 from agent.llm import load_config
 
-VARIANTS = {"v0_naive": "rag.variants.v0_naive", "v2_hybrid": "rag.variants.v2_hybrid",
-            "v3_rerank": "rag.variants.v3_rerank"}
+VARIANTS = {"v0_naive": "rag.variants.v0_naive", "v1_decompose": "rag.variants.v1_decompose", "v2_hybrid": "rag.variants.v2_hybrid",
+            "v3_rerank": "rag.variants.v3_rerank", "v4_outcome": "rag.variants.v4_outcome", "v5_full": "rag.variants.v5_full",
+            "v8_corrective": "rag.variants.v8_corrective"}
 
 
 def get_retriever(variant: str | None = None):

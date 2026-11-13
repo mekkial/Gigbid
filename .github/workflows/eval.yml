@@ -1,0 +1,20 @@
+name: eval-smoke
+on: [pull_request]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}       # free-tier key stored as a repository secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install uv && uv pip install --system -e ".[dev]"
+      - name: Generate synthetic data (deterministic, seeded)
+        run: python -m data.build.gen_data
+      - name: 30-job smoke eval
+        run: python -m evals.runners.smoke_eval
+      - name: Gate (fails if bid-or-skip F1 drops or unsupported claims rise past evals/thresholds.yaml)
+        run: python evals/check_thresholds.py
+      - uses: actions/upload-artifact@v4
+        with: {name: smoke-results, path: evals/results/smoke.json}

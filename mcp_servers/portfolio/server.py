@@ -2,6 +2,8 @@
 or `uvx gigbid-portfolio-mcp`. Env: GIGBID_PERSONA, GIGBID_PORTFOLIO_DIR."""
 from __future__ import annotations
 
+import asyncio
+
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
 
@@ -14,8 +16,8 @@ RO = ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=Tr
 
 @mcp.tool(annotations=RO, description="Search the portfolio for evidence that proves one requirement (skill, tool, domain). "
           "Returns items with type, source, date and outcome. Call once per requirement.")
-def search_evidence(requirement: str, k: int = 5, filters: tools.Filters | None = None) -> list[tools.EvidenceItem]:
-    return tools.search_evidence(requirement, max(1, min(k, 20)), filters)
+async def search_evidence(requirement: str, k: int = 5, filters: tools.Filters | None = None) -> list[tools.EvidenceItem]:
+    return await asyncio.to_thread(tools.search_evidence, requirement, max(1, min(k, 20)), filters)   # concurrent calls do not block each other
 
 
 @mcp.tool(annotations=RO, description="Get the full case study and README for one project id returned by search_evidence.")

@@ -1,0 +1,10 @@
+.venv
+.local
+node_modules
+apps/web/node_modules
+apps/web/dist
+data/raw
+.git
+.env
+__pycache__
+*.sqlite

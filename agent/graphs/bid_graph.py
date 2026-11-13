@@ -20,7 +20,9 @@ from agent.handoffs import BidDecision, ComplianceVerdict, Critique, FitReport, 
 from agent.llm import USAGE, cost_usd, load_config
 from agent.memory import promotion_rules as mem
 from agent.nodes import analyst, compliance, critic, fit_matcher, pricing, risk_assessor, writer
+from agent.nodes.decision import decide as decide_rule
 from agent.state import BidState
+from agent.tracing import span
 from rag import verify as ver
 
 
@@ -50,9 +52,12 @@ def _tracked(name: str):
             tok = USAGE.set(usage)
             t0 = time.time()
             try:
-                out = fn(state, config) if config is not None else fn(state)
-                if asyncio.iscoroutine(out):
-                    out = await out
+                with span(f"node.{name}", node=name, thread_id=((config or {}).get("configurable") or {}).get("thread_id")) as sp:
+                    out = fn(state, config) if config is not None else fn(state)
+                    if asyncio.iscoroutine(out):
+                        out = await out
+                    sp.set_attribute("gigbid.tokens", sum(u[1] + u[2] for u in usage))
+                    sp.set_attribute("gigbid.cost_usd", sum(cost_usd(m, a, b) for m, a, b in usage))
             finally:
                 USAGE.reset(tok)
             tin = sum(u[1] for u in usage); tout = sum(u[2] for u in usage)
@@ -98,16 +103,7 @@ def build_bid_graph(tools, store, checkpointer=None, impl: Impl | None = None):
     @_tracked("decide")
     async def decide(state):
         risk, fit = RiskReport(**state["risk_report"]), FitReport(**state["fit_report"])
-        auto = state.get("settings", {}).get("autonomy", cfg["autonomy"]["default"]) == "auto_skip_low_fit"
-        if risk.is_scam:
-            d = BidDecision(action="skip", reason=f"scam signals: {risk.flags}", auto_skipped=True)
-        elif risk.score > th["maximum_risk_score"]:
-            d = BidDecision(action="skip", reason=f"risk {risk.score:.2f} above {th['maximum_risk_score']}")
-        elif fit.score < th["minimum_fit_score"]:
-            d = BidDecision(action="skip", reason=f"fit {fit.score:.2f} below {th['minimum_fit_score']}; missing {fit.missing_skills}",
-                            auto_skipped=auto)
-        else:
-            d = BidDecision(action="bid", reason=f"fit {fit.score:.2f}, risk {risk.score:.2f}")
+        d = decide_rule(risk, fit, state.get("settings", {}).get("autonomy"))
         return {"decision": d.model_dump(), "status": "skipped" if d.action == "skip" else "running"}
 
     def after_decide(state):

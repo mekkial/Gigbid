@@ -5,6 +5,7 @@ real MCP servers). Nodes depend on this interface only (A6: each node gets an al
 """
 from __future__ import annotations
 
+import asyncio
 import json
 from pathlib import Path
 from typing import Any, Protocol
@@ -21,6 +22,8 @@ NODE_TOOL_ALLOWLIST = {  # enforced by Toolbox.call
     "critic": {"search_evidence"},
     "client_liaison": {"list_messages", "free_slots", "search_evidence", "send_message", "create_tentative_hold"},
     "submit": {"create_proposal_draft", "submit_proposal"},
+    # baselines for the architecture comparison (R&D C): one agent holding every READ tool; never any write tool
+    "single_agent": {"search_evidence", "get_case_study", "list_skills", "get_client_history", "get_job", "get_connects_balance", "get_market_stats"},
 }
 
 
@@ -54,7 +57,7 @@ class LocalToolbox:
         if tool not in NODE_TOOL_ALLOWLIST.get(node, set()):
             raise ToolNotAllowed(f"{node} may not call {tool}")
         if tool == "search_evidence":
-            return self.search_evidence(args["requirement"], args.get("k", 3))
+            return await asyncio.to_thread(self.search_evidence, args["requirement"], args.get("k", 3))   # CPU-bound: keep the loop free
         if tool == "list_skills":
             return self.profile["skills"]
         if tool == "get_case_study":

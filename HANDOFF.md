@@ -27,7 +27,10 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 - ⬜ Upwork live adapter (`upwork_live.py`, needs Upwork account), R&D-A tool-granularity eval (`evals/runners/tool_granularity.py`)
 ### Phase 3 — RAG
 - ✅ Ingestion with metadata, dense+BM25 index, V0/V2/V3, `evals/runners/rag_eval.py` → `evals/results/rag_eval.json`
-- ⬜ V1 decomposition, V4 outcome-aware, V8 corrective, claim verifier, judge calibration, ablation, GigSim outcome eval
+- ✅ V1 decompose (project-level fusion; chunk-level result kept in rag_eval_v1_chunk_level_fusion.json), V4 outcome, V5 full, V8 corrective (threshold 0.45 calibrated on ai_ml, held out others: v8_threshold.json), `rag/variants/pipeline.py` (composable), ADR 0002 hypotheses, `rag_eval.json`, ablation runner (`rag_ablation.json` when finished)
+- ✅ claim verifier `rag/verify.py` (LLM) + independent deterministic number-grounding check in proposal_eval
+- 🔄 LLM evals running sequentially via `python -m evals.run_all decision tool proposals injection architecture` (log /tmp/run_all.log; results -> evals/results/*.json). Free tier = 8000 tokens/min + 1000 req/day PER MODEL: sizes are small on purpose (n=20 decision, 8/persona proposals, 16 arch)
+- ⬜ judge calibration needs the USER's 30 human labels (`evals/runners/judge_calibration.py` to be written; CSV sheet)
 ### Phase 4 — graphs
 - ✅ `agent/handoffs.py` (Pydantic), `agent/state.py` (reducers), `agent/prompts/*.v1.md`, nodes (scout/analyst/risk/fit/pricing/writer/verify/critic/compliance/liaison), `agent/tools.py` (allowlists)
 - ✅ `agent/graphs/bid_graph.py`: parallel Send fan-out, decide, pricing, writer->verify->critic loop (<=2), compliance, interrupt approval, idempotent submit
@@ -45,7 +48,11 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 - ✅ `apps/web` (Vite+React+TS): login, onboarding, inbox, job detail (req->evidence matrix), proposal studio (EvidenceHover, regenerate paragraph, approve/edit/reject, dry-run), pipeline kanban, messages, run viewer (SSE), analytics, settings (memory viewer), degraded banner, responsive. TS client generated: `scripts/export_openapi.py` then `npx openapi-typescript openapi.json -o src/lib/api/schema.d.ts`
 - ✅ Playwright: 7 pass (`cd apps/web && npx playwright test`; starts `scripts/e2e_stack.py` offline stack on :8100/:8101 + vite :3100). Report in apps/web/playwright-report
 - ⬜ production build check (`npm run build`), screenshots/GIF for README
-### Phase 7 — prod (CI, tracing, guardrails, compose, deploy)  ⬜
+### Phase 7 — prod
+- ✅ tracing: Arize Phoenix (local server in `.local/phoenix-venv`, start: `PHOENIX_WORKING_DIR=$PWD/.local/phoenix .local/phoenix-venv/bin/python -m phoenix.server.main serve`, UI :6006); `agent/tracing.py`; verified 109 spans incl. gigbid.trace_id, node tokens/cost, LLM spans (`scripts/trace_demo.py`)
+- ✅ CI files `.github/workflows/{ci,eval}.yml`, `evals/thresholds.yaml`, `evals/check_thresholds.py`, `scripts/check_{prompts,gigsim_frozen}.py`, Makefile, `infra/docker-compose.yml` + Dockerfiles (NOT run: no Docker locally)
+- ✅ PII log filter, encrypted token vault, tenant-scoped queries, injection defence (delimiters + SECURITY clause + Compliance Guard); ASR measured by `injection_eval.py`
+- ⬜ README table generator `scripts/make_readme_tables.py` (CI checks numbers trace to results), thresholds set from measured baseline, deployment (host undecided), Upwork live adapter, portfolio MCP packaging
 ### Phase 8 — X3 Portfolio builder  ⬜
 ### Phase 9 — change request, docs, README, report, video, write-up  ⬜
 
@@ -63,3 +70,4 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
   `.venv/bin/uvicorn gigsim.app:app --port 8081 &` ; `.venv/bin/python -m mcp_servers.marketplace.server &` (port 8082)
 - 2026-11-13: API + worker done; 48 tests pass total. Next: web UI (apps/web), then evals.
 - 2026-11-13: Web UI + 7 Playwright tests pass. Next: evals (V1/V4/V8, decision, injection ASR, claim verification, tool granularity, arch comparison), then CI/compose/docs/report, X3, Upwork adapter.
+- 2026-11-13 (late): throttle in agent/llm.py (token bucket per model), 'mid' tier = qwen3.8-27b for critic+liaison, reasoning_effort config. LLM eval suite launched (decision -> tool granularity -> proposals V0/V3 -> injection -> arch compare). Next while waiting: docs (DATA_CARD, ARCHITECTURE, RUNBOOK, EXTENSION, AI_USAGE), README generator, Upwork adapter, X3, packaging.
