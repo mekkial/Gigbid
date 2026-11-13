@@ -1,6 +1,7 @@
 """Config-driven LLM access. Node -> tier -> provider/model all come from agent/config.yaml."""
 from __future__ import annotations
 
+import contextvars
 import os
 from functools import lru_cache
 from pathlib import Path
@@ -9,6 +10,13 @@ import yaml
 from openai import OpenAI
 
 CONFIG_PATH = Path(__file__).with_name("config.yaml")
+# per-call usage collector: a node wrapper sets a fresh list, chat() appends (model, in_tokens, out_tokens)
+USAGE: contextvars.ContextVar[list | None] = contextvars.ContextVar("llm_usage", default=None)
+
+
+def cost_usd(model: str, tin: int, tout: int) -> float:
+    price = load_config()["models"].get("pricing_usd_per_mtok", {}).get(model, [0, 0])
+    return (tin * price[0] + tout * price[1]) / 1e6
 
 
 @lru_cache(maxsize=1)
@@ -40,7 +48,27 @@ def chat(node: str, system: str, user: str, *, json_mode: bool = False, temperat
                 model=r["model"], temperature=temperature, **kwargs,
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
             )
+            u = USAGE.get()
+            if u is not None and getattr(out, "usage", None):
+                u.append((r["model"], out.usage.prompt_tokens, out.usage.completion_tokens))
             return out.choices[0].message.content or ""
         except Exception as e:  # noqa: BLE001 - fall through to fallback model
             last = e
     raise RuntimeError(f"LLM call failed for node {node}: {last}")
+
+
+def chat_json(node: str, system: str, user: str, model_cls, retries: int = 2):
+    """Chat in JSON mode and validate into a Pydantic model; re-asks with the validation error."""
+    import json as _json
+    from pydantic import ValidationError
+
+    schema = _json.dumps(model_cls.model_json_schema())
+    sys2 = f"{system}\n\nReturn ONLY a JSON object matching this JSON Schema:\n{schema}"
+    msg, err = user, ""
+    for _ in range(retries + 1):
+        raw = chat(node, sys2, msg + (f"\n\nYour previous reply was invalid: {err}" if err else ""), json_mode=True)
+        try:
+            return model_cls.model_validate_json(raw)
+        except (ValidationError, ValueError) as e:
+            err = str(e)[:400]
+    raise RuntimeError(f"{node}: could not get valid {model_cls.__name__}: {err}")

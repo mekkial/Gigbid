@@ -1,3 +1,16 @@
-"""TODO: Review grounding, specificity and length; allow at most two revisions."""
+from agent.handoffs import Critique, ProposalDraft
+from agent.llm import chat_json
+from agent.prompts import load_prompt, untrusted
 
-# Implement this node and add focused unit tests.
+
+def review(job: dict, draft: ProposalDraft, unsupported: int) -> Critique:
+    words = len(draft.cover_letter.split())
+    user = (f"{untrusted('job_post', job['title'] + chr(10) + job['description'])}\n\nPROPOSAL:\n{draft.cover_letter}\n"
+            f"Unsupported claims remaining after verification: {unsupported}. Word count: {words}.")
+    c = chat_json("critic", load_prompt("critic"), user, Critique)
+    c.length_ok = 100 <= words <= 260
+    if not c.length_ok:
+        c.approved = False; c.issues.append(f"cover letter is {words} words; target 120-220")
+    if unsupported:
+        c.approved = False; c.issues.append("unsupported claims remain")
+    return c

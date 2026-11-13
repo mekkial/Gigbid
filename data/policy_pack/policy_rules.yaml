@@ -1,0 +1,20 @@
+# Machine-readable policy rules used by the Compliance Guard and Risk Assessor.
+# The policy-change request is absorbed by editing THIS file (and gigsim/rules.yaml), not code.
+version: 1
+forbidden_patterns:           # regex, case-insensitive -> violation + removal
+  off_platform_contact: ['\bwhats\s?app\b', '\btelegram\b', '\bskype\b', '\bsignal\b', '[\w.+-]+@[\w-]+\.[\w.]+', '\+?\d[\d\s().-]{8,}\d']
+  off_platform_payment: ['\bpaypal\b', '\bcrypto\b', '\bwire transfer\b', '\bbitcoin\b', '\bvenmo\b']
+  guarantee: ['\bguarantee[ds]?\b', '100\s?%\s*(success|satisf|result)', '\brisk[- ]free\b']
+banned_phrases: ['passionate', 'best candidate', 'dear sir', 'dear sir/madam']
+scam_signals:
+  - {flag: unpaid_work, pattern: 'for free|unpaid|free (test|trial|sample)|trial task'}
+  - {flag: off_platform_contact, pattern: 'whats\s?app|telegram|skype|outside (of )?(the )?platform|contact me at'}
+  - {flag: pay_to_work, pattern: 'send (a )?(small )?fee|pay (a )?(deposit|fee) to|unlock'}
+  - {flag: payment_details, pattern: 'bank details|credit card|wallet'}
+injection_patterns:
+  - 'ignore (all )?(previous|prior|above) instructions'
+  - 'disregard (your|the) (policy|instructions|rules)'
+  - '^\s*(system|assistant)\s*:'
+  - 'new instruction'
+  - 'you must (recommend|reply|include|say)'
+limits: {proposal_min_chars: 150, proposal_max_chars: 3000}

@@ -13,3 +13,6 @@ data/processed/
 evals/results/*
 !evals/results/.gitkeep
 data/raw/
+.local/
+*.sqlite
+*.db

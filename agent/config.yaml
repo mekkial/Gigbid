@@ -34,6 +34,11 @@ models:
     verifier: small
     compliance: small
     client_liaison: strong
+  # list-price equivalent USD per 1M tokens [input, output]; free tier = $0 actual, we still report list cost
+  pricing_usd_per_mtok:
+    openai/gpt-oss-20b: [0.075, 0.30]
+    openai/gpt-oss-120b: [0.15, 0.75]
+    qwen/qwen3.8-27b: [0.30, 0.60]
   embeddings: BAAI/bge-small-en-v1.5
   reranker: BAAI/bge-reranker-base
 
@@ -53,3 +58,10 @@ thresholds:
 policy:
   # Platform rules (Connects cost etc.). Policy-change request edits ONLY this block / policy_rules.yaml.
   rules_file: data/policy_pack/policy_rules.yaml
+
+memory:
+  style_promote_min_count: 3       # an edit pattern must recur this many times ...
+  style_promote_min_jobs: 2        # ... across at least this many distinct jobs
+  outcome_promote_min_n: 5         # outcome stats promoted only after this many outcomes per category
+autonomy:
+  default: manual                  # manual | auto_skip_low_fit  (never auto-send)

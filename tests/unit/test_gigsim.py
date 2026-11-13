@@ -35,7 +35,8 @@ def test_submit_idempotent_and_spends_connects_once():
     assert before - after == p["connects_cost"]
 
 
-def test_rate_limit_and_outage():
+def test_rate_limit_and_outage(monkeypatch):
+    monkeypatch.setitem(g.RULES, 'rate_limit_per_minute', 60)
     h = {**H, "x-user": "ratelimited"}
     codes = [c.get("/connects", headers=h).status_code for _ in range(g.RULES["rate_limit_per_minute"] + 2)]
     assert 429 in codes
