@@ -110,18 +110,15 @@ async def run_supervisor(tb, job):
 async def run_graph(tb, job):
     g = build_bid_graph(tb, InMemoryStore(), MemorySaver())
     cfg = {"configurable": {"thread_id": uuid.uuid4().hex}}
-    usage = []
-    tok = L.USAGE.set(usage)
-    try:
-        out = await g.ainvoke({"job": job, "user_id": "arch-graph", "persona": PERSONA, "settings": {"floor_hourly": 30}}, cfg)
-        st = await g.aget_state(cfg)
-        if st.next == ("approval",):
-            final = await g.ainvoke(Command(resume={"action": "approve"}), cfg)
-            return {"decision": "bid", "cover_letter": final["send_text"], "bid_amount": out["price_quote"]["amount"], "violations_caught": out["compliance"]["violations"],
-                    "evidence": out["evidence"], "unsupported": out.get("unsupported_after")}, {"graph": {"input_tokens": sum(u[1] for u in usage), "output_tokens": sum(u[2] for u in usage), "cost": sum(L.cost_usd(*u) for u in usage)}}
-        return {"decision": "skip", "reason": out["decision"]["reason"]}, {"graph": {"input_tokens": sum(u[1] for u in usage), "output_tokens": sum(u[2] for u in usage), "cost": sum(L.cost_usd(*u) for u in usage)}}
-    finally:
-        L.USAGE.reset(tok)
+    out = await g.ainvoke({"job": job, "user_id": "arch-graph", "persona": PERSONA, "settings": {"floor_hourly": 30}}, cfg)
+    # the graph's own per-node tracker is the source of truth for tokens/cost (an outer usage collector is replaced by the node wrappers)
+    usage = {"graph": {"input_tokens": out.get("tokens", 0), "output_tokens": 0, "cost": out.get("cost_usd", 0.0)}}
+    st = await g.aget_state(cfg)
+    if st.next == ("approval",):
+        final = await g.ainvoke(Command(resume={"action": "approve"}), cfg)
+        return {"decision": "bid", "cover_letter": final["send_text"], "bid_amount": out["price_quote"]["amount"], "violations_caught": out["compliance"]["violations"],
+                "evidence": out["evidence"], "unsupported": out.get("unsupported_after")}, usage
+    return {"decision": "skip", "reason": out["decision"]["reason"]}, usage
 
 
 def cost_of(usage: dict) -> tuple[int, float]:
@@ -137,7 +134,9 @@ async def evaluate_arch(name, runner, jobs, tb_for_user, shared_tb):
         lat = time.time() - t0
         toks, cost = cost_of(usage)
         dec = str(res.get("decision", "")).lower()
-        row = {"job_id": job["job_id"], "kind": job["kind"], "pred": dec if dec in ("bid", "skip") else "skip", "gold": job["gold"]["decision"], "latency_s": lat, "tokens": toks, "cost": cost}
+        row = {"job_id": job["job_id"], "kind": job["kind"], "parsed": dec in ("bid", "skip"), "pred": dec if dec in ("bid", "skip") else "skip", "gold": job["gold"]["decision"], "latency_s": lat, "tokens": toks, "cost": cost}
+        if dec not in ("bid", "skip"):
+            row["unparsed_output"] = str(res)[:160]                   # unparseable output is counted as a (forced) skip and reported separately
         if dec == "bid" and res.get("cover_letter"):
             text = compliance.strip_citations(res["cover_letter"]) if name != "hand_graph" else res["cover_letter"]
             raw_viol = compliance.check(compliance.strip_citations(res["cover_letter"]).ljust(150)).violations
@@ -164,7 +163,9 @@ def summarise(rows):
     for k in sorted({r["kind"] for r in rows}):
         sub = [r for r in rows if r["kind"] == k]; by[k] = {"n": len(sub), "decision_accuracy": round(sum(r["pred"] == r["gold"] for r in sub) / len(sub), 3)}
     sent = [r for r in bids if r.get("outcome")]
-    return {"n_jobs": n, "decision_accuracy": round(acc, 3), "by_job_type": by, "n_proposals": len(bids),
+    parsed = [r for r in rows if r.get("parsed", True)]
+    return {"n_jobs": n, "decision_accuracy": round(acc, 3), "unparseable_output_rate": round(1 - len(parsed) / n, 3),
+            "decision_accuracy_on_parsed_only": round(sum(r["pred"] == r["gold"] for r in parsed) / len(parsed), 3) if parsed else None, "by_job_type": by, "n_proposals": len(bids),
             "unsupported_claim_rate_mean": round(sum(r["unsupported_rate"] for r in bids) / len(bids), 3) if bids else None,
             "proposals_with_raw_policy_violation": round(sum(1 for r in bids if r["raw_policy_violations"]) / len(bids), 3) if bids else None,
             "gigsim_reply_rate": round(sum(r["outcome"] in ("reply", "interview", "hire") for r in sent) / len(sent), 3) if sent else None, "n_sent": len(sent),
@@ -172,14 +173,19 @@ def summarise(rows):
             "tokens_per_job": round(sum(r["tokens"] for r in rows) / n), "list_cost_usd_per_job": round(sum(r["cost"] for r in rows) / n, 5)}
 
 
-async def main(n):
+async def main(n, only=None):
     jobs = load_jobs(PERSONA, n)
     shared = LocalToolbox(PERSONA, marketplace("arch-shared"))
     users = {}
     def mp(name):
         return users.setdefault(name, marketplace(f"arch-{name}"))
     out = {"llm": L.active_profile_info(), "persona": PERSONA, "n_jobs": len(jobs), "note": "(a)/(b) use the strong model for every step; (c) uses shipped per-node routing. (a)/(b) have NO Compliance Guard, so 'raw policy violations' = what reached the output.", "architectures": {}}
+    f_out = ROOT / "evals/results/arch_compare.json"
+    if only and f_out.exists():                                   # re-run selected architectures and merge into the existing file
+        prev = json.loads(f_out.read_text()); out["architectures"] = prev.get("architectures", {})
     for name, runner in [("hand_graph", run_graph), ("single_react_agent", run_single), ("prebuilt_supervisor", run_supervisor)]:
+        if only and name not in only:
+            continue
         rows, errs = await evaluate_arch(name, runner, jobs, mp, shared)
         out["architectures"][name] = summarise(rows) | {"errors": errs[:3], "n_errors": len(errs)}
         (ROOT / "evals/results" / f"arch_rows_{name}.jsonl").write_text("\n".join(json.dumps(r) for r in rows))
@@ -188,4 +194,4 @@ async def main(n):
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("--n", type=int, default=50); a = ap.parse_args(); asyncio.run(main(a.n))
+    ap = argparse.ArgumentParser(); ap.add_argument("--n", type=int, default=50); ap.add_argument("--only", nargs="*", default=None); a = ap.parse_args(); asyncio.run(main(a.n, a.only))
