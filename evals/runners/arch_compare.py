@@ -46,7 +46,8 @@ def make_llm(tier="strong"):
         est = len(request.content) // 3 + 1500                      # prompt + generous allowance for hidden reasoning tokens
         while (w := L.THROTTLE.wait_time(r["model"], est, limit)) > 0:
             await asyncio.sleep(w)
-    return ChatOpenAI(model=r["model"], base_url=r["base_url"], api_key=L.api_key(r), temperature=0.2, timeout=120, max_retries=4,
+    extra = {"reasoning_effort": "none"} if (r["provider"] == "ollama" and r["model"].startswith("qwen3")) else {}
+    return ChatOpenAI(model=r["model"], base_url=r["base_url"], api_key=L.api_key(r), temperature=0.2, timeout=300, max_retries=4, **extra,
                       http_async_client=httpx.AsyncClient(event_hooks={"request": [throttle]}, timeout=120))
 
 

@@ -73,6 +73,18 @@ budgets:
   max_revisions: 2
   max_tokens_per_job: 30000   # declared budget; measured ~15k for a proposed job (see evals/results)
 
+declared_budgets:            # R8/E5: declared BEFORE measuring; evals/results/budget_run.json reports measured vs declared, no excuses
+  open:                      # hosted open models (Groq): the deployed profile
+    analysis_p95_s: 25
+    analysis_list_cost_usd: 0.002
+    proposal_p95_s: 150
+    proposal_list_cost_usd: 0.012
+    proposal_tokens: 30000
+  local:                     # one 8B model on a 16 GB laptop: latency is hardware-bound, cost is $0
+    analysis_p95_s: 90
+    proposal_p95_s: 600
+    proposal_tokens: 30000
+
 thresholds:
   minimum_fit_score: 0.60
   maximum_risk_score: 0.70

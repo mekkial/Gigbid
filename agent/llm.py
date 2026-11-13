@@ -119,7 +119,7 @@ def chat(node: str, system: str, user: str, *, json_mode: bool = False, temperat
             if r["provider"] == "ollama":
                 kwargs["extra_body"] = {"options": {"num_ctx": 8192}}      # Ollama's default 4k context would silently truncate prompts
                 if r["model"].startswith("qwen3"):
-                    user = user + "\n/no_think"                              # qwen3 soft switch: skip the thinking phase
+                    kwargs["reasoning_effort"] = "none"                       # disables qwen3's thinking phase on Ollama: ~7x faster on this laptop (measured)
             out = client.chat.completions.create(
                 model=r["model"], temperature=temperature, **kwargs,
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
