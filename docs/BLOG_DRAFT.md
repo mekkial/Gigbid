@@ -53,6 +53,21 @@ None of the above was limited by modelling skill. It was limited by quotas. The 
 
 Two consequences I would take into any future project. First, read the provider's error text on day one rather than the first time something breaks. Second, a deployed demo on a free tier cannot survive a grader: if a reviewer and an automated test run share 200,000 tokens a day, the demo is down after fifteen proposals. I switched the larger evaluations to a local 8B model, found that its "thinking" mode made every call seven times slower, turned it off with one parameter, and reported the numbers with the model that produced them recorded in the file.
 
+## Better retrieval did not make clients reply more
+
+The end-to-end test runs the whole graph, lets a simulated human approve each draft unchanged, submits it to my simulator, and records whether the simulated client replies. Eighteen proposals per arm, on a local 8B model, naive retrieval versus hybrid-plus-rerank:
+
+| | naive | hybrid + rerank |
+|---|---|---|
+| proposals with at least one unsupported claim, before verification | 50% | 17% |
+| ... after the claim verifier removes them | 17% | 0% |
+| simulated reply rate | 72% | 78% |
+| simulated hire rate | 22% | 6% |
+
+Better retrieval did what it is supposed to do: the writer was given more relevant evidence and invented far less. The claim verifier then removed what remained. But the reply rate moved by six points with a p-value of 0.70, and the hire rate moved the wrong way (p = 0.15). With eighteen proposals per arm I cannot tell a real effect from noise, so the honest reading is: **retrieval quality improved honesty, and I have no evidence yet that it improved outcomes.** The simulator rewards skill overlap and specific openings, and both arms already mentioned the right skills. I would not have found that gap by looking at retrieval metrics alone.
+
+One more thing the run exposed: the local reviewer model never approved a first draft. Average revisions were 3.0 and 2.8 against a cap of two loops, so every proposal paid for the full revision budget. The cap did its job (nothing looped forever), but a critic that never says yes is a cost centre, not a quality gate.
+
 ## What I would do differently
 
 - **Write the failure taxonomy before the second retrieval variant.** The biggest error was visible in the first pass over failures, and I had spent the day elsewhere.
@@ -61,6 +76,6 @@ Two consequences I would take into any future project. First, read the provider'
 
 ## Honest limits
 
-The corpus is synthetic and templated, so absolute scores are optimistic and the ordering is the finding. Samples are small because of the quotas above. The simulator that decides which proposals get replies is mine. [RESULT: end-to-end proposal quality and reply-rate comparison goes here once the run completes.] The code, the results files, and every number in this post are in the repository.
+The corpus is synthetic and templated, so absolute scores are optimistic and the ordering is the finding. Samples are small because of the quotas above. The simulator that decides which proposals get replies is mine. The code, the results files, and every number in this post are in the repository.
 
-*Word count target: 1,200–1,800. Current draft ~1,150: add the end-to-end result paragraph and one figure (the ablation bars) before publishing.*
+*Word count target: 1,200–1,800. Add one figure (the ablation bars) and re-count words before publishing.*
