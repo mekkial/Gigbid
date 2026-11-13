@@ -89,3 +89,8 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
  7. full `make test` + Playwright once more; build report PDF (HTML -> Playwright page.pdf; no pandoc), blog draft, resume bullets, viva cheat-sheet
 **Needs the USER:** public GitHub repo + push; deploy host + reviewer password; Upwork account (for live mode + X6); 30 human judge labels (+ classmates pairwise panel); record the 3-min video; publish write-up; LangSmith/Phoenix public trace links; confirm real deadline; verify Kaggle dataset licences; Docker install to test compose.
 **Demo assets:** docs/images/screens/*.png and demo.gif (slideshow); `node scripts/record_demo.mjs` re-records against the offline stack (`python scripts/e2e_stack.py` + `npx vite --port 3100`).
+
+## Docker (installed Fri 22:30)
+`brew install colima docker docker-compose` done; compose plugin path added to ~/.docker/config.json. VM NOT started (RAM): after the eval suite finishes run
+`colima start --cpu 4 --memory 6 --disk 40` then `docker compose -f infra/docker-compose.yml up --build` and fix what breaks (compose never run yet). Stop with `colima stop` to free RAM.
+Deadline: Sunday 2026-11-15 23:59 PKT (user confirmed "sunday night").
