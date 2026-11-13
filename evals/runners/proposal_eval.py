@@ -70,7 +70,7 @@ async def run_variant(variant, jobs_by_persona, indexes):
     for persona, jobs in jobs_by_persona.items():
         tb = LocalToolbox(persona, marketplace(f"eval-{variant}"), index=indexes[persona], retrieve=get_retriever(variant))
         g = build_bid_graph(tb, InMemoryStore(), MemorySaver())
-        res = await gather_limited([run_one(g, j, persona, f"eval-{variant}") for j in jobs], limit=4)
+        res = await gather_limited([run_one(g, j, persona, f"eval-{variant}") for j in jobs], limit=2)
         rows += [{"persona": persona, **r} for r in res if isinstance(r, dict)]
         errs = [r for r in res if isinstance(r, Exception)]
         print(variant, persona, f"{len(res) - len(errs)} ok, {len(errs)} errors", [str(e)[:80] for e in errs[:2]], flush=True)
@@ -97,14 +97,15 @@ def summarise(rows):
 async def main(variants, n, out_name):
     jobs = {p: [j for j in load_jobs(p) if j["kind"] == "good"][:n] for p in PERSONAS}
     idx = {p: Index(load_persona(p)) for p in PERSONAS}
-    res = {"jobs_per_persona": n, "note": "simulated human approves each draft unchanged; judge = qwen3.8-27b (uncalibrated until judge_calibration.py is run with human labels)", "variants": {}}
+    from agent.llm import active_profile_info
+    res = {"llm": active_profile_info(), "jobs_per_persona": n, "note": "simulated human approves each draft unchanged; judge = qwen3.8-27b (uncalibrated until judge_calibration.py is run with human labels)", "variants": {}}
     for v in variants:
         rows = await run_variant(v, jobs, idx)
         res["variants"][v] = {"overall": summarise(rows), "by_persona": {p: summarise([r for r in rows if r["persona"] == p]) for p in PERSONAS}}
         (ROOT / "evals/results" / f"proposals_{v}.jsonl").write_text("\n".join(json.dumps(r) for r in rows))
         print(v, json.dumps(res["variants"][v]["overall"]), flush=True)
     vs = list(res["variants"])
-    if len(vs) >= 2:
+    if len(vs) >= 2 and all("_counts" in res["variants"][v]["overall"] for v in vs[:2]):
         a, b = res["variants"][vs[0]]["overall"]["_counts"], res["variants"][vs[1]]["overall"]["_counts"]
         res["reply_rate_diff_p_value_two_proportion"] = {f"{vs[0]}_vs_{vs[1]}": two_prop_p(a["replies"], a["n"], b["replies"], b["n"])}
     (ROOT / "evals/results" / out_name).write_text(json.dumps(res, indent=2)); print("wrote", out_name)

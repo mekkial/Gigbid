@@ -10,12 +10,15 @@ from agent.llm import chat_json
 from agent.prompts import load_prompt
 
 
+EVIDENCE_ITEMS, EVIDENCE_CHARS = 6, 600      # prompt trimming (see evals/results/optimisation.json)
+
+
 class _Claims(BaseModel):
     claims: list[Claim]
 
 
 def _evidence_block(evidence: list[dict]) -> str:
-    return "\n".join(f"[{e['id']}] ({e['type']}, {e['date']}) {e['text']}" for e in evidence) or "(none)"
+    return "\n".join(f"[{e['id']}] ({e['type']}, {e['date']}) {e['text'][:EVIDENCE_CHARS]}" for e in evidence[:EVIDENCE_ITEMS]) or "(none)"
 
 
 def verify_claims(draft: str, evidence: list[dict]) -> list[Claim]:

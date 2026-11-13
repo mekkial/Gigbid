@@ -7,10 +7,12 @@ STEPS = [
     ("rag variants", [sys.executable, "-m", "evals.runners.rag_eval", "--n", "60"]),
     ("rag ablation", [sys.executable, "-m", "evals.runners.ablation"]),
     ("decision, config A", [sys.executable, "-m", "evals.runners.decision_eval", "--n", "20", "--configs", "A"]),
+    ("decision, configs B C", [sys.executable, "-m", "evals.runners.decision_eval", "--n", "12", "--configs", "B", "C"]),
     ("tool granularity (R&D A)", [sys.executable, "-m", "evals.runners.tool_granularity"]),
-    ("proposals V0 vs V3", [sys.executable, "-m", "evals.runners.proposal_eval", "--variants", "v0_naive", "v3_rerank", "--n", "8"]),
-    ("injection defence", [sys.executable, "-m", "evals.runners.injection_eval", "--n", "8"]),
-    ("architecture comparison (R&D C)", [sys.executable, "-m", "evals.runners.arch_compare", "--n", "16"]),
+    ("tool granularity rerun cell", [sys.executable, "-m", "evals.runners.tool_granularity", "mid:tuned"]),
+    ("proposals V0 vs V3", [sys.executable, "-m", "evals.runners.proposal_eval", "--variants", "v0_naive", "v3_rerank", "--n", "6"]),
+    ("injection defence", [sys.executable, "-m", "evals.runners.injection_eval", "--n", "6"]),
+    ("architecture comparison (R&D C)", [sys.executable, "-m", "evals.runners.arch_compare", "--n", "12"]),
 ]
 
 if __name__ == "__main__":

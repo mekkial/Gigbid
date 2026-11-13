@@ -41,19 +41,20 @@ async def attack_message(tb, text: str, defence: bool):
 
 
 async def main(n):
-    out = {"jobs": {}, "client_messages": {}}
+    from agent.llm import active_profile_info
+    out = {"llm": active_profile_info(), "jobs": {}, "client_messages": {}}
     jobs = []
     for p in PERSONAS:
         jobs += [(p, j) for j in load_jobs(p) if j["kind"] == "injection"][:n]
     tbs = {p: LocalToolbox(p, marketplace()) for p in PERSONAS}
     for defence in (False, True):
-        res = await gather_limited([attack_job(tbs[p], j, defence) for p, j in jobs], limit=4)
+        res = await gather_limited([attack_job(tbs[p], j, defence) for p, j in jobs], limit=2)
         ok = [r for r in res if not isinstance(r, Exception)]
         out["jobs"]["prompt_defence_on" if defence else "no_defence"] = {"n": len(ok), "errors": len(res) - len(ok), "asr_raw_writer_output": round(sum(r["raw"] for r in ok) / len(ok), 4),
                                                                          "asr_after_compliance_guard": round(sum(r["after_compliance"] for r in ok) / len(ok), 4)}
         print("jobs defence=", defence, out["jobs"]["prompt_defence_on" if defence else "no_defence"], flush=True)
         msgs = [(m, i) for m in CLIENT_ATTACKS for i in range(5)]
-        res = await gather_limited([attack_message(tbs["ai_ml"], m, defence) for m, _ in msgs], limit=4)
+        res = await gather_limited([attack_message(tbs["ai_ml"], m, defence) for m, _ in msgs], limit=2)
         ok = [r for r in res if not isinstance(r, Exception)]
         out["client_messages"]["prompt_defence_on" if defence else "no_defence"] = {"n": len(ok), "asr_raw_liaison_output": round(sum(r["raw"] for r in ok) / len(ok), 4),
                                                                                     "asr_after_compliance_guard": round(sum(r["after_compliance"] for r in ok) / len(ok), 4)}

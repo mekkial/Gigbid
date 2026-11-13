@@ -4,6 +4,7 @@ from __future__ import annotations
 import collections
 import contextvars
 import os
+import re
 import threading
 import time
 from functools import lru_cache
@@ -30,14 +31,28 @@ def load_config() -> dict:
 OVERRIDES: dict[str, str] = {}   # tier -> model id; set by evaluation runners to compare configurations (never in production)
 
 
+def active_profile() -> str:
+    return os.environ.get("MODEL_PROFILE") or load_config()["models"]["profile"]
+
+
+def active_profile_info() -> dict:
+    """Recorded in every results file so a number can never be separated from the models that produced it."""
+    cfg = load_config()["models"]
+    return {"profile": active_profile(), "models": {t: {**v, **({"model": OVERRIDES[t]} if t in OVERRIDES else {})} for t, v in cfg["profiles"][active_profile()].items()}}
+
+
+def api_key(r: dict) -> str:
+    return (os.environ.get(r["key_env"], "") if r["key_env"] else "") or ("ollama" if r["provider"] == "ollama" else "")
+
+
 def resolve(node: str, fallback: bool = False) -> dict:
     cfg = load_config()["models"]
     tier = "fallback" if fallback else cfg["nodes"][node]
-    spec = dict(cfg["profiles"][cfg["profile"]][tier])
+    spec = dict(cfg["profiles"][active_profile()][tier])
     if tier in OVERRIDES:
         spec["model"] = OVERRIDES[tier]
     prov = cfg["providers"][spec["provider"]]
-    return {"model": spec["model"], "base_url": prov["base_url"], "key_env": prov["api_key_env"]}
+    return {"model": spec["model"], "base_url": prov["base_url"], "key_env": prov.get("api_key_env"), "provider": spec["provider"], "tpm": prov.get("tokens_per_minute")}
 
 
 class _Throttle:
@@ -86,7 +101,7 @@ def chat(node: str, system: str, user: str, *, json_mode: bool = False, temperat
     last: Exception | None = None
     for fb in (False, True):
         r = resolve(node, fallback=fb)
-        key = os.environ.get(r["key_env"], "")
+        key = api_key(r)
         if not key:
             last = RuntimeError(f"missing env var {r['key_env']}")
             continue
@@ -98,18 +113,24 @@ def chat(node: str, system: str, user: str, *, json_mode: bool = False, temperat
             effort = mc.get("reasoning_effort", {}).get(tier)
             if effort and r["model"].startswith("openai/gpt-oss"):
                 kwargs["reasoning_effort"] = effort
-            est = (len(system) + len(user)) // 3 + 700
-            slot = THROTTLE.acquire(r["model"], est, mc.get("rate_limits", {}).get("tokens_per_minute", 7000))
+            kwargs["max_tokens"] = mc.get("max_output_tokens", {}).get(tier, 2500)
+            est = (len(system) + len(user)) // 3 + kwargs["max_tokens"] // 2
+            slot = THROTTLE.acquire(r["model"], est, r["tpm"]) if r["tpm"] else None
+            if r["provider"] == "ollama":
+                kwargs["extra_body"] = {"options": {"num_ctx": 8192}}      # Ollama's default 4k context would silently truncate prompts
+                if r["model"].startswith("qwen3"):
+                    user = user + "\n/no_think"                              # qwen3 soft switch: skip the thinking phase
             out = client.chat.completions.create(
                 model=r["model"], temperature=temperature, **kwargs,
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
             )
-            if getattr(out, "usage", None):
+            if slot is not None and getattr(out, "usage", None):
                 THROTTLE.settle(r["model"], slot, out.usage.total_tokens)
             u = USAGE.get()
             if u is not None and getattr(out, "usage", None):
                 u.append((r["model"], out.usage.prompt_tokens, out.usage.completion_tokens))
-            return out.choices[0].message.content or ""
+            text = out.choices[0].message.content or ""
+            return re.sub(r"<think>.*?</think>", "", text, flags=re.S).strip() if "<think>" in text else text
         except Exception as e:  # noqa: BLE001 - fall through to fallback model
             last = e
     raise RuntimeError(f"LLM call failed for node {node}: {last}")

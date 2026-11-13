@@ -49,15 +49,18 @@ async def run_persona(persona, n, config, floor=30):
 
 
 async def main(n, configs):
-    out = {"n_per_persona": n, "configs": {}}
+    f = ROOT / "evals/results/decision_eval.json"
+    out = json.loads(f.read_text()) if f.exists() else {"configs": {}}
+    out.setdefault("configs", {})
     for name in configs:
         with model_config(CONFIGS[name]):
-            out["configs"][name] = {"overrides": CONFIGS[name] or "shipped default", "personas": {}}
+            from agent.llm import active_profile_info
+            out["configs"][name] = {"overrides": CONFIGS[name] or "shipped default", "llm": active_profile_info(), "n_per_persona": n, "personas": {}}
             for p in PERSONAS:
                 r = await run_persona(p, n, name)
                 out["configs"][name]["personas"][p] = r
                 print(name, p, json.dumps({k: r[k] for k in ("bid_or_skip", "scam", "p95_latency_s", "errors")}), flush=True)
-    (ROOT / "evals/results/decision_eval.json").write_text(json.dumps(out, indent=2)); print("wrote decision_eval.json")
+    f.write_text(json.dumps(out, indent=2)); print("wrote decision_eval.json")
 
 
 if __name__ == "__main__":

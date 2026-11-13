@@ -15,15 +15,24 @@ models:
     groq:
       base_url: https://api.groq.com/openai/v1
       api_key_env: GROQ_API_KEY
+      tokens_per_minute: 7000      # client-side limit; the provider also enforces 8000 tokens/min and 200000 tokens/DAY per model (free tier)
     openrouter:
       base_url: https://openrouter.ai/api/v1
       api_key_env: OPENROUTER_API_KEY
+    ollama:                      # local open-weight models, no key, no quota (tokens/min limit = none)
+      base_url: http://localhost:11434/v1
+      api_key_env: null
   profiles:
     open:
       small:  {provider: groq, model: openai/gpt-oss-20b}
       strong: {provider: groq, model: openai/gpt-oss-120b}
       mid:    {provider: groq, model: qwen/qwen3.8-27b}
       fallback: {provider: groq, model: qwen/qwen3.8-27b}   # switch to openrouter ":free" model if a key is added
+    local:                       # all nodes on one local model (select with MODEL_PROFILE=local)
+      small:    {provider: ollama, model: qwen3:8b}
+      strong:   {provider: ollama, model: qwen3:8b}
+      mid:      {provider: ollama, model: qwen3:8b}
+      fallback: {provider: ollama, model: qwen3:8b}
     paid:
       mid:    {provider: openrouter, model: anthropic/claude-sonnet-4.5}
       small:  {provider: openrouter, model: anthropic/claude-haiku-4.5}
@@ -43,6 +52,7 @@ models:
     client_liaison: mid
   # Provider limits observed on the free tier (Groq): 8000 tokens/min and 1000 requests/day PER MODEL.
   rate_limits: {tokens_per_minute: 7000}     # headroom under the 8000 TPM limit; enforced client-side in agent/llm.py
+  max_output_tokens: {small: 1800, strong: 3000, mid: 2500, fallback: 2500}   # explicit caps: an unset max_tokens made single requests exceed the 8000 TPM limit
   reasoning_effort: {small: low, strong: medium}   # gpt-oss only; fewer hidden reasoning tokens = lower latency and TPM use
   # list-price equivalent USD per 1M tokens [input, output]; free tier = $0 actual, we still report list cost
   pricing_usd_per_mtok:

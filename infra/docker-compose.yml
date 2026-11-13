@@ -1,6 +1,7 @@
 # docker compose -f infra/docker-compose.yml up --build      (copy .env.example to .env first; secrets only come from the environment)
 # NOTE: written but not executed on the author's machine (Docker was not installed there); see docs/RUNBOOK.md "Verification status".
 x-py: &py
+  image: gigbid-py:latest
   build: {context: .., dockerfile: infra/docker/python.Dockerfile}
   env_file: ../.env
   environment: &pyenv
@@ -46,6 +47,13 @@ services:
     build: {context: .., dockerfile: infra/docker/web.Dockerfile}
     ports: ["3000:80"]
     depends_on: [api]
+  caddy:                                             # public HTTPS (profile 'public'): DOMAIN=gigbid.example.com docker compose --profile public up -d
+    image: caddy:2-alpine
+    profiles: [public]
+    ports: ["80:80", "443:443"]
+    environment: {DOMAIN: "${DOMAIN:-localhost}"}
+    volumes: ["./Caddyfile:/etc/caddy/Caddyfile:ro", caddydata:/data]
+    depends_on: [web]
   phoenix:                                           # tracing UI: http://localhost:6006
     image: arizephoenix/phoenix:latest
     ports: ["6006:6006"]
@@ -54,4 +62,4 @@ services:
     ports: ["11434:11434"]
     volumes: [ollama:/root/.ollama]
 
-volumes: {pgdata: {}, mcpdata: {}, ollama: {}}
+volumes: {pgdata: {}, mcpdata: {}, ollama: {}, caddydata: {}}

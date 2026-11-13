@@ -13,7 +13,7 @@ class _Out(BaseModel):
 
 def write(job: dict, spec: JobSpec, fit: FitReport, price: PriceQuote, evidence: list[dict], style_rules: list[str],
           feedback: list[str] | None = None, revision: int = 0, defence: bool = True) -> ProposalDraft:
-    ev = "\n".join(f"[evidence: {e['id']}] ({e['type']}, {e['date']}, outcome={e['outcome']}) {e['text']}" for e in evidence) or "(no evidence)"
+    ev = "\n".join(f"[evidence: {e['id']}] ({e['type']}, {e['date']}, outcome={e['outcome']}) {e['text'][:600]}" for e in evidence[:6]) or "(no evidence)"
     post = job['title'] + chr(10) + job['description']
     user = (f"{untrusted('job_post', post) if defence else post}\n\nSCREENING QUESTIONS: {spec.screening_questions}\n"
             f"BID: {price.amount} ({price.budget_type})\nEVIDENCE:\n{ev}\nSTYLE RULES: {style_rules or 'none'}\n"

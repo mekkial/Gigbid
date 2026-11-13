@@ -5,7 +5,6 @@ so tool/parameter naming is not penalised), prompt tokens per task. Run: python 
 from __future__ import annotations
 
 import json
-import os
 import time
 from pathlib import Path
 
@@ -13,7 +12,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv(".env")
-from agent.llm import THROTTLE, load_config, resolve  # noqa: E402
+from agent.llm import THROTTLE, resolve  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 from agent.prompts import load_prompt  # noqa: E402
@@ -128,16 +127,16 @@ def score(task, toolset, call):
 
 
 def run(tier: str, toolsets: dict, tasks: list[dict]) -> dict:
-    r = resolve("scout" if tier == "small" else "critic")      # small = gpt-oss-20b, "strong" here = qwen3.8-27b (the 120b budget is reserved for writer/eval runs)
-    client = OpenAI(base_url=r["base_url"], api_key=os.environ[r["key_env"]], timeout=90)
+    r = resolve("scout" if tier == "small" else "critic")      # small = gpt-oss-20b, mid = qwen3.8-27b (the 120b budget is reserved for writer/eval runs)
+    client = OpenAI(base_url=r["base_url"], api_key=__import__("agent.llm", fromlist=["api_key"]).api_key(r), timeout=90)
     out = {}
     for ts, tools in toolsets.items():
         tool_ok = arg_ok = ptoks = api_err = 0; fails = []
         for t in tasks:
             for attempt in range(4):
                 try:
-                    slot = THROTTLE.acquire(r["model"], len(json.dumps(tools)) // 3 + 900, load_config()["models"]["rate_limits"]["tokens_per_minute"])
-                    res = client.chat.completions.create(model=r["model"], temperature=0, tools=tools, tool_choice="auto",
+                    slot = THROTTLE.acquire(r["model"], len(json.dumps(tools)) // 3 + 900, r["tpm"] or 10**9)
+                    res = client.chat.completions.create(model=r["model"], temperature=0, tools=tools, tool_choice="auto", max_tokens=400,
                                                          messages=[{"role": "system", "content": SYSTEM}, {"role": "user", "content": t["text"]}])
                     THROTTLE.settle(r["model"], slot, res.usage.total_tokens)
                     break
@@ -161,18 +160,26 @@ def run(tier: str, toolsets: dict, tasks: list[dict]) -> dict:
     return {"model": r["model"], "toolsets": out}
 
 
-def main():
+def main(only: str | None = None):
+    """only='mid:tuned' re-runs a single cell and merges it into the existing results (used after rate-limit-contaminated cells)."""
     tasks = build_tasks()
     assert len(tasks) == 40, len(tasks)
     sets = {"fine_grained": FINE, "coarse": COARSE, "tuned": tuned_from_snapshots()}
-    # per-toolset key names used by score(): fine->'fine', coarse->'coarse', tuned->'tuned'
     key = {"fine_grained": "fine", "coarse": "coarse", "tuned": "tuned"}
-    res = {"n_tasks": len(tasks), "hypothesis": "see docs/adr/0003-tool-granularity.md", "results": {}}
-    for tier in ("strong", "small"):
-        wrapped = {key[k]: v for k, v in sets.items()}
-        res["results"][tier] = run(tier, wrapped, tasks)
-    (ROOT / "evals/results/tool_granularity.json").write_text(json.dumps(res, indent=2)); print("wrote tool_granularity.json")
+    out_f = ROOT / "evals/results/tool_granularity.json"
+    from agent.llm import active_profile_info
+    res = json.loads(out_f.read_text()) if (only and out_f.exists()) else {"llm": active_profile_info(), "n_tasks": len(tasks), "hypothesis": "see docs/adr/0003-tool-granularity.md", "results": {}}
+    for tier in ("mid", "small"):
+        wrapped = {key[k]: v for k, v in sets.items() if not only or (tier == only.split(":")[0] and key[k] == only.split(":")[1])}
+        if not wrapped:
+            continue
+        part = run(tier, wrapped, tasks)
+        cur = res["results"].setdefault(tier, {"model": part["model"], "toolsets": {}})
+        cur["toolsets"].update(part["toolsets"])
+    res["results"] = {("mid" if k == "strong" else k): v for k, v in res["results"].items()}
+    out_f.write_text(json.dumps(res, indent=2)); print("wrote tool_granularity.json")
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1] if len(sys.argv) > 1 else None)

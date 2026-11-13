@@ -9,7 +9,6 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
-import os
 import re
 import time
 import uuid
@@ -39,13 +38,15 @@ TASK = load_prompt("baseline_single_agent")
 def make_llm(tier="strong"):
     import httpx
     r = L.resolve("writer" if tier == "strong" else "scout")
-    limit = L.load_config()["models"]["rate_limits"]["tokens_per_minute"]
+    limit = r["tpm"]
 
     async def throttle(request):                                   # same client-side TPM limiter as agent/llm.py, async-safe
+        if not limit:                                               # local model: no quota
+            return
         est = len(request.content) // 3 + 1500                      # prompt + generous allowance for hidden reasoning tokens
         while (w := L.THROTTLE.wait_time(r["model"], est, limit)) > 0:
             await asyncio.sleep(w)
-    return ChatOpenAI(model=r["model"], base_url=r["base_url"], api_key=os.environ[r["key_env"]], temperature=0.2, timeout=120, max_retries=4,
+    return ChatOpenAI(model=r["model"], base_url=r["base_url"], api_key=L.api_key(r), temperature=0.2, timeout=120, max_retries=4,
                       http_async_client=httpx.AsyncClient(event_hooks={"request": [throttle]}, timeout=120))
 
 
@@ -151,7 +152,7 @@ async def evaluate_arch(name, runner, jobs, tb_for_user, shared_tb):
             except Exception as e:  # noqa: BLE001
                 row["submit_error"] = str(e)[:80]
         return row
-    res = await gather_limited([one(j) for j in jobs], limit=4)
+    res = await gather_limited([one(j) for j in jobs], limit=2)
     return [r for r in res if isinstance(r, dict)], [str(r)[:120] for r in res if isinstance(r, Exception)]
 
 
@@ -176,7 +177,7 @@ async def main(n):
     users = {}
     def mp(name):
         return users.setdefault(name, marketplace(f"arch-{name}"))
-    out = {"persona": PERSONA, "n_jobs": len(jobs), "note": "(a)/(b) use the strong model for every step; (c) uses shipped per-node routing. (a)/(b) have NO Compliance Guard, so 'raw policy violations' = what reached the output.", "architectures": {}}
+    out = {"llm": L.active_profile_info(), "persona": PERSONA, "n_jobs": len(jobs), "note": "(a)/(b) use the strong model for every step; (c) uses shipped per-node routing. (a)/(b) have NO Compliance Guard, so 'raw policy violations' = what reached the output.", "architectures": {}}
     for name, runner in [("hand_graph", run_graph), ("single_react_agent", run_single), ("prebuilt_supervisor", run_supervisor)]:
         rows, errs = await evaluate_arch(name, runner, jobs, mp, shared)
         out["architectures"][name] = summarise(rows) | {"errors": errs[:3], "n_errors": len(errs)}
