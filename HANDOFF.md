@@ -41,7 +41,10 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
 - ✅ `worker/` Arq tasks (run_bid, scout, resume_run, run_conversation, replay_run, cron scout_saved_searches + retry_waiting); queue falls back inline w/o Redis
 - ✅ tests/api (9 pass; uses DB `gigbid_test`, offline LLM stubs). Redis on :6380 (`redis-server --port 6380 --daemonize yes --dir .local`)
 - ⬜ run Arq worker for real once (`arq worker.settings.WorkerSettings`) + worker-restart test
-### Phase 6 — Web UI + Playwright  ⬜
+### Phase 6 — Web UI + Playwright
+- ✅ `apps/web` (Vite+React+TS): login, onboarding, inbox, job detail (req->evidence matrix), proposal studio (EvidenceHover, regenerate paragraph, approve/edit/reject, dry-run), pipeline kanban, messages, run viewer (SSE), analytics, settings (memory viewer), degraded banner, responsive. TS client generated: `scripts/export_openapi.py` then `npx openapi-typescript openapi.json -o src/lib/api/schema.d.ts`
+- ✅ Playwright: 7 pass (`cd apps/web && npx playwright test`; starts `scripts/e2e_stack.py` offline stack on :8100/:8101 + vite :3100). Report in apps/web/playwright-report
+- ⬜ production build check (`npm run build`), screenshots/GIF for README
 ### Phase 7 — prod (CI, tracing, guardrails, compose, deploy)  ⬜
 ### Phase 8 — X3 Portfolio builder  ⬜
 ### Phase 9 — change request, docs, README, report, video, write-up  ⬜
@@ -59,3 +62,4 @@ Missing locally: Docker, Ollama (write compose files, can't run them). macOS has
   Servers for manual runs: `set -a; . ./.env; set +a; export GIGSIM_API_TOKEN=dev-token GIGSIM_BASE_URL=http://127.0.0.1:8081`
   `.venv/bin/uvicorn gigsim.app:app --port 8081 &` ; `.venv/bin/python -m mcp_servers.marketplace.server &` (port 8082)
 - 2026-11-13: API + worker done; 48 tests pass total. Next: web UI (apps/web), then evals.
+- 2026-11-13: Web UI + 7 Playwright tests pass. Next: evals (V1/V4/V8, decision, injection ASR, claim verification, tool granularity, arch comparison), then CI/compose/docs/report, X3, Upwork adapter.
