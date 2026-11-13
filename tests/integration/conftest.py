@@ -15,6 +15,7 @@ from mcp_servers.marketplace.adapters.gigsim import GigSimAdapter
 
 g.RULES["error_rate_5xx"] = 0.0
 g.RULES["rate_limit_per_minute"] = 100000
+g.RULES["connects"]["starting_balance"] = 10_000_000
 
 
 def dev_jobs(persona="ai_ml"):
@@ -27,26 +28,7 @@ def toolbox():
     return LocalToolbox("ai_ml", mp)
 
 
-def offline_impl(critic_script=None):
-    """Deterministic stand-ins for the LLM nodes so graph logic is tested without network."""
-    from agent.nodes import analyst
-    script = list(critic_script or [True])
-
-    async def assess(tools, job, **kw):
-        return await risk_assessor.assess(tools, job, use_llm=False)
-
-    def write(job, spec, fit, price, evidence, style, feedback=None, revision=0):
-        ids = [e["id"] for e in evidence][:2]
-        txt = f"I built {', '.join(ids)} recently. " + "Details attached. " * 20 + f"[evidence: {ids[0] if ids else 'none'}] rev{revision}"
-        return ProposalDraft(job_id=spec.job_id, cover_letter=txt, evidence_ids=ids, revision=revision)
-
-    def review(job, draft, unsupported):
-        ok = script.pop(0) if script else True
-        return Critique(approved=ok, grounding=.9, personalisation=.8, issues=[] if ok else ["too generic"])
-
-    return Impl(analyse=analyst.deterministic_spec, assess=assess, write=write,
-                verify_claims=lambda text, ev: [Claim(text="I built it", verdict="supported", evidence_ids=[])],
-                review=review)
+from agent.offline_impl import offline_impl  # noqa: E402,F401
 
 
 @pytest.fixture

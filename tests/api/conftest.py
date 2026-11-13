@@ -21,6 +21,7 @@ from tests.integration.conftest import offline_impl
 
 g.RULES["error_rate_5xx"] = 0.0
 g.RULES["rate_limit_per_minute"] = 100000
+g.RULES["connects"]["starting_balance"] = 10_000_000
 
 
 @pytest_asyncio.fixture(scope="session", loop_scope="session")
