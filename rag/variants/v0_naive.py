@@ -1,3 +1,3 @@
-def retrieve(query: str, index, k: int = 5):
-    # TODO: Implement the mandatory baseline: dense top-k cosine retrieval.
-    raise NotImplementedError
+"""V0 baseline: dense top-k cosine over the whole job post (the number everything must beat)."""
+def retrieve(job_query: str, index, k: int = 5, **_):
+    return [index.chunks[i] | {"score": s} for i, s in index.dense(job_query, k)]
