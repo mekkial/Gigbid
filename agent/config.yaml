@@ -15,13 +15,13 @@ models:
       api_key_env: OPENROUTER_API_KEY
   profiles:
     open:
-      small:  {provider: groq, model: llama-3.1-8b-instant}
+      small:  {provider: groq, model: openai/gpt-oss-20b}
       strong: {provider: groq, model: openai/gpt-oss-120b}
-      fallback: {provider: openrouter, model: "openai/gpt-oss-20b:free"}
+      fallback: {provider: groq, model: qwen/qwen3.8-27b}   # switch to openrouter ":free" model if a key is added
     paid:
       small:  {provider: openrouter, model: anthropic/claude-haiku-4.5}
       strong: {provider: openrouter, model: anthropic/claude-sonnet-4.5}
-      fallback: {provider: groq, model: llama-3.1-8b-instant}
+      fallback: {provider: groq, model: openai/gpt-oss-20b}
   # node -> tier (small|strong). Change here to re-route a node.
   nodes:
     scout: small
