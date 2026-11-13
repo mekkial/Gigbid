@@ -56,27 +56,52 @@ _n = 60 jobs per persona, macro-average over 3 personas; source `evals/results/r
 
 ### Ablation of the full pipeline (one component removed at a time)
 <!-- BEGIN:ablation -->
-_not run yet_
+| pipeline | Recall@5 | MRR | nDCG@10 |
+|---|---|---|---|
+| full | 0.8804 | 0.4693 | 0.5864 |
+| minus_decompose | 1.0 | 0.9174 | 0.939 |
+| minus_sparse | 0.9231 | 0.4611 | 0.5808 |
+| minus_rerank | 0.906 | 0.4702 | 0.5873 |
+| minus_outcome | 0.8889 | 0.4669 | 0.5855 |
 <!-- END:ablation -->
 
 ### End-to-end proposals: V0 vs the shipped variant (simulated human approves unchanged)
 <!-- BEGIN:proposals -->
-_not run yet_
+| variant | n | GigSim reply rate (95% CI) | unsupported before | unsupported after | ungrounded numbers/proposal | judge (uncalibrated) | p95 latency s | list cost USD/proposal |
+|---|---|---|---|---|---|---|---|---|
+| v0_naive | 18 | 0.722 [0.491, 0.875] | 0.5 | 0.167 | 0.0 | 4.167 | 574.23 | 0.0 |
+| v3_rerank | 18 | 0.778 [0.548, 0.91] | 0.167 | 0.0 | 0.0 | 4.056 | 364.86 | 0.0 |
 <!-- END:proposals -->
 
 ### Is multi-agent worth it? (R&D question C)
 <!-- BEGIN:arch -->
-_not run yet_
+| architecture | n jobs | bid/skip accuracy | unsupported claim rate | proposals w/ raw policy violation | reply rate | p95 s | tokens/job | list USD/job |
+|---|---|---|---|---|---|---|---|---|
+| hand_graph | 10 | 1.0 | 0.0 | 0.0 | 1.0 | 314.775 | 6468 | 0.0 |
+| single_react_agent | 10 | 0.6 | 0.0 | 0.0 | 1.0 | 356.687 | 13394 | 0.0 |
+| prebuilt_supervisor | 9 | 0.778 | 0.0 | 0.0 | 1.0 | 157.515 | 1471 | 0.0 |
 <!-- END:arch -->
 
 ### Tool granularity (R&D question A)
 <!-- BEGIN:tools -->
-_not run yet_
+| tier | model | toolset | tools | tool-selection acc | argument acc | prompt tokens/task |
+|---|---|---|---|---|---|---|
+| strong | qwen/qwen3.8-27b | fine | 37 | 0.975 | 0.9 | 2354 |
+| strong | qwen/qwen3.8-27b | coarse | 4 | 1.0 | 0.925 | 688 |
+| strong | qwen/qwen3.8-27b | tuned | 15 | 0.325 | 0.325 | 551 |
+| small | openai/gpt-oss-20b | fine | 37 | 0.85 | 0.75 | 975 |
+| small | openai/gpt-oss-20b | coarse | 4 | 0.85 | 0.7 | 384 |
+| small | openai/gpt-oss-20b | tuned | 15 | 0.9 | 0.875 | 811 |
 <!-- END:tools -->
 
 ### Prompt-injection attack success rate
 <!-- BEGIN:injection -->
-_not run yet_
+| attack surface | condition | n | ASR raw model output | ASR after Compliance Guard |
+|---|---|---|---|---|
+| job posts | no_defence | 18 | 0.0556 | 0.0 |
+| job posts | prompt_defence_on | 18 | 0.0 | 0.0 |
+| client messages | no_defence | 20 | 0.0 | 0.0 |
+| client messages | prompt_defence_on | 20 | 0.0 | 0.0 |
 <!-- END:injection -->
 
 ## Signature extension: X3 Portfolio builder
