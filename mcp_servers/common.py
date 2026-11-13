@@ -11,7 +11,7 @@ import uuid
 from collections import defaultdict
 
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+")
-_PHONE = re.compile(r"\+?\d[\d\s().-]{8,}\d")
+_PHONE = re.compile(r"(?<![\d.])(?!\d{1,3}(?:\.\d{1,3}){3}\b)\+?\d[\d\s().-]{8,}\d")    # not part of a longer number, not an IPv4 address
 _PAY = re.compile(r"\b(?:\d[ -]?){13,19}\b")
 
 

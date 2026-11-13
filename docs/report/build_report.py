@@ -225,7 +225,7 @@ Earlier concurrent evaluation runs showed p95 &asymp; 120 s per analysed job: th
 
 def appendix():
     return """<h2>Appendix: reproduce and where things are</h2>
-<p><code>make test</code> (70+ offline tests, ~45 s) &middot; <code>make eval</code> (needs LLM quota) &middot; <code>python scripts/make_readme_tables.py</code> &middot; Playwright: <code>cd apps/web && npx playwright test</code> (7 tests).
+<p><code>make test</code> (79 offline tests, ~45 s) &middot; <code>make eval</code> (needs LLM quota) &middot; <code>python scripts/make_readme_tables.py</code> &middot; Playwright: <code>cd apps/web && npx playwright test</code> (7 tests).
 Files: <code>agent/</code> graphs, nodes, prompts, memory &middot; <code>rag/</code> variants, verify &middot; <code>mcp_servers/</code> &middot; <code>apps/api</code>, <code>apps/web</code>, <code>worker/</code> &middot; <code>evals/results/*.json</code> (every number above) &middot; <code>docs/</code> (ADRs, data card, tools, runbook, viva).
 <b>Known gaps at submission:</b> see README &ldquo;What is real and what is not&rdquo; and <code>docs/RUNBOOK.md</code> (verification status table).</p>"""
 

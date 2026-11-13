@@ -5,7 +5,7 @@
 |---|---|
 | Unit, contract, integration, API tests | run and passing locally (`make test`) |
 | Playwright (7 tests) | run and passing locally against the offline stack |
-| `docker compose up` | **files written, never executed**: Docker was not installed on the development machine. Local dev ran the same services natively (Postgres 17, Redis, Phoenix). First thing to do on a Docker host: `docker compose -f infra/docker-compose.yml up --build` and fix whatever breaks. |
+| `docker compose up` | **executed locally (Colima, arm64)**: both images built (python image 5.1 GB, web 76 MB), 7 services up and healthy, scouting through the Arq worker and MCP servers worked, and the SIGKILL-and-resume exactly-once drill passed: `docs/evidence/docker_kill_resume_drill.md`. Not exercised: the `phoenix` and `ollama` services, the Caddy HTTPS profile, an x86 host. Bugs the real run found and fixed: PII log filter broke uvicorn access logs; Dockerfile pulled CUDA wheels. |
 | Public deployment | **not done** (host undecided). See "Deploy". |
 | Upwork live mode | adapter + OAuth implemented and tested with fakes; **not run against the real Upwork server** (no account yet) |
 | GitHub Actions | workflows written; never run on GitHub |

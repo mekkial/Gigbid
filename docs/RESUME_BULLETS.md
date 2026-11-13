@@ -2,7 +2,7 @@
 
 **Two-line version**
 - Built GigBid, a LangGraph multi-agent freelance copilot (3 own MCP servers, durable human-approval gates, FastAPI + React/TS, Arq worker); hybrid retrieval + reranking lifted evidence MRR from 0.63 to 0.92, and claim verification cut proposals containing an unsupported claim from 50% to 0% (n=18 per arm).
-- Found by failure taxonomy that a 12-line budget-floor rule fixed 24 of 30 dev failures (bid/skip F1 0.89 → 0.98 on 240 jobs), while the "advanced" query-decomposition variant *hurt* MRR (0.47 vs 0.92); ran all evals on a local Qwen3-8B at 11.5k tokens and 164 s p95 per proposal, with 80+ automated tests.
+- Found by failure taxonomy that a 12-line budget-floor rule fixed 24 of 30 dev failures (bid/skip F1 0.89 → 0.98 on 240 jobs), while the "advanced" query-decomposition variant *hurt* MRR (0.47 vs 0.92); ran all evals on a local Qwen3-8B at 11.5k tokens and 164 s p95 per proposal, with 79 automated tests plus 7 browser tests.
 
 | claim | file |
 |---|---|

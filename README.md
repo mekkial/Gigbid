@@ -11,10 +11,11 @@ manages the client conversation. A team of LangGraph agents does the legwork; **
 ## What is real and what is not (read this first)
 | | Status |
 |---|---|
-| Agents, graphs, MCP servers, API, web UI, worker | implemented; unit/contract/integration/API tests and 7 Playwright tests pass locally |
+| Agents, graphs, MCP servers, API, web UI, worker | implemented; 79 unit/contract/integration/API tests and 7 Playwright tests pass locally |
 | Marketplace | **GigSim**, a simulator I wrote (the instructor's GigSim was not available to me). Live Upwork adapter is implemented and tested against a fake Upwork-style MCP server only |
 | Data | real Kaggle Upwork jobs for the stream and prices; **synthetic** personas, proposals, clients, scams, injections and labels (`docs/DATA_CARD.md`) |
-| Docker / public deploy / GitHub Actions | files written, **not yet run** (`docs/RUNBOOK.md`) |
+| Docker | `docker compose up` **ran locally** (7 services healthy; kill-and-resume drill passed: `docs/evidence/docker_kill_resume_drill.md`) |
+| Public deploy / GitHub Actions | **not done** / workflows written, never run on GitHub (`docs/RUNBOOK.md`) |
 | LLM judge | uncalibrated until the 30 human labels are added (`evals/runners/judge_calibration.py`) |
 | LLM quota | Groq's free tier caps **200,000 tokens/day per model**; evaluation beyond the first experiments therefore ran on a **local Qwen3 8B (Ollama)**. Every results file records which models produced it (`llm` field). The hosted deployment needs paid quota (see `docs/RUNBOOK.md`) |
 | Evaluation sizes | small, because the free LLM tier allows 8,000 tokens/min per model; each results file records its `n` and confidence intervals |
