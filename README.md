@@ -38,7 +38,7 @@ make seed && make dev        # needs Postgres + Redis; see docs/RUNBOOK.md
 
 ## Results
 Every number below is generated from `evals/results/*.json` by `scripts/make_readme_tables.py` (CI fails if the README is stale).
-Corpus is synthetic and templated: read absolute numbers as optimistic and the *ordering* as the finding. Hypotheses were written before running: `docs/adr/0002-rag-hypotheses.md`.
+Corpus is synthetic and templated: read absolute numbers as optimistic and the *ordering* as the finding. Hypotheses were written before the full runs (after a disclosed 40-job smoke run): `docs/adr/0002-rag-hypotheses.md`. Models behind each table are recorded in its results file (`llm` field); most end-to-end numbers come from a local Qwen3 8B.
 
 ### Retrieval variants (R&D question B)
 <!-- BEGIN:rag -->
@@ -114,6 +114,11 @@ See [docs/EXTENSION.md](docs/EXTENSION.md) and `tests/unit/test_portfolio_builde
 Never sends without approval; never scrapes (official Upwork MCP only; live mode creates drafts you confirm on Upwork); polite polling floor of 180 minutes in live mode;
 job posts and client messages are untrusted data (delimiters, a SECURITY clause, a deterministic scan and a Compliance Guard); emails/phones/cards are masked in logs and audit;
 OAuth tokens are encrypted per user. What still gets through is in the injection results and `docs/RUNBOOK.md`.
+
+## Documents
+[R&D report (PDF, 7 pages)](docs/report/report.pdf) · [Architecture](docs/ARCHITECTURE.md) · [Data card](docs/DATA_CARD.md) · [Tool catalogue](docs/TOOLS.md) · [Change request](docs/CHANGE_REQUEST.md) ·
+[Runbook and verification status](docs/RUNBOOK.md) · [Docker kill-and-resume evidence](docs/evidence/docker_kill_resume_drill.md) · [Decision records](docs/adr/) · [Signature extension X3](docs/EXTENSION.md) ·
+[AI usage](docs/AI_USAGE.md) · [Write-up draft](docs/BLOG_DRAFT.md) · [Viva cheat-sheet](docs/VIVA.md)
 
 ## Layout
 `agent/` graphs, nodes, prompts, memory · `rag/` ingestion, variants, verification · `mcp_servers/` portfolio, marketplace, workspace · `gigsim/` simulator ·
