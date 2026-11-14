@@ -42,7 +42,9 @@ For each drill: **say** (one sentence), **show** (file / command), **be honest a
 * **Honest:** tested against a fake Upwork MCP server only (`tests/unit/test_upwork_live.py`); tool names are discovered by keyword and may need pinning in `marketplace.live.tool_map`.
 
 ## 8. Your judge and your own labels disagreed. Show two and say who was right.
-* **Show:** `evals/results/judge_calibration.json` (`disagreements`), sheet `judge_calibration_sheet.csv`. _Fill in after labelling (the 30 labels are done by me, the author, not the model)._
+* **Say:** the judge was too lenient: kappa 0.0 on acceptable (raw agreement 0.40); it accepted 30/30, I accepted 12/30. every disagreement was the judge being more lenient than me; it never rejected anything, so it cannot discriminate.
+* **Show:** `evals/results/judge_calibration.json`, `label_analysis.json`, sheet `judge_calibration_sheet.csv` (my labels). Two examples: item 12 ("fraud detection model", judge 5/5/5 although the cited project is a medical document classifier and the opening repeats the job post; I gave 1) and item 9 ("booking web app": the 40% / 6 weeks figure is real, but the opening repeats the job post and the rest is vague filler about "scalable, performant, maintainable"; judge 3/5 and acceptable, I gave 1).
+* **Honest:** one labeller, n=30, labels made on local-model proposals; so the judge is not a quality metric here, and no shipped decision depends on it.
 
 ## 9. Where does the single-agent baseline beat your graph, and would you ship it?
 * **Say:** on latency and simplicity. The single ReAct agent's median job took ~30 s against ~190 s for the graph (12-15 sequential model calls per proposal), and its judgement was fine: accuracy 1.0 on the answers it produced. Its overall 0.60 was a **format** failure (40% invalid JSON, no validate-and-retry). The graph wins on structured hand-offs, a compliance guard, the approval interrupt and durable state, none of which the baseline has.
