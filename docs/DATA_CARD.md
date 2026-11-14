@@ -14,10 +14,12 @@ Every synthetic record carries `"synthetic": true`; real records carry `"synthet
 
 Not used: the other four datasets listed in the brief (no fields we needed that the two above lack).
 
-**Licences.** I could not read the licence terms of the two Kaggle datasets from the Kaggle API at the time of writing (network outage), so they are
-**not stated here as verified**. Before publishing the repository, check the licence shown on each dataset page. The repository does **not**
-redistribute the raw CSVs (`data/raw/` is git-ignored); it ships only the cleaning code and derived statistics (`market_stats.json`). If a licence
-forbids redistribution of derived job text, delete `data/processed/real_jobs.jsonl` from the published repo; everything still runs on the synthetic jobs.
+**Licences** (read from the Kaggle API metadata on 2026-11-14):
+* `ahmedmyalo/upwork-freelance-jobs-60k`: **Apache 2.0**. Redistribution of derived data is allowed with attribution and a statement of changes; the changes are the cleaning steps in `data/build/`.
+* `asaniczka/upwork-job-postings-dataset-2024-50k-records`: **ODC Attribution License (ODC-By)**. Use is allowed with attribution. Only aggregate price statistics are derived from it.
+
+Attribution: "Upwork freelance jobs (+60k)" by ahmedmyalo and "Upwork Job Postings Dataset 2024 (50K Records)" by asaniczka, both on Kaggle.
+The repository does not redistribute the raw CSVs (`data/raw/` is git-ignored). It ships only the cleaning code, the cleaned 3,000-job sample, and derived statistics (`market_stats.json`).
 The jobs are public postings; no personal data about freelancers is included, and client rows contain only aggregate stats.
 
 ## Preprocessing (`data/build/prepare_jobs.py`)
