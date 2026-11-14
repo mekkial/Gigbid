@@ -47,12 +47,13 @@ def api_key(r: dict) -> str:
 
 def resolve(node: str, fallback: bool = False) -> dict:
     cfg = load_config()["models"]
-    tier = "fallback" if fallback else cfg["nodes"][node]
+    primary = cfg["nodes"][node]
+    tier = cfg.get("fallback_map", {}).get(primary, "fallback") if fallback else primary
     spec = dict(cfg["profiles"][active_profile()][tier])
     if tier in OVERRIDES:
         spec["model"] = OVERRIDES[tier]
     prov = cfg["providers"][spec["provider"]]
-    return {"model": spec["model"], "base_url": prov["base_url"], "key_env": prov.get("api_key_env"), "provider": spec["provider"], "tpm": prov.get("tokens_per_minute")}
+    return {"model": spec["model"], "base_url": prov["base_url"], "key_env": prov.get("api_key_env"), "provider": spec["provider"], "tpm": prov.get("tokens_per_minute"), "tier": tier}
 
 
 class _Throttle:
@@ -109,7 +110,7 @@ def chat(node: str, system: str, user: str, *, json_mode: bool = False, temperat
             client = OpenAI(base_url=r["base_url"], api_key=key, timeout=90)
             kwargs = {"response_format": {"type": "json_object"}} if json_mode else {}
             mc = load_config()["models"]
-            tier = "fallback" if fb else mc["nodes"][node]
+            tier = r["tier"]
             effort = mc.get("reasoning_effort", {}).get(tier)
             if effort and r["model"].startswith("openai/gpt-oss"):
                 kwargs["reasoning_effort"] = effort

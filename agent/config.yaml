@@ -38,7 +38,9 @@ models:
       small:  {provider: openrouter, model: anthropic/claude-haiku-4.5}
       strong: {provider: openrouter, model: anthropic/claude-sonnet-4.5}
       fallback: {provider: groq, model: openai/gpt-oss-20b}
-  # node -> tier (small|strong). Change here to re-route a node.
+  # if a node's own tier fails (quota, outage), try this tier instead: a DIFFERENT model/family, so one exhausted daily quota is not fatal
+  fallback_map: {small: mid, mid: strong, strong: mid}
+  # node -> tier (small|strong|mid). Change here to re-route a node.
   nodes:
     scout: small
     analyst: small
