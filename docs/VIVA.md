@@ -45,10 +45,13 @@ For each drill: **say** (one sentence), **show** (file / command), **be honest a
 * **Show:** `evals/results/judge_calibration.json` (`disagreements`), sheet `judge_calibration_sheet.csv`. _Fill in after labelling (the 30 labels are done by me, the author, not the model)._
 
 ## 9. Where does the single-agent baseline beat your graph, and would you ship it?
-* **Show:** `evals/results/arch_compare.json` + `arch_rows_*.jsonl`, by job type. _Fill in the specific job types from the results after the run._
+* **Say:** on latency and simplicity. The single ReAct agent's median job took ~30 s against ~190 s for the graph (12-15 sequential model calls per proposal), and its judgement was fine: accuracy 1.0 on the answers it produced. Its overall 0.60 was a **format** failure (40% invalid JSON, no validate-and-retry). The graph wins on structured hand-offs, a compliance guard, the approval interrupt and durable state, none of which the baseline has.
+* **Show:** `evals/results/arch_compare.json` (`unparseable_output_rate`, `decision_accuracy_on_parsed_only`) + `arch_rows_*.jsonl`; all three on the same local qwen3:8b, n=10 (9 for the supervisor).
+* **Would I ship it?** Not to send anything. I might use a single agent for the cheap triage step only. Caveat to volunteer: supervisor token counts are an undercount (callback misses nested agents).
 
 ## 10. How many lines changed to absorb the change request? Show the diff.
-* **Show:** `git show <change-request commit> --stat` and report section 6. _Fill in after the exercise._
+* **Say:** 5 lines in 2 files in GigBid (`data/policy_pack/policy_rules.yaml` +2, `agent/nodes/compliance.py` +3) plus a 20-line test; the Connects surcharge needed 0 lines because GigBid reads the platform's effective cost.
+* **Show:** `git show 8a1481c --stat` (GigBid-side change) and `git show ff32a4c --stat` (the simulated instructor edit to GigSim, not counted); `docs/CHANGE_REQUEST.md`. **Honest:** I wrote GigSim, so I knew the seams; a rule needing reasoning would not be this cheap.
 
 ## Fast facts to have ready
 * Models: small = gpt-oss-20b (analyst, risk, verifier), strong = gpt-oss-120b (writer), mid = Qwen3.8-27B (critic, liaison). All in `agent/config.yaml`, none in code.
