@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { uniq } from "./helpers";
 
 test("onboarding: register, choose persona, set rates and Connects budget, land in the inbox", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/login");
   await page.getByRole("button", { name: /new here/i }).click();
   await page.getByLabel("Email").fill(uniq());
   await page.getByLabel("Password").fill("password123");

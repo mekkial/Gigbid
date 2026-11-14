@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, enc, raw } from "../lib/client";
 import { Empty, ErrorBox, Loading } from "../components/Views";
+import { Typing } from "../components/Status";
+
+const WAIT: Record<string, string> = { drafted: "Ready for your approval", submitted: "Waiting for the client to open it", viewed: "Viewed. Waiting for a reply", replied: "Client replied. Your turn", interview: "Interview stage", hired: "Hired", lost: "Closed" };
 
 const STAGES = ["drafted", "submitted", "viewed", "replied", "interview", "hired", "lost"] as const;
 
@@ -19,6 +22,7 @@ export function Pipeline() {
         {STAGES.map((s) => { const col = cards.filter((c) => c.stage === s); return (
           <section className="col" key={s} aria-label={s} data-testid={`col-${s}`}><h3>{s}<span className="badge">{col.length}</span></h3>
             {col.map((c) => (<div className="card" key={c.thread_id}><b className="small">{c.title}</b><p className="small muted">{c.price ? `$${c.price}` : ""}</p>
+              <p className="stage-note small">{["submitted", "viewed"].includes(s) && <Typing label="Waiting" />}{WAIT[s]}</p>
               {s === "drafted" ? <Link to={`/studio/${enc(c.thread_id)}`}>Review</Link> : <Link to={`/messages`}>Open thread</Link>}</div>))}
           </section>); })}
       </div>

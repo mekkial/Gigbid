@@ -4,7 +4,7 @@ export const uniq = () => `${Date.now().toString(36)}${Math.floor(Math.random() 
 
 /** Register a fresh user, finish onboarding, scout, and wait until at least one draft awaits approval. */
 export async function signUpAndGetDraft(page: Page, query = "RAG chatbot over PDFs") {
-  await page.goto("/");
+  await page.goto("/login");
   await page.getByRole("button", { name: /new here/i }).click();
   await page.getByLabel("Email").fill(uniq());
   await page.getByLabel("Password").fill("password123");

@@ -5,6 +5,7 @@ import { api, enc, getToken, raw } from "../lib/client";
 import type { RunDetail, TraceItem } from "../lib/types";
 import { RunTimeline } from "../components/RunTimeline";
 import { Empty, ErrorBox, Loading, StatusPill } from "../components/Views";
+import { RunProgress } from "../components/Status";
 
 export function RunsList() {
   const q = useQuery({ queryKey: ["runs"], refetchInterval: 4000, queryFn: async () => (await api.GET("/api/runs")).data ?? [] });
@@ -35,8 +36,9 @@ export function RunViewer() {
   const d = detail.data!; const items = live.length ? live : d.trace; const st = status || d.run.status; const running = ["queued", "running", "resuming"].includes(st);
   return (
     <div className="stack">
-      <div className="row between"><div><h1>{d.run.title ?? "Run"}</h1><StatusPill s={st} /></div>
+      <div className="row between"><div><h1>{d.run.title ?? "Run"}</h1></div>
         <div className="row">{d.trace_url ? <a className="btn" href={d.trace_url} target="_blank" rel="noreferrer">Open full trace</a> : <span className="muted small">Tracing not configured</span>}</div></div>
+      <RunProgress threadId={id} status={st} />
       {msg && <div className="err" role="alert">{msg}</div>}
       <div className="grid cols-2">
         <section className="card"><h2>Timeline</h2><RunTimeline items={items} live={running} /></section>

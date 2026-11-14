@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { uniq } from "./helpers";
 
 test("degraded mode: a banner appears when the marketplace is down and clears when it recovers", async ({ page, request }) => {
-  await page.goto("/");
+  await page.goto("/login");
   await page.getByRole("button", { name: /new here/i }).click();
   await page.getByLabel("Email").fill(uniq());
   await page.getByLabel("Password").fill("password123");

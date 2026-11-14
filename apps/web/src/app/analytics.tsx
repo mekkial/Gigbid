@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../lib/client";
 import { Empty, ErrorBox, Loading, Pct } from "../components/Views";
+import { CountUp } from "../components/PixelField";
 
 export function Analytics() {
   const q = useQuery({ queryKey: ["analytics"], queryFn: async () => { const r = await api.GET("/api/analytics"); if (r.error) throw new Error("load failed"); return r.data!; } });
   if (q.isLoading) return <Loading />; if (q.isError) return <ErrorBox error={q.error} />;
   const a = q.data!; const t = a.totals as any; const c = a.connects as any; const cl = a.cost_latency as any; const cats = a.by_category as any[];
-  const tile = (label: string, value: string) => <div className="card" key={label}><div className="muted small">{label}</div><div className="tile">{value}</div></div>;
+  const tile = (label: string, value: string) => { const m = value.match(/^([$]?)([0-9.]+)(s?)$/); return <div className="card lift" key={label}><div className="kicker">{label}</div><div className="tile">{m ? <CountUp to={parseFloat(m[2])} decimals={m[2].includes(".") ? m[2].split(".")[1].length : 0} prefix={m[1]} suffix={m[3]} /> : value}</div></div>; };
   return (
     <div className="stack"><h1>Analytics</h1>
       <div className="grid cols-3">{tile("Jobs analysed", String(t.runs ?? 0))}{tile("Proposals sent", String(t.submitted ?? 0))}{tile("Awaiting approval", String(t.pending ?? 0))}

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, enc, raw } from "../lib/client";
 import { Empty, ErrorBox, FitBar, Loading, RiskBadge, StatusPill } from "../components/Views";
+import { Typing, isActive } from "../components/Status";
 
 export function Inbox() {
   const qc = useQueryClient();
@@ -15,11 +16,14 @@ export function Inbox() {
   const skip = useMutation({ mutationFn: (id: string) => raw("POST", `/api/jobs/${enc(id)}/skip`), onSuccess: () => qc.invalidateQueries({ queryKey: ["jobs"] }) });
   return (
     <div className="stack">
-      <div className="row between"><div><h1>Inbox</h1><p className="muted">New jobs ranked by fit. Anything you may bid on waits for you in the Proposal Studio.</p></div></div>
+      <div className="row between"><div><h1>Inbox</h1><p className="muted">New jobs ranked by fit. Anything you may bid on waits for you in the Proposal Studio.</p></div>
+        {jobs.data && jobs.data.length > 0 && <div className="row" aria-label="Summary"><span className="chip work"><i className="live-dot work" />{jobs.data.filter((j) => isActive(j.status)).length} analysing</span><span className="chip act"><i className="live-dot act" />{jobs.data.filter((j) => j.status === "awaiting_approval").length} ready for you</span></div>}</div>
       <form className="card row" onSubmit={(e) => { e.preventDefault(); scout.mutate(); }} aria-label="Scout for jobs">
         <label htmlFor="sq" className="sr">Search</label><input id="sq" style={{ flex: 1, minWidth: 160 }} placeholder="Search the marketplace (e.g. dashboard, RAG, React)" value={query} onChange={(e) => setQuery(e.target.value)} />
         <button className="btn primary" disabled={scout.isPending}>{scout.isPending ? "Queuing…" : "Scout now"}</button>
       </form>
+      {scout.isSuccess && <p className="notice" role="status"><Typing label="Scouting" /> Scout queued. New jobs appear below as the agents find and analyse them (about a minute each).</p>}
+      {scout.isError && <ErrorBox error={scout.error} />}
       <div className="row" role="group" aria-label="Filters">
         <label htmlFor="st" className="sr">Status</label>
         <select id="st" style={{ width: "auto" }} value={status} onChange={(e) => setStatus(e.target.value)}>

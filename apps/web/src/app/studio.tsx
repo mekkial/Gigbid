@@ -6,6 +6,7 @@ import type { Claim, ProposalPayload } from "../lib/types";
 import { EvidenceHover } from "../components/EvidenceHover";
 import { ApprovalPanel, Decision } from "../components/ApprovalPanel";
 import { ErrorBox, Loading, RiskBadge } from "../components/Views";
+import { RunProgress, LiveDot } from "../components/Status";
 
 const words = (s: string) => new Set(s.toLowerCase().match(/\w+/g) ?? []);
 function matchClaim(sentence: string, claims: Claim[]): Claim | undefined {
@@ -18,23 +19,25 @@ export function Studio() {
   const { id = "" } = useParams(); const nav = useNavigate();
   const q = useQuery({ queryKey: ["studio", id], queryFn: () => raw<ProposalPayload>("GET", `/api/proposals/${enc(id)}/studio`) });
   const [text, setText] = useState<string | null>(null); const [mode, setMode] = useState<"view" | "edit">("view");
-  const [busy, setBusy] = useState(false); const [err, setErr] = useState<unknown>(null); const [regen, setRegen] = useState<number | null>(null);
+  const [busy, setBusy] = useState(false); const [phase, setPhase] = useState<0 | 1 | 2 | 3>(0); const [err, setErr] = useState<unknown>(null); const [regen, setRegen] = useState<number | null>(null);
   const d = q.data; const current = text ?? d?.send_text ?? ""; const edited = !!d && current !== d.send_text;
   const paragraphs = useMemo(() => (d?.draft ?? "").split(/\n\s*\n/).filter(Boolean), [d]);
 
   if (q.isLoading) return <Loading what="Loading proposal" />; if (q.isError) return <ErrorBox error={q.error} />; if (!d) return null;
 
   async function decide(dec: Decision) {
-    setBusy(true); setErr(null);
+    setBusy(true); setErr(null); setPhase(1);
     try {
       await raw("POST", `/api/approvals/${enc(id)}`, { ...dec, text: dec.action === "edit" ? current : undefined });
+      setPhase(2);
       for (let i = 0; i < 80; i++) {                                           // wait for the graph to finish resuming
         const r = await raw<{ run: { status: string } }>("GET", `/api/runs/${enc(id)}`);
         if (!["resuming", "running", "awaiting_approval"].includes(r.run.status)) break;
         await new Promise((r2) => setTimeout(r2, 500));
       }
+      setPhase(3); await new Promise((r2) => setTimeout(r2, 700));
       nav(dec.action === "reject" ? "/inbox" : "/pipeline");
-    } catch (e) { setErr(e); setBusy(false); }
+    } catch (e) { setErr(e); setBusy(false); setPhase(0); }
   }
   async function regenerate(i: number) {
     setRegen(i); setErr(null);
@@ -48,7 +51,13 @@ export function Studio() {
     <div className="stack">
       <div className="row between"><div><h1>Proposal studio</h1><p className="muted">Hover or focus any underlined claim to see the portfolio evidence behind it.</p></div>
         <div className="row"><RiskBadge v={d.risk_report?.score} flags={d.risk_report?.flags} /><span className="badge">bid ${d.price_quote?.amount}</span></div></div>
-      {!d.pending && <div className="card">This proposal is no longer waiting for approval.</div>}
+      {d.pending ? <RunProgress threadId={id} status="awaiting_approval" /> : <div className="card">This proposal is no longer waiting for approval.</div>}
+      {phase > 0 && (
+        <ol className="sendsteps card" role="status" aria-live="polite" aria-label="Sending progress">
+          {["Recording your decision", "Submitting to the marketplace (once)", "Added to your pipeline"].map((t, i) => (
+            <li key={t} className={phase > i + 1 ? "done" : phase === i + 1 ? "now" : "todo"}>{phase === i + 1 ? <LiveDot tone="work" /> : <i className="tick" />}{t}</li>))}
+        </ol>
+      )}
       <div className="split">
         <section className="card stack" aria-label="Draft">
           <div className="row" role="tablist" aria-label="Draft mode">

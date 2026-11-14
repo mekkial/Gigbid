@@ -6,7 +6,8 @@ manages the client conversation. A team of LangGraph agents does the legwork; **
 > **Live demo:** _TODO: public URL + reviewer login (private comment on the submission)_ · **3-minute video:** _TODO_ · **Traces:** _TODO: 3 public trace links (see `docs/RUNBOOK.md`)_
 > **Portfolio MCP server:** `uvx --from ./mcp_servers/portfolio gigbid-portfolio-mcp` (see `mcp_servers/portfolio/README.md`) · **Write-up:** _TODO_
 
-![GigBid demo: onboarding, inbox, job detail, evidence on hover, approval, pipeline, analytics](docs/images/demo.gif)
+![GigBid landing page](docs/images/ui_landing_hero.png)
+![GigBid inbox with live status](docs/images/ui_inbox.png)
 
 ## What is real and what is not (read this first)
 | | Status |

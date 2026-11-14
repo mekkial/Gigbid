@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
+import { StatusChip } from "./Status";
 
-export const Loading = ({ what = "Loading" }: { what?: string }) => <div className="empty" role="status" aria-live="polite">{what}…</div>;
+export const Loading = ({ what = "Loading" }: { what?: string }) => <div className="empty loading" role="status" aria-live="polite"><span className="spinner" aria-hidden="true" />{what}…</div>;
 export const Empty = ({ title, hint, action }: { title: string; hint?: string; action?: ReactNode }) => (
   <div className="empty"><h2>{title}</h2>{hint && <p>{hint}</p>}{action}</div>
 );
@@ -17,7 +18,4 @@ export const RiskBadge = ({ v, flags }: { v: number | null | undefined; flags?: 
   const cls = v > 0.7 ? "bad" : v > 0.4 ? "warn" : "ok";
   return <span className={`badge ${cls}`} title={flags?.join(", ")}>risk {Math.round(v * 100)}%</span>;
 };
-export const StatusPill = ({ s }: { s: string }) => {
-  const cls = ({ awaiting_approval: "brand", submitted: "ok", skipped: "", rejected: "warn", blocked: "bad", dead_letter: "bad", needs_attention: "bad", waiting_marketplace: "warn", running: "brand", queued: "" } as Record<string, string>)[s] ?? "";
-  return <span className={`badge ${cls}`}>{s.replace(/_/g, " ")}</span>;
-};
+export const StatusPill = ({ s }: { s: string }) => <StatusChip s={s} />;

@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { useAuth } from "./lib/auth";
+import Landing from "./app/landing";
 import { Login } from "./app/login";
 import { Onboarding } from "./app/onboarding";
 import { Inbox } from "./app/inbox";
@@ -14,10 +15,11 @@ import { SettingsPage } from "./app/settings";
 
 export default function App() {
   const { token } = useAuth();
-  if (!token) return <Routes><Route path="*" element={<Login />} /></Routes>;
+  if (!token) return <Routes><Route path="/" element={<Landing />} /><Route path="/login" element={<Login />} /><Route path="*" element={<Navigate to="/login" />} /></Routes>;
   return (
     <Routes>
       <Route path="/login" element={<Navigate to="/inbox" />} />
+      <Route path="/welcome" element={<Landing />} />
       <Route element={<Layout />}>
         <Route path="/" element={<Navigate to="/inbox" />} />
         <Route path="/onboarding" element={<Onboarding />} />

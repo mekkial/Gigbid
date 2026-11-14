@@ -4,6 +4,7 @@ import { enc, raw } from "../lib/client";
 import type { MessagePayload, ThreadItem } from "../lib/types";
 import { ApprovalPanel, Decision } from "../components/ApprovalPanel";
 import { Empty, ErrorBox, Loading } from "../components/Views";
+import { Typing } from "../components/Status";
 
 function ReplyDraft({ tid, onDone }: { tid: string; onDone: () => void }) {
   const p = useQuery({ queryKey: ["msgpayload", tid], queryFn: () => raw<MessagePayload>("GET", `/api/approvals/${enc(tid)}`), retry: false });
@@ -38,8 +39,10 @@ export function Messages() {
           <h2>{t.title}</h2>
           {t.messages.map((m, i) => <p key={i} className="small" style={{ background: m.from === "client" ? "var(--surface-2)" : undefined, padding: 8, borderRadius: 8 }}><b>{m.from === "client" ? "Client" : "You"}:</b> {m.text}</p>)}
           {t.conversation?.status === "awaiting_approval" ? <ReplyDraft tid={t.conversation.thread_id} onDone={() => qc.invalidateQueries({ queryKey: ["threads"] })} />
-            : t.conversation && ["queued", "running", "resuming"].includes(t.conversation.status) ? <p role="status" className="muted">Drafting a reply…</p>
-            : <button className="btn primary" onClick={() => respond.mutate(t.proposal_id)}>Draft a reply</button>}
+            : t.conversation && ["queued", "running", "resuming"].includes(t.conversation.status) ? <p role="status" className="notice"><Typing label="Drafting" /> Drafting a reply. It will appear here for your approval.</p>
+            : t.messages.length > 0 && t.messages[t.messages.length - 1].from !== "client"
+              ? <p role="status" className="notice"><Typing label="Waiting" /> Reply sent. Waiting for the client to answer.</p>
+              : <button className="btn primary" onClick={() => respond.mutate(t.proposal_id)}>{respond.isPending ? "Starting…" : "Draft a reply"}</button>}
         </section>))}
     </div>
   );
