@@ -11,7 +11,7 @@ manages the client conversation. A team of LangGraph agents does the legwork; **
 ## What is real and what is not (read this first)
 | | Status |
 |---|---|
-| Agents, graphs, MCP servers, API, web UI, worker | implemented; 79 unit/contract/integration/API tests and 7 Playwright tests pass locally |
+| Agents, graphs, MCP servers, API, web UI, worker | implemented; 81 unit/contract/integration/API tests and 7 Playwright tests pass locally |
 | Marketplace | **GigSim**, a simulator I wrote (the instructor's GigSim was not available to me). Live Upwork adapter is implemented and tested against a fake Upwork-style MCP server only |
 | Data | real Kaggle Upwork jobs for the stream and prices; **synthetic** personas, proposals, clients, scams, injections and labels (`docs/DATA_CARD.md`) |
 | Docker | `docker compose up` **ran locally** (7 services healthy; kill-and-resume drill passed: `docs/evidence/docker_kill_resume_drill.md`) |

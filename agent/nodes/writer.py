@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 from agent.handoffs import FitReport, JobSpec, PriceQuote, ProposalDraft
-from agent.llm import chat_json
+from agent.llm import chat_json, load_config
 from agent.prompts import load_prompt, untrusted
 
 
@@ -13,11 +13,12 @@ class _Out(BaseModel):
 
 def write(job: dict, spec: JobSpec, fit: FitReport, price: PriceQuote, evidence: list[dict], style_rules: list[str],
           feedback: list[str] | None = None, revision: int = 0, defence: bool = True) -> ProposalDraft:
+    lo, hi = load_config()["writer"]["target_words"]
     ev = "\n".join(f"[evidence: {e['id']}] ({e['type']}, {e['date']}, outcome={e['outcome']}) {e['text'][:600]}" for e in evidence[:6]) or "(no evidence)"
     post = job['title'] + chr(10) + job['description']
     user = (f"{untrusted('job_post', post) if defence else post}\n\nSCREENING QUESTIONS: {spec.screening_questions}\n"
             f"BID: {price.amount} ({price.budget_type})\nEVIDENCE:\n{ev}\nSTYLE RULES: {style_rules or 'none'}\n"
-            f"REVISION FEEDBACK: {feedback or 'none'}")
+            f"REVISION FEEDBACK: {feedback or 'none'}\nWORD BUDGET: the cover letter must be between {lo} and {hi} words (count them; shorter drafts are rejected).")
     system = load_prompt("writer")
     if not defence:                                   # ablation only: strip the SECURITY clause
         system = "\n".join(l for l in system.splitlines() if not l.startswith("SECURITY:"))

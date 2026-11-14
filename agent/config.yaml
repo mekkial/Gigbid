@@ -85,6 +85,12 @@ declared_budgets:            # R8/E5: declared after seeing the (queue-inflated)
     proposal_p95_s: 600
     proposal_tokens: 30000
 
+writer:
+  target_words: [130, 200]      # stated in the task message every time (the model ignored the 120-220 line in the system prompt: 0/36 drafts reached 120 words)
+critic:
+  min_words: 100                # hard rule: shorter letters are rejected
+  max_words: 260
+
 thresholds:
   minimum_fit_score: 0.60
   maximum_risk_score: 0.70
