@@ -2,10 +2,12 @@
 from __future__ import annotations
 
 import contextlib
+import os
 import uuid
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
+from fastapi import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv(".env")
@@ -45,3 +47,18 @@ async def health():
 
 for r in (auth, jobs, runs, approvals, proposals, messages, analytics, settings, upwork_oauth):
     app.include_router(r.router, prefix="/api")
+
+
+# Single-container deploy (Hugging Face Space): serve the built web app from the API so one port carries UI + /api.
+_static = os.environ.get("GIGBID_STATIC_DIR")
+if _static and os.path.isdir(_static):
+    from fastapi.responses import FileResponse
+    from fastapi.staticfiles import StaticFiles
+    app.mount("/assets", StaticFiles(directory=os.path.join(_static, "assets")), name="assets")
+
+    @app.get("/{path:path}", include_in_schema=False)
+    async def spa(path: str):
+        if path.startswith("api/"):
+            raise HTTPException(404, "not found")
+        f = os.path.join(_static, path)
+        return FileResponse(f if path and os.path.isfile(f) else os.path.join(_static, "index.html"))

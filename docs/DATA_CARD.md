@@ -19,7 +19,7 @@ Not used: the other four datasets listed in the brief (no fields we needed that 
 * `asaniczka/upwork-job-postings-dataset-2024-50k-records`: **ODC Attribution License (ODC-By)**. Use is allowed with attribution. Only aggregate price statistics are derived from it.
 
 Attribution: "Upwork freelance jobs (+60k)" by ahmedmyalo and "Upwork Job Postings Dataset 2024 (50K Records)" by asaniczka, both on Kaggle.
-The repository does not redistribute the raw CSVs (`data/raw/` is git-ignored). It ships only the cleaning code, the cleaned 3,000-job sample, and derived statistics (`market_stats.json`).
+The repository does not redistribute the raw CSVs (`data/raw/` is git-ignored). It ships the cleaning code, the cleaned 3,000-job sample (`data/processed/real_jobs.jsonl`, with client aggregates in `real_clients.json`; Apache 2.0 permits this with the attribution above) and derived statistics (`market_stats.json`).
 The jobs are public postings; no personal data about freelancers is included, and client rows contain only aggregate stats.
 
 ## Preprocessing (`data/build/prepare_jobs.py`)

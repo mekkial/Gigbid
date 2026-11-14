@@ -11,6 +11,8 @@ dist/
 build/
 data/processed/*
 !data/processed/market_stats.json
+!data/processed/real_jobs.jsonl
+!data/processed/real_clients.json
 evals/results/*
 !evals/results/.gitkeep
 data/raw/
