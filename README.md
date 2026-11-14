@@ -87,9 +87,9 @@ _n = 60 jobs per persona, macro-average over 3 personas; source `evals/results/r
 <!-- BEGIN:tools -->
 | tier | model | toolset | tools | tool-selection acc | argument acc | prompt tokens/task |
 |---|---|---|---|---|---|---|
-| strong | qwen/qwen3.8-27b | fine | 37 | 0.975 | 0.9 | 2354 |
-| strong | qwen/qwen3.8-27b | coarse | 4 | 1.0 | 0.925 | 688 |
-| strong | qwen/qwen3.8-27b | tuned | 15 | 0.325 | 0.325 | 551 |
+| mid | qwen/qwen3.8-27b | fine | 37 | 0.975 | 0.9 | 2354 |
+| mid | qwen/qwen3.8-27b | coarse | 4 | 1.0 | 0.925 | 688 |
+| mid | qwen/qwen3.8-27b | tuned | 15 | 0.825 | 0.75 | 1574 |
 | small | openai/gpt-oss-20b | fine | 37 | 0.85 | 0.75 | 975 |
 | small | openai/gpt-oss-20b | coarse | 4 | 0.85 | 0.7 | 384 |
 | small | openai/gpt-oss-20b | tuned | 15 | 0.9 | 0.875 | 811 |
