@@ -1,7 +1,0 @@
-agent
-apps
-evals
-gigsim
-mcp_servers
-rag
-worker
