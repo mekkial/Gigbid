@@ -2,7 +2,6 @@
 Run after judge_calibration --score:  python -m evals.runners.label_analysis"""
 import csv
 import json
-import re
 import statistics as st
 from pathlib import Path
 
@@ -11,20 +10,7 @@ from scipy.stats import fisher_exact
 RES = Path(__file__).resolve().parents[1] / "results"
 
 
-def words(s): return re.findall(r"[a-z0-9]+", s.lower())
-
-
-def longest_shared_run(opening: str, job_text: str) -> int:
-    """Length (words) of the longest word sequence of `opening` that also appears verbatim in the job text."""
-    fw, jw, best = words(opening), " ".join(words(job_text)), 0
-    for a in range(len(fw)):
-        for b in range(a + best + 1, len(fw) + 1):
-            if " ".join(fw[a:b]) in jw: best = b - a
-            else: break
-    return best
-
-
-def first_sentence(p: str) -> str: return re.split(r"(?<=[.!?])\s", p.strip(), maxsplit=1)[0]
+from agent.nodes.openers import first_sentence, longest_shared_run  # noqa: E402
 
 
 def main():
