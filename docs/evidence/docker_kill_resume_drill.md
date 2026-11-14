@@ -18,3 +18,8 @@ Note on a false alarm during the drill: querying `localhost:8081` from the host 
 as if nothing was submitted. Querying inside the compose network gave the real state above. The stale process was stopped.
 
 Not covered by this drill: the Phoenix and Ollama services (not started), the Caddy HTTPS profile, and a literal power-loss during the submit call itself (idempotency keys cover that case; see `tests/integration/test_bid_graph.py`).
+
+## Checkpoint history of the surviving run
+`docker_run_checkpoint_history.json` (from `GET /api/runs/{thread}/history`): 18 checkpoints: intake -> parallel analyst/risk/fit -> decide -> pricing -> **three** writer/verify/critic rounds
+(the Critic requested two revisions) -> compliance -> **approval (paused here while the API was killed)** -> submit -> done. `docker_run_detail.json`: 17 steps, **14,899 tokens, $0.0055 at list price**
+on the hosted open profile (gpt-oss-20b / gpt-oss-120b / qwen3.8-27b): one real hosted-profile observation (n=1), not a benchmark.
