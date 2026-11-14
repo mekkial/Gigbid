@@ -4,14 +4,21 @@ from agent.handoffs import ComplianceVerdict
 from agent.nodes.risk_assessor import rules
 
 
+def _is_date_or_time(s: str) -> bool:
+    """The phone-number pattern also matches ISO dates and times such as interview slots ('2026-11-16 10:00'); those are not contact details."""
+    return bool(re.search(r"\b\d{4}-\d{2}-\d{2}\b", s)) and not re.search(r"\d{9,}", re.sub(r"[\s().-]", "", re.sub(r"\b\d{4}-\d{2}-\d{2}\b", "", s)))
+
+
 def check(text: str) -> ComplianceVerdict:
     """Enforce the policy pack: strip contact details, guarantees and banned phrases; block if it cannot be cleaned."""
     r, violations, cleaned = rules(), [], text
     for kind, pats in r["forbidden_patterns"].items():
         for p in pats:
-            if re.search(p, cleaned, re.I):
+            hits = [m for m in re.finditer(p, cleaned, re.I) if not _is_date_or_time(m.group())]
+            if hits:
                 violations.append(kind)
-                cleaned = re.sub(p, "", cleaned, flags=re.I)
+                for m in reversed(hits):
+                    cleaned = cleaned[:m.start()] + cleaned[m.end():]
     for ph in r["banned_phrases"]:
         if re.search(re.escape(ph), cleaned, re.I):
             violations.append(f"banned_phrase:{ph}")

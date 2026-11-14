@@ -33,15 +33,16 @@ export function Messages() {
   return (
     <div className="stack">
       <h1>Messages</h1><p className="muted">Client replies, with suggested responses and interview slots. Nothing is sent until you approve.</p>
+      <p className="notice small">In this demo the marketplace is <b>GigSim</b>, a simulator. Its simulated client sends <b>one</b> message after you submit a proposal (ignore, reply, interview or hire, depending on how good the proposal is) and does not answer follow-ups. With a live marketplace the real client would.</p>
       {threads.length === 0 && <Empty title="No client messages yet" hint="When a client replies to a submitted proposal, it shows up here." />}
       {threads.map((t) => (
         <section className="card stack" key={t.thread_id} data-testid="thread">
           <h2>{t.title}</h2>
-          {t.messages.map((m, i) => <p key={i} className="small" style={{ background: m.from === "client" ? "var(--surface-2)" : undefined, padding: 8, borderRadius: 8 }}><b>{m.from === "client" ? "Client" : "You"}:</b> {m.text}</p>)}
+          {t.messages.map((m, i) => <p key={i} className="small" style={{ background: m.from === "client" ? "var(--surface-2)" : undefined, padding: 8, borderRadius: 8 }}><b>{m.from === "client" ? "Client (simulated)" : "You"}:</b> {m.text}</p>)}
           {t.conversation?.status === "awaiting_approval" ? <ReplyDraft tid={t.conversation.thread_id} onDone={() => qc.invalidateQueries({ queryKey: ["threads"] })} />
             : t.conversation && ["queued", "running", "resuming"].includes(t.conversation.status) ? <p role="status" className="notice"><Typing label="Drafting" /> Drafting a reply. It will appear here for your approval.</p>
             : t.messages.length > 0 && t.messages[t.messages.length - 1].from !== "client"
-              ? <p role="status" className="notice"><Typing label="Waiting" /> Reply sent. Waiting for the client to answer.</p>
+              ? <p role="status" className="notice">Reply sent. The simulated client does not send follow-ups, so nothing more will arrive here. This conversation is complete.</p>
               : <button className="btn primary" onClick={() => respond.mutate(t.proposal_id)}>{respond.isPending ? "Starting…" : "Draft a reply"}</button>}
         </section>))}
     </div>

@@ -20,3 +20,11 @@ def test_critic_rejects_copied_opening(monkeypatch):
     d = ProposalDraft(job_id="j1", cover_letter=body)
     c = critic.review(JOB, d, unsupported=0)
     assert not c.approved and any("repeats" in i for i in c.issues)
+
+
+def test_compliance_keeps_interview_slots_but_strips_phone_numbers():
+    from agent.nodes.compliance import check
+    v = check("I can offer Mon 2026-11-16 10:00, Mon 2026-11-16 11:00 or Tue 2026-11-17 14:00. " + "Happy to discuss the project in detail and answer questions. " * 3)
+    assert "2026-11-16 10:00" in v.cleaned_text and "off_platform_contact" not in v.violations
+    w = check("Call me on +92 300 1234567 to discuss. " + "Happy to discuss the project in detail and answer questions. " * 3)
+    assert "1234567" not in w.cleaned_text and "off_platform_contact" in w.violations
