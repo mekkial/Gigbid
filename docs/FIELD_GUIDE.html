@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GigBid Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: a reading page with a sticky contents rail on the left; figures break out wider than the text column.
+   Voice: same cobalt / serif / mono language as the GigBid app, so the guide feels like part of the project. */
+:root {
+  --bg: #fbfbfd; --panel: #f3f4f9; --card: #ffffff; --ink: #0c0d12; --ink2: #4a4d58; --ink3: #7b7e8a; --line: #e4e6ee;
+  --brand: #2f4dff; --brand-soft: #eceeff; --brand-deep: #1b36f2; --ok: #0f7a43; --ok-soft: #e1f5e9; --warn: #9a4a05; --warn-soft: #fff1d6; --bad: #b4232a; --bad-soft: #fdeaea;
+  --serif: "Source Serif 4", "Charter", Georgia, serif; --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --shadow: 0 1px 2px rgba(10,12,30,.05), 0 14px 30px -18px rgba(18,28,90,.3);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b0c10; --panel: #11131a; --card: #14161e; --ink: #f1f2f6; --ink2: #b4b7c3; --ink3: #858896; --line: rgba(255,255,255,.1);
+  --brand: #8da0ff; --brand-soft: #1a2250; --brand-deep: #8da0ff; --ok: #4ade80; --ok-soft: #12301d; --warn: #fbbf24; --warn-soft: #3a2c0b; --bad: #ff8a8f; --bad-soft: #3b1518;
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 20px 44px -22px rgba(0,0,0,.9); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0b0c10; --panel: #11131a; --card: #14161e; --ink: #f1f2f6; --ink2: #b4b7c3; --ink3: #858896; --line: rgba(255,255,255,.1);
+  --brand: #8da0ff; --brand-soft: #1a2250; --brand-deep: #8da0ff; --ok: #4ade80; --ok-soft: #12301d; --warn: #fbbf24; --warn-soft: #3a2c0b; --bad: #ff8a8f; --bad-soft: #3b1518;
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 20px 44px -22px rgba(0,0,0,.9); color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.65 var(--sans); padding-block: 0 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--brand); color: #fff; }
+a { color: var(--brand); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 56px; }
+@media (max-width: 920px) { .wrap { grid-template-columns: 1fr; gap: 0; } }
+nav.toc { position: sticky; top: 24px; align-self: start; padding-top: 28px; font-size: 14px; }
+nav.toc b { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink3); font-weight: 500; display: block; margin-bottom: 10px; }
+nav.toc a { display: block; padding: 5px 0 5px 12px; color: var(--ink2); text-decoration: none; border-left: 2px solid var(--line); }
+nav.toc a:hover, nav.toc a.on { color: var(--ink); border-left-color: var(--brand); }
+@media (max-width: 920px) { nav.toc { position: static; padding: 20px 0 0; } nav.toc .list { display: flex; flex-wrap: wrap; gap: 6px; } nav.toc a { border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; } }
+main { min-width: 0; }
+header.hero { padding: 56px 0 28px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--brand); margin: 0 0 14px; }
+h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.04; letter-spacing: -.025em; margin: 0 0 18px; text-wrap: balance; }
+h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.15; letter-spacing: -.018em; margin: 0 0 14px; text-wrap: balance; }
+h3 { font-size: 1.02rem; margin: 26px 0 8px; font-weight: 600; } h4 { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink3); margin: 22px 0 6px; font-weight: 500; }
+.lede { font-size: 1.15rem; color: var(--ink2); max-width: 62ch; }
+section { padding: 52px 0 12px; border-top: 1px solid var(--line); } section:first-of-type { border-top: 0; }
+p { margin: 0 0 14px; max-width: 70ch; } ul, ol { max-width: 70ch; padding-left: 1.25em; } li { margin-bottom: 6px; }
+code { font-family: var(--mono); font-size: .86em; background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; overflow-wrap: anywhere; }
+.tip, .warn { border-radius: 10px; padding: 12px 16px; margin: 16px 0; max-width: 70ch; font-size: .95rem; } .tip { background: var(--brand-soft); } .warn { background: var(--warn-soft); }
+.tip b, .warn b { font-weight: 600; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); min-width: 0; } .card h3 { margin-top: 0; } .card p { font-size: .94rem; margin-bottom: 8px; }
+.num { font-family: var(--serif); font-size: 2.2rem; letter-spacing: -.02em; line-height: 1.1; display: block; } .num + span { font-size: .85rem; color: var(--ink2); }
+figure { margin: 24px 0; } figure img { display: block; max-width: 100%; border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); } figcaption { font-size: .86rem; color: var(--ink2); margin-top: 8px; max-width: 70ch; }
+.tablewrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; font-variant-numeric: tabular-nums; } th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; } tr:last-child td { border-bottom: 0; }
+th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink3); font-weight: 500; background: var(--panel); white-space: nowrap; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 99px; font-size: .78rem; font-weight: 600; background: var(--panel); border: 1px solid var(--line); white-space: nowrap; } .chip i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.work { background: var(--brand-soft); color: var(--brand); border-color: transparent; } .chip.act { background: var(--warn-soft); color: var(--warn); border-color: transparent; } .chip.done { background: var(--ok-soft); color: var(--ok); border-color: transparent; } .chip.stop { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+details { border: 1px solid var(--line); border-radius: 12px; background: var(--card); margin: 10px 0; max-width: 100%; } summary { cursor: pointer; list-style: none; padding: 14px 18px; font-weight: 600; display: flex; gap: 12px; align-items: baseline; } summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; margin-left: auto; font-family: var(--mono); color: var(--brand); } details[open] > summary::after { content: "−"; } details .body { padding: 0 18px 14px; } details[open] > summary { border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+.step { font-family: var(--mono); font-size: 12px; color: var(--brand); flex: none; }
+.flow { list-style: none; padding: 0; counter-reset: s; max-width: 76ch; } .flow li { counter-increment: s; position: relative; padding: 0 0 18px 48px; margin: 0; } .flow li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 600; }
+.flow li::after { content: ""; position: absolute; left: 14px; top: 34px; bottom: 4px; width: 2px; background: var(--line); } .flow li:last-child::after { display: none; } .flow b { display: block; }
+.chart { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 18px 0; box-shadow: var(--shadow); } .chart svg { display: block; width: 100%; height: auto; } .chart h3 { margin: 0 0 2px; } .chart p { font-size: .85rem; color: var(--ink2); margin: 0 0 8px; }
+.bar-l { fill: var(--ink2); font: 12px var(--sans); } .bar-v { fill: var(--ink); font: 600 12px var(--mono); } .bar-t { fill: var(--panel); } .bar-a { fill: var(--brand); } .bar-b { fill: var(--ink3); } .bar-bad { fill: var(--bad); } .bar-ok { fill: var(--ok); }
+.arch text { font: 12px var(--sans); fill: var(--ink); } .arch .sub { font: 10px var(--mono); fill: var(--ink3); } .arch .box { fill: var(--card); stroke: var(--line); } .arch .hi { fill: var(--brand-soft); stroke: var(--brand); } .arch .ln { stroke: var(--ink3); fill: none; stroke-width: 1.4; } .arch .head { fill: var(--ink3); }
+.qa summary { font-weight: 500; } .say { background: var(--brand-soft); border-radius: 8px; padding: 10px 14px; margin: 0 0 10px; }
+dl { display: grid; grid-template-columns: minmax(120px, 190px) minmax(0, 1fr); gap: 10px 20px; max-width: 78ch; } dt { font-weight: 600; } dd { margin: 0; color: var(--ink2); } @media (max-width: 560px) { dl { grid-template-columns: 1fr; } dd { margin-bottom: 6px; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; } section { scroll-margin-top: 12px; }
+</style>
+</head><body>
+<div class="wrap">
+<nav class="toc" aria-label="Contents"><b>Contents</b><div class="list">
+<a href="#ask">1 The assignment</a><a href="#idea">2 The idea</a><a href="#map">3 The system map</a><a href="#build">4 How it was built</a><a href="#job">5 One job, start to finish</a><a href="#ui">6 The interface</a><a href="#results">7 Results</a><a href="#failures">8 What went wrong</a><a href="#status">9 Where things stand</a><a href="#viva">10 Viva prep</a><a href="#words">11 Glossary</a><a href="#files">12 Files and commands</a></div></nav>
+
+<main>
+<header class="hero">
+  <p class="eyebrow">AI-4016 · Assignment II</p>
+  <h1>GigBid Field Guide</h1>
+  <p class="lede">Everything you need to understand how GigBid was made and how it works, in the order you would explain it to someone else. Read it top to bottom once, then use the viva section as a checklist.</p>
+  <div class="grid2">
+    <div class="card"><span class="num">87</span><span>offline tests pass, plus 7 browser tests</span></div>
+    <div class="card"><span class="num">0</span><span>unsupported claims left after verification (18 proposals)</span></div>
+    <div class="card"><span class="num">1×</span><span>submission per approval, even after a forced crash</span></div>
+  </div>
+</header>
+
+<section id="ask">
+<h2>1. What the assignment asks for</h2>
+<p>You build <b>GigBid</b>: a web app where a team of AI agents finds freelance jobs, decides which are worth bidding on, drafts proposals where every claim is backed by the freelancer's own portfolio, and handles client replies. A human approves every proposal and message. The agents talk to the world only through standard tool servers (MCP), and they run inside a LangGraph workflow that can pause for approval and survive a restart.</p>
+<h3>How it is graded</h3>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>Marks</th><th>What the grader looks for</th></tr></thead><tbody>
+<tr><td>A. MCP tool layer</td><td>20</td><td>Three clean servers with schemas, annotations, idempotency, auth and tests; a live Upwork adapter behind the same port; a tool-design study.</td></tr>
+<tr><td>B. Advanced RAG</td><td>20</td><td>A baseline plus several variants, working claim verification, a calibrated judge, an ablation, results per persona, a defensible choice.</td></tr>
+<tr><td>C. Multi-agent graphs</td><td>25</td><td>Parallel analysis, bounded critique loops, approvals that survive restarts, memory with explicit rules, an honest single-agent comparison, a cheap change request.</td></tr>
+<tr><td>D. Web interface</td><td>15</td><td>Every required screen, live streaming, evidence on hover, approvals that resume the graph, browser tests, works on a phone.</td></tr>
+<tr><td>E. Production</td><td>10</td><td>Worker and schedules, CI with evaluation gates, traces, injection defence measured, budgets, a stable public URL.</td></tr>
+<tr><td>Portfolio and report</td><td>10</td><td>A README a stranger understands in two minutes, a published MCP server, a write-up with a real finding, a failure taxonomy.</td></tr></tbody></table></div>
+<div class="warn"><b>The viva multiplier.</b> The 100 written marks are multiplied by 0 to 1.0 after a live viva. If you cannot explain or change your own system, the multiplier cuts the score. That is why this guide ends with viva drills.</div>
+<h3>What you submit</h3>
+<ul><li>The public URL of the deployed app, which must stay live until grades are released, with reviewer login details in a <i>private</i> comment.</li><li>The public GitHub repository, with the last commit before the deadline.</li><li>The R&amp;D report as a PDF, a 3-minute demo video, a link to the published Portfolio MCP server, and a technical write-up.</li></ul>
+<h3>Rules that shape the design</h3>
+<dl><dt>Open models first</dt><dd>The deployed link must work on the <code>open</code> profile: open-weight models, run locally or through a hosted provider such as Groq. A paid profile is optional.</dd>
+<dt>GigSim, not Upwork</dt><dd>The grader runs hidden jobs on a simulator. A live Upwork mode is also required if you have an account, but it is never graded on outcomes and never submits without confirmation.</dd>
+<dt>No scraping</dt><dd>Live access only through Upwork's official MCP server. No browser automation, no cookies.</dd>
+<dt>Config, not code</dt><dd>Model names, thresholds, prompts and policy rules live in files under <code>agent/</code> and <code>data/</code>, so a rule change costs a few lines.</dd>
+<dt>Hidden test</dt><dd>After the deadline the instructor runs new jobs against every live URL. A site that is down loses the deployment marks.</dd></dl>
+<div class="tip"><b>Three research questions</b> are part of the report: <b>A</b> does tool granularity change agent behaviour; <b>B</b> which retrieval design is worth shipping; <b>C</b> is multi-agent worth it compared with one agent.</div>
+</section>
+
+<section id="idea">
+<h2>2. The idea in one example</h2>
+<p>A freelancer on Upwork sees a post: <i>"We need a RAG chatbot over PDFs. Budget $800."</i> Doing this by hand means reading it, checking whether it is a scam, remembering which past projects prove you can do it, choosing a price, writing a proposal, and spending paid Connects to send it. GigBid does the first five steps and stops before the sixth.</p>
+<div class="grid2">
+<div class="card"><h3>Without GigBid</h3><p>Hours scanning feeds. Connects burned on jobs you will not win or that pay below your rate. Generic proposals that clients ignore. Scam posts that ask for free work.</p></div>
+<div class="card"><h3>With GigBid</h3><p>Each job is read, scored and explained. Scams are flagged. The draft links every claim to a case study from your own portfolio, and any claim without proof is removed. You approve, edit or reject. Nothing is sent otherwise.</p></div></div>
+<p>Two design rules explain most of the code. First, <b>a person approves every outbound action</b>, so the workflow has a real pause point that survives a crash. Second, <b>claims must come from evidence</b>, so a retrieval step feeds the writer and a verifier checks the result.</p>
+</section>
+
+<section id="map">
+<h2>3. The system map</h2>
+<p>Read this diagram from the top. The browser talks to a web API. The API starts work in the background and the agents run inside a graph. The graph never calls a marketplace directly: it calls tools, and the tools talk to the marketplace.</p>
+<div class="chart"><svg class="arch" viewBox="0 0 900 470" role="img" aria-label="Architecture: browser to API to worker to agent graphs to three MCP servers to the marketplace port, with Postgres and Redis beside them">
+<defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" class="head"/></marker></defs>
+<rect class="box" x="20" y="20" width="230" height="64" rx="10"/><text x="38" y="47" font-weight="600">Browser</text><text class="sub" x="38" y="66">React + TypeScript, live updates (SSE)</text>
+<rect class="box" x="335" y="20" width="230" height="64" rx="10"/><text x="353" y="47" font-weight="600">FastAPI</text><text class="sub" x="353" y="66">login, jobs, approvals, streaming</text>
+<rect class="box" x="650" y="20" width="230" height="64" rx="10"/><text x="668" y="47" font-weight="600">Worker (Arq + Redis)</text><text class="sub" x="668" y="66">runs graphs off the request path</text>
+<path class="ln" d="M250 52H335" marker-end="url(#ar)"/><path class="ln" d="M565 52H650" marker-end="url(#ar)"/>
+<rect class="hi" x="150" y="140" width="600" height="120" rx="12"/><text x="170" y="166" font-weight="600">LangGraph</text><text class="sub" x="170" y="184">same code runs in the API and the worker</text>
+<rect class="box" x="170" y="198" width="170" height="46" rx="8"/><text x="184" y="218" font-weight="600">Bid graph</text><text class="sub" x="184" y="234">analyse, write, check, approve</text>
+<rect class="box" x="360" y="198" width="170" height="46" rx="8"/><text x="374" y="218" font-weight="600">Conversation graph</text><text class="sub" x="374" y="234">client replies, interview slots</text>
+<rect class="box" x="550" y="198" width="180" height="46" rx="8"/><text x="564" y="218" font-weight="600">Memory</text><text class="sub" x="564" y="234">style + outcomes, promotion rules</text>
+<path class="ln" d="M450 84V140" marker-end="url(#ar)"/><path class="ln" d="M765 84V120H650V140" marker-end="url(#ar)"/>
+<rect class="box" x="20" y="320" width="250" height="70" rx="10"/><text x="38" y="346" font-weight="600">Portfolio MCP server</text><text class="sub" x="38" y="365">read-only: search evidence, get case study</text>
+<rect class="box" x="325" y="320" width="250" height="70" rx="10"/><text x="343" y="346" font-weight="600">Marketplace MCP server</text><text class="sub" x="343" y="365">read + write, idempotent, dry-run, audit log</text>
+<rect class="box" x="630" y="320" width="250" height="70" rx="10"/><text x="648" y="346" font-weight="600">Workspace MCP server</text><text class="sub" x="648" y="365">calendar slots, tentative holds, email drafts</text>
+<path class="ln" d="M300 260V320" marker-end="url(#ar)"/><path class="ln" d="M450 260V320" marker-end="url(#ar)"/><path class="ln" d="M600 260V320" marker-end="url(#ar)"/>
+<rect class="box" x="195" y="425" width="200" height="38" rx="8"/><text x="210" y="449" font-weight="600">GigSim (simulator)</text>
+<rect class="box" x="505" y="425" width="200" height="38" rx="8"/><text x="520" y="449" font-weight="600">Upwork official MCP</text>
+<path class="ln" d="M450 390V408H295V425" marker-end="url(#ar)"/><path class="ln" d="M450 390V408H605V425" marker-end="url(#ar)"/><text class="sub" x="330" y="404">one MarketplacePort, two adapters</text>
+</svg><p style="margin-top:8px">Postgres stores users, runs, saved searches, encrypted tokens and the workflow checkpoints that make approvals survive a restart. Redis is the job queue.</p></div>
+<h3>The agents and why each exists</h3>
+<div class="tablewrap"><table><thead><tr><th>Agent</th><th>Job</th><th>Model</th></tr></thead><tbody>
+<tr><td>Scout</td><td>Searches the marketplace and removes duplicates before any model cost is spent.</td><td>none</td></tr>
+<tr><td>Job Analyst</td><td>Turns the post into a typed spec: deliverables, skills, budget, hidden needs.</td><td>small</td></tr>
+<tr><td>Risk Assessor</td><td>Checks scams and prompt-injection with fixed rules first, a small model second.</td><td>small</td></tr>
+<tr><td>Fit Matcher</td><td>Builds the matrix of requirement to portfolio evidence. No model, so it cannot flatter you.</td><td>none</td></tr>
+<tr><td>Pricing</td><td>Market stats, your rate floor, whether Connects are worth it.</td><td>none</td></tr>
+<tr><td>Writer</td><td>The only creative step. Writes the proposal from the evidence.</td><td>strong (gpt-oss-120b)</td></tr>
+<tr><td>Claim Verifier</td><td>Splits the draft into claims, grades each against evidence, removes unsupported ones.</td><td>small</td></tr>
+<tr><td>Critic</td><td>Reviews the draft, from a different model family than the writer, at most two revisions.</td><td>mid (Qwen 27B)</td></tr>
+<tr><td>Compliance Guard</td><td>Policy rules: no contact details, no guarantees, an AI-disclosure line. Re-checks your edits too.</td><td>none</td></tr>
+<tr><td>Client Liaison</td><td>Classifies a client reply and drafts an answer or interview slots.</td><td>mid</td></tr></tbody></table></div>
+<p>Analyst, Risk Assessor and Fit Matcher run <b>in parallel</b>, then a decision step chooses bid, watch or skip. The graphs below are drawn from the real code.</p>
+<figure><img src="images/bid_graph.png" alt="The bid graph, rendered from code" width="900"><figcaption>The bid graph. The approval node is where the workflow pauses until a person decides.</figcaption></figure>
+<figure><img src="images/conversation_graph.png" alt="The conversation graph" width="900"><figcaption>The conversation graph handles client messages with the same approval gate.</figcaption></figure>
+</section>
+
+<section id="build">
+<h2>4. How it was built, step by step</h2>
+<p>The build followed a fixed order because each layer depends on the one before. Open a step to see what was made, why, and where to find it in the repository.</p>
+
+<details open><summary><span class="step">STEP 1</span> Data and the simulator (GigSim)</summary><div class="body">
+<p><b>Problem.</b> The instructor's simulator and datasets were not provided, so we had to build our own.</p>
+<p><b>What was made.</b> Real job posts and price statistics from two Kaggle datasets (licences checked: Apache 2.0 and ODC-By). Everything else is <b>synthetic and labelled so</b>: three freelancer personas (AI/ML, full-stack, data analyst) with CVs, case studies, past proposals and reviews, clients with hidden preferences, scam posts, prompt-injection posts, and development sets with gold labels. <b>GigSim</b> is a small web service that behaves like a marketplace: job search, Connects balance, proposals with idempotency keys, messages, rate limits, random server errors, and a simulated client whose reply depends on skill overlap, price and how generic the opening is.</p>
+<p><b>Where.</b> <code>data/build/</code>, <code>data/personas/</code>, <code>gigsim/</code>, <code>docs/DATA_CARD.md</code>. GigSim's files are hashed so CI can prove nobody edited them.</p></div></details>
+
+<details><summary><span class="step">STEP 2</span> The tool layer: three MCP servers (Part A)</summary><div class="body">
+<p><b>Idea.</b> MCP (Model Context Protocol) is a standard way to expose tools to a model. Agents only ever call tools, never code directly.</p>
+<p><b>Portfolio server</b> (read-only): search evidence, get a case study, list skills, plus resources like <code>portfolio://case/{id}</code> and prompt templates. It can be run on its own with <code>uvx</code>.</p>
+<p><b>Marketplace server</b> (read and write): search jobs, get a job, client history, Connects balance, create a draft, submit. Writes need an <b>idempotency key</b> (repeating the call returns the first result), support <b>dry-run</b> (shows exactly what would be sent and what it costs), use <b>bearer-token auth</b>, a <b>rate limiter</b> under GigSim's limit, and an <b>append-only audit log</b> with personal data masked.</p>
+<p><b>Workspace server</b>: free calendar slots, tentative holds, email drafts that are never sent.</p>
+<p><b>MarketplacePort</b> is the one interface the rest of the system uses. Two adapters sit behind it: GigSim and the live Upwork adapter (OAuth 2.1 with encrypted tokens, tested only against a fake Upwork server).</p>
+<p><b>Client discipline.</b> Each agent gets only the tools it needs by name, with timeouts, bounded retries and a circuit breaker. If the marketplace server dies, the UI shows a banner, runs are parked and they resume on their own.</p>
+<p><b>Where.</b> <code>mcp_servers/</code>, <code>agent/mcp_client.py</code>, <code>agent/marketplace_port.py</code>, <code>docs/TOOLS.md</code>.</p></div></details>
+
+<details><summary><span class="step">STEP 3</span> Advanced retrieval (RAG, Part B)</summary><div class="body">
+<p><b>Idea.</b> The writer must only claim what the portfolio proves, so a retrieval step finds the evidence. We built seven versions and measured them.</p>
+<dl><dt>V0 naive</dt><dd>Embed the job post, find the nearest portfolio chunks. The baseline.</dd>
+<dt>V1 decompose</dt><dd>Split the post into requirements and search each one.</dd>
+<dt>V2 hybrid</dt><dd>Combine keyword search (BM25) with embeddings using reciprocal rank fusion.</dd>
+<dt>V3 rerank</dt><dd>Hybrid, then a cross-encoder re-scores the top results.</dd>
+<dt>V4 outcome</dt><dd>Boost evidence from proposals that won before.</dd>
+<dt>V5 full</dt><dd>All of the above together.</dd>
+<dt>V8 corrective</dt><dd>Grade the results; if they are weak, refuse instead of guessing.</dd></dl>
+<p><b>Claim verification.</b> The draft is split into atomic claims; each is graded supported, partly supported or unsupported against the evidence, and unsupported ones are removed before review.</p>
+<p><b>Shipped choice.</b> V3 (hybrid plus reranker). Details and numbers are in the results section.</p>
+<p><b>Where.</b> <code>rag/</code>, <code>evals/runners/rag_eval.py</code>, <code>ablation.py</code>, <code>docs/adr/0002-rag-hypotheses.md</code> (the hypotheses were written before the full runs).</p></div></details>
+
+<details><summary><span class="step">STEP 4</span> The multi-agent graphs (Part C)</summary><div class="body">
+<p><b>Typed hand-offs.</b> Agents exchange validated data objects (JobSpec, RiskReport, FitReport, BidDecision, PriceQuote, ProposalDraft, Critique, ComplianceVerdict), not free text.</p>
+<p><b>The bid graph.</b> Intake, then three parallel analysts, then a decision, pricing, the writer, claim verification, the critic (maximum two revision loops), compliance, and then <b>an interrupt that waits for a human</b>. After approval the submit step uses idempotency keys derived from the graph's thread id, so a replay cannot send twice.</p>
+<p><b>Durability.</b> Workflow state is saved in Postgres after every step. Killing the server while a proposal waits, restarting it, and approving still produces exactly one submission and one Connects charge. This was proven with Docker.</p>
+<p><b>Memory with rules.</b> Style memory learns from your edits only when the same change appears at least three times across two jobs. Outcome memory needs at least five outcomes per category. Nothing else is stored, and the UI lets you list and delete what was learned.</p>
+<p><b>Budgets and failures.</b> Step and token limits send a run to "needs attention". Rate-limit and server errors are retried with backoff.</p>
+<p><b>Where.</b> <code>agent/graphs/</code>, <code>agent/nodes/</code>, <code>agent/memory/</code>, <code>agent/handoffs.py</code>.</p></div></details>
+
+<details><summary><span class="step">STEP 5</span> API and background worker</summary><div class="body">
+<p>FastAPI routers for login (with per-user data isolation), onboarding, jobs, approvals, proposals, messages, analytics and settings. A server-sent-events stream shows the graph's progress live. An Arq worker on Redis runs graphs and scheduled searches off the request path. Without Redis the API runs the same work in-process, which is handy for tests. One trace id follows a request from the browser through the API, the graph, the tool calls and the audit log.</p>
+<p><b>Where.</b> <code>apps/api/</code>, <code>worker/</code>.</p></div></details>
+
+<details><summary><span class="step">STEP 6</span> The web interface (Part D)</summary><div class="body">
+<p>React with TypeScript. The API client is <b>generated</b> from the API's OpenAPI file so types cannot drift. Screens: landing, sign-in, onboarding, inbox, job detail, proposal studio, pipeline, messages, agent runs, analytics, settings. Seven Playwright tests drive a real browser through onboarding, approving, editing, rejecting, the outage banner and the phone layout. The latest redesign is described in section 6.</p>
+<p><b>Where.</b> <code>apps/web/</code>.</p></div></details>
+
+<details><summary><span class="step">STEP 7</span> Production engineering (Part E)</summary><div class="body">
+<p>A Docker Compose file starts every service. GitHub Actions run lint, tests, a secret scan, a check that GigSim is unchanged, a check that prompts live in files, and a small evaluation that fails the build if quality drops. Tracing uses Phoenix. Logs mask emails and phone numbers. Declared budgets for latency and cost were measured. <b>Not yet done:</b> a public deployment, and the workflows have not run on GitHub.</p>
+<p><b>Where.</b> <code>infra/</code>, <code>.github/workflows/</code>, <code>docs/DEPLOY.md</code>, <code>docs/RUNBOOK.md</code>.</p></div></details>
+
+<details><summary><span class="step">STEP 8</span> The signature extension: Portfolio builder (X3)</summary><div class="body">
+<p>Point it at a GitHub repository and it drafts a case study, then <b>verifies every claim against the code</b>: skills must appear in the code or manifests, results must contain a number that exists in the repo, and cited files must exist. Only verified claims enter the portfolio. It has unit tests but has not been run on real repositories.</p>
+<p><b>Where.</b> <code>agent/extensions/portfolio_builder.py</code>, <code>docs/EXTENSION.md</code>.</p></div></details>
+
+<details><summary><span class="step">STEP 9</span> The change request</summary><div class="body">
+<p>The brief says the instructor will change a platform rule. We simulated it: an AI-disclosure requirement and a Connects surcharge on small jobs. Because rules live in config files and GigBid reads the platform's effective cost, absorbing it took <b>5 lines in 2 files</b> plus a test.</p>
+<p><b>Where.</b> <code>docs/CHANGE_REQUEST.md</code>.</p></div></details>
+
+<details><summary><span class="step">STEP 10</span> Evaluation and the report</summary><div class="body">
+<p>Every number in the README and the 7-page report is generated from the JSON files in <code>evals/results/</code>. A CI check fails if the README tables go stale. The report states failures and gaps instead of hiding them.</p>
+<p><b>Where.</b> <code>evals/</code>, <code>docs/report/report.pdf</code>.</p></div></details>
+</section>
+
+<section id="job">
+<h2>5. One job, start to finish</h2>
+<p>This is what happens when you press <b>Scout now</b>, with the status the interface shows at each point. The new status system exists so you never have to guess whether to wait.</p>
+<ol class="flow">
+<li><b>Scout queues the search <span class="chip work"><i></i>In line</span></b>The API puts the search on the queue and the inbox shows "Scout queued". Jobs appear as they are found.</li>
+<li><b>Three analysts run together <span class="chip work"><i></i>Agents working</span></b>The analyst, risk assessor and fit matcher read the post at the same time. The progress bar shows "Read the post" and a timer counts the seconds.</li>
+<li><b>Decide and price</b>A fixed rule decides bid, watch or skip. A low-ball budget below your floor is skipped. A scam is skipped with its reason. A skip ends the run <span class="chip">Skipped</span>.</li>
+<li><b>Write, verify, review</b>The writer drafts from the evidence. The verifier removes unsupported claims. The critic may send it back, at most twice. Compliance strips anything not allowed.</li>
+<li><b>The workflow pauses <span class="chip act"><i></i>Ready for you</span></b>The state is saved. The inbox shows a "Review draft" button and the sidebar says "1 ready for you". This is the only point where you must act.</li>
+<li><b>You decide in the studio</b>Hover a claim to see its evidence. A dry-run preview shows exactly what will be sent and what Connects it costs. You approve, edit (checked again by compliance) or reject with a reason.</li>
+<li><b>Sending shows three steps</b>"Recording your decision", "Submitting to the marketplace (once)", "Added to your pipeline". Do not close the tab until the third is ticked.</li>
+<li><b>Submitted <span class="chip done"><i></i>Sent</span></b>The card is in the pipeline: "Waiting for the client to open it". A moving dot means someone else still has to answer.</li>
+<li><b>The client replies</b>The Liaison classifies the message and drafts an answer or proposes interview slots. You approve it, and the thread shows "Reply sent. Waiting for the client to answer".</li></ol>
+<div class="tip"><b>Status words you will see.</b> <span class="chip">In line</span> nothing for you to do · <span class="chip work"><i></i>Agents working</span> wait, the page updates itself · <span class="chip act"><i></i>Ready for you</span> your turn · <span class="chip done"><i></i>Sent</span> done, waiting on the client · <span class="chip stop"><i></i>Failed</span> open the run to see why.</div>
+</section>
+
+<section id="ui">
+<h2>6. The interface, screen by screen</h2>
+<p>The redesign uses the <b>Tessel pixel-mosaic</b> style you downloaded (MIT licence, credited in the repository). The landing page carries the animation. Inside the app the style stays calm: serif headings, thin lines, mono labels, one cobalt accent, plus small interactions such as hover lifts, count-up numbers and a live progress bar.</p>
+<figure><img src="images/ui_landing_hero.png" alt="Landing page hero with the pixel mosaic" width="1440"><figcaption>Landing page. The mosaic sharpens on load, reacts to the pointer and breaks apart as you scroll. The prompt box runs a demo that shows what the agents would decide.</figcaption></figure>
+<figure><img src="images/ui_landing_2.png" alt="Landing page product stage" width="1440"><figcaption>The product stage changes with each scroll step. Its mock-ups were rewritten to show GigBid's own agents and tools.</figcaption></figure>
+<figure><img src="images/ui_login.png" alt="Sign-in page with a pixel field" width="1440"><figcaption>Sign in, with a pixel field that follows the pointer.</figcaption></figure>
+<figure><img src="images/ui_inbox.png" alt="Inbox with status chips" width="1440"><figcaption>Inbox. Each job has a plain-language status chip. The sidebar summarises what is working and what is ready for you.</figcaption></figure>
+<figure><img src="images/ui_job_running.png" alt="Job page with a live progress rail" width="1440"><figcaption>A job being analysed: a moving progress bar, the current stage, the seconds elapsed and the last completed step.</figcaption></figure>
+<figure><img src="images/ui_job.png" alt="Finished job detail page" width="1440"><figcaption>A finished analysis: spec, bid or skip with its reason, risk report and the requirement-to-evidence matrix.</figcaption></figure>
+<figure><img src="images/ui_studio.png" alt="Proposal studio" width="1440"><figcaption>Proposal studio. Underlined claims show their evidence on hover. The right column holds the dry-run preview and the approval buttons.</figcaption></figure>
+<div class="grid2">
+<figure><img src="images/ui_pipeline.png" alt="Pipeline board" width="720"><figcaption>Pipeline. Cards say what they are waiting for.</figcaption></figure>
+<figure><img src="images/ui_messages.png" alt="Messages" width="720"><figcaption>Messages. Drafting and waiting states have moving dots.</figcaption></figure>
+<figure><img src="images/ui_runs.png" alt="Agent runs" width="720"><figcaption>Agent runs, with checkpoint history and replay.</figcaption></figure>
+<figure><img src="images/ui_analytics.png" alt="Analytics" width="720"><figcaption>Analytics. Numbers count up when they appear.</figcaption></figure></div>
+</section>
+
+<section id="results">
+<h2>7. Results</h2>
+<div class="warn"><b>Read these with care.</b> The personas and most proposals are synthetic and templated, so absolute scores are optimistic and the <i>ordering</i> is the finding. Samples are small because free model quotas are tight. Most end-to-end numbers come from a local Qwen3 8B, recorded in each results file.</div>
+<div class="chart"><h3>Retrieval quality: mean reciprocal rank (higher is better)</h3><p>60 jobs per persona, three personas. Hybrid search plus a reranker is best; the "advanced" decomposition made it worse.</p>
+<svg id="c-mrr" viewBox="0 0 640 250" role="img" aria-label="MRR by retrieval variant"></svg></div>
+<div class="chart"><h3>Ablation: remove one part of the full pipeline</h3><p>Removing decomposition alone restores the score. Removing BM25, reranking or the outcome boost changes almost nothing.</p>
+<svg id="c-abl" viewBox="0 0 640 190" role="img" aria-label="MRR of the full pipeline and with one part removed"></svg></div>
+<div class="grid2">
+<div class="card"><h3>Claim verification</h3><p>Proposals with an unsupported claim, 18 per arm: naive retrieval 50% before verification and 17% after. The shipped variant: 17% before and <b>0% after</b>.</p></div>
+<div class="card"><h3>Reply rate</h3><p>72% (naive) vs 78% (shipped), p = 0.70. Not significant. Better retrieval made the writing more honest, and there is no evidence yet that it made clients reply more.</p></div></div>
+<div class="chart"><h3>Is multi-agent worth it? Decision accuracy on 10 jobs</h3><p>Same local model for all three. The single agent's 0.60 is mostly formatting: 40% of its outputs were invalid JSON. On answers it produced it scored 1.0.</p>
+<svg id="c-arch" viewBox="0 0 640 150" role="img" aria-label="Decision accuracy of three architectures"></svg></div>
+<div class="chart"><h3>The judge versus my own labels</h3><p>30 proposals, labelled by hand without seeing the judge's scores. Cohen's kappa 0.0.</p>
+<svg id="c-judge" viewBox="0 0 640 110" role="img" aria-label="Proposals judged acceptable"></svg></div>
+<h3>Other findings</h3>
+<div class="tablewrap"><table><thead><tr><th>Question</th><th>Result</th></tr></thead><tbody>
+<tr><td>Biggest decision error</td><td>24 of 30 development failures were low-budget jobs the system bid on. A rule of about a dozen lines took bid-or-skip F1 from 0.89 to 0.98.</td></tr>
+<tr><td>Tool granularity (Part A)</td><td>37 fine tools cost about 3.4× the prompt tokens of 4 coarse tools. On the mid model, fine 0.975 and coarse 1.0 beat the tuned set at 0.825. On the small model the tuned set was best at 0.90.</td></tr>
+<tr><td>Prompt injection</td><td>Attack success on job posts: 5.6% with no defence, 0% with the defence. After the Compliance Guard, 0% in every case.</td></tr>
+<tr><td>Choosing models for the analysis nodes</td><td>The small, mid and strong models all scored F1 1.0 on the easy synthetic set, so the cheapest (small) is shipped.</td></tr>
+<tr><td>Budgets, hosted models</td><td>Per proposal: about 20,400 tokens and $0.0056 at list price, within budget. Latency p95 222 s missed the 150 s budget, with only 3 proposals measured.</td></tr>
+<tr><td>Crash drill</td><td>After a forced kill and restart: the approval was still pending, a second approve returned 409, and the marketplace recorded exactly one submission and one 16-Connect charge.</td></tr></tbody></table></div>
+</section>
+
+<section id="failures">
+<h2>8. What went wrong, and what it taught</h2>
+<dl>
+<dt>Decomposition hurt retrieval</dt><dd>My favourite idea scored MRR 0.45 against 0.63 for the baseline. Cause: each requirement's search returns every project that mentions that skill, so projects matching one requirement strongly beat projects matching all of them. Kept in the results as a negative finding.</dd>
+<dt>Low-ball jobs</dt><dd>The decision rule never compared the budget with the freelancer's rate floor. A boring rule fixed 24 failures. It came to light only because every failure was classified.</dd>
+<dt>The fix that opened a hole</dt><dd>Scanning only outside injection-shaped sentences fixed six wrongly skipped jobs, but a scam whose only signal sits inside such a sentence is flagged and not skipped. The hole is documented.</dd>
+<dt>Quota, not skill</dt><dd>Groq's free tier allows 200,000 tokens per day per model, about a dozen proposals. A first evaluation silently produced zero results because every call was rate-limited. Larger runs moved to a local model.</dd>
+<dt>The critic never approved</dt><dd>The critic rejected every proposal, so each used all revision loops. A length rule was part of the cause and was fixed. Personalisation scores stayed near 0.4.</dd>
+<dt>The judge was useless</dt><dd>It accepted 30 of 30 proposals while I accepted 12. Its scores carry no weight.</dd>
+<dt>Copied openings</dt><dd>17 of 30 proposals opened by repeating the client's own sentence. A new check now makes the critic reject that.</dd>
+<dt>Redesign bug</dt><dd>While restyling, the mobile Menu button became visible on desktop because a new rule overrode the hiding rule. The browser tests caught it.</dd></dl>
+</section>
+
+<section id="status">
+<h2>9. Where things stand</h2>
+<div class="grid2">
+<div class="card"><h3>Done</h3><ul><li>All code, 87 offline tests, 7 browser tests</li><li>Evaluations, the 7-page report, docs</li><li>Docker run and the crash drill</li><li>Kaggle licences recorded</li><li>GitHub history cleaned and pushed (repo still private)</li><li>Your 30 judge labels scored</li><li>UI redesign with live status</li></ul></div>
+<div class="card"><h3>Still open</h3><ul><li><b>A public URL.</b> Hugging Face Docker Spaces are no longer free. Oracle Cloud Always Free fits but the account sign-up failed. The deploy script is ready.</li><li>The 3-minute demo video (script: <code>docs/VIDEO_SCRIPT.md</code>)</li><li>Publish the write-up and make the repo public</li><li>The live Upwork adapter has only met a fake server</li><li>GitHub Actions have never run on GitHub</li></ul></div></div>
+<div class="warn"><b>The hosting risk.</b> The grader's hidden run needs the site up and enough model quota. Groq's free tier is the weak point. A laptop with a tunnel is a stop-gap, not a plan.</div>
+</section>
+
+<section id="viva">
+<h2>10. Viva preparation</h2>
+<p>Ten drills from the brief. Each has a one-sentence answer, what to show, and the honest caveat. The full version is <code>docs/VIVA.md</code>.</p>
+<div class="qa">
+<details><summary>1. Kill the marketplace server now. What does the user see?</summary><div class="body"><div class="say">A red banner within about five seconds. Runs are parked as "waiting marketplace" and resume on their own.</div><p><b>Show.</b> <code>apps/web/src/components/Layout.tsx</code> (banner), <code>agent/mcp_client.py</code> (retries, circuit breaker), <code>worker/tasks.py</code> (resume).</p><p><b>Honest.</b> The browser test injects the outage at GigSim rather than killing the process; both end in the same exception.</p></div></details>
+<details><summary>2. Approve, then crash the worker. Prove it is submitted once.</summary><div class="body"><div class="say">Submit uses idempotency keys derived from the thread id, and the approval is an atomic database claim.</div><p><b>Show.</b> <code>agent/graphs/bid_graph.py</code> (submit), <code>docs/evidence/docker_kill_resume_drill.md</code>.</p></div></details>
+<details><summary>3. Delete the evidence behind a claim and regenerate.</summary><div class="body"><div class="say">Claims may only come from retrieved evidence. Without it the writer cannot cite it and the verifier removes the claim.</div><p><b>Honest.</b> There is no delete button; it is a data change plus a re-run. Verification is a model judgement, not a proof.</p></div></details>
+<details><summary>4. Open the trace of a job that was wrongly skipped. Which node was wrong?</summary><div class="body"><div class="say">Walk the trace left to right and compare each node with the gold label.</div><p><b>Show.</b> the run page (<code>/runs/…</code>) and <code>decision.reason</code> in <code>agent/nodes/decision.py</code>.</p></div></details>
+<details><summary>5. A job post contains an injected instruction. Show the defence and an attack that beats it.</summary><div class="body"><div class="say">Four layers: delimiters with a SECURITY clause, a fixed scan, a decision that never trusts model-claimed scam scores, and the Compliance Guard.</div><p><b>An attack that wins.</b> Obfuscated contact details, instructions split across messages, or evidence poisoning through an uploaded file.</p></div></details>
+<details><summary>6. What did style memory learn? Show the rule and delete an item.</summary><div class="body"><div class="say">A pattern is promoted only after at least three occurrences across two jobs.</div><p><b>Show.</b> Settings, "What GigBid has learned"; <code>agent/memory/promotion_rules.py</code>.</p></div></details>
+<details><summary>7. Switch from GigSim to live mode. What changes?</summary><div class="body"><div class="say">Only the adapter behind MarketplacePort. Graphs, nodes, tools and UI are identical.</div><p><b>Honest.</b> The live adapter was tested against a fake Upwork server only.</p></div></details>
+<details><summary>8. Your judge and your labels disagreed. Show two.</summary><div class="body"><div class="say">Kappa is 0.0. The judge accepted all 30; I accepted 12. Every disagreement was the judge being more lenient.</div><p><b>Example.</b> Item 12: a "fraud detection" proposal that cited a medical-document project and copied the post's first sentence. Judge 5/5/5, mine 1.</p></div></details>
+<details><summary>9. Where does the single-agent baseline beat the graph? Would you ship it?</summary><div class="body"><div class="say">On speed and simplicity: about 30 s per job against about 190 s. Its 0.60 accuracy was a format failure, not bad judgement. The graph wins on structure, compliance, approvals and durable state.</div></div></details>
+<details><summary>10. How many lines absorbed the change request?</summary><div class="body"><div class="say">Five lines in two files, plus a test. The Connects surcharge needed no changes because GigBid reads the platform's effective cost.</div><p><b>Honest.</b> I wrote GigSim, so I knew the seams.</p></div></details>
+</div>
+</section>
+
+<section id="words">
+<h2>11. Glossary</h2>
+<dl>
+<dt>Agent</dt><dd>A step in the workflow that reads input and produces a typed result, usually with a model.</dd>
+<dt>LangGraph</dt><dd>A library for workflows as graphs, with saved state, parallel branches and pauses for a human.</dd>
+<dt>Checkpoint</dt><dd>A saved snapshot of workflow state. Restarting resumes from it.</dd>
+<dt>Interrupt</dt><dd>A deliberate pause in the graph until a person answers.</dd>
+<dt>MCP</dt><dd>Model Context Protocol, a standard for tool servers an agent can call.</dd>
+<dt>Idempotency key</dt><dd>A label on a write so that repeating it returns the first result instead of acting twice.</dd>
+<dt>Dry run</dt><dd>A call that shows what would happen and what it costs without doing it.</dd>
+<dt>RAG</dt><dd>Retrieval-augmented generation: find relevant text first, then write from it.</dd>
+<dt>BM25 / RRF</dt><dd>BM25 is keyword scoring. Reciprocal rank fusion merges several ranked lists into one.</dd>
+<dt>Cross-encoder reranker</dt><dd>A model that reads the query and a candidate together to re-score it, slower but sharper than embeddings.</dd>
+<dt>MRR, Recall@5</dt><dd>Retrieval scores. Recall@5 asks whether the right item is in the top five. MRR rewards ranking it first.</dd>
+<dt>Ablation</dt><dd>Removing one component at a time to see what it contributed.</dd>
+<dt>Cohen's kappa</dt><dd>Agreement between two raters beyond chance. 0 means no better than chance.</dd>
+<dt>Prompt injection</dt><dd>Text in untrusted data that tries to give the model orders.</dd>
+<dt>Connects</dt><dd>The paid tokens a freelancer spends to submit a proposal on Upwork.</dd>
+<dt>SSE</dt><dd>Server-sent events: the server pushes progress to the browser over one open connection.</dd>
+<dt>Open profile</dt><dd>The configuration that uses only open-weight models, hosted or local.</dd></dl>
+</section>
+
+<section id="files">
+<h2>12. Files and commands</h2>
+<div class="tablewrap"><table><thead><tr><th>Folder</th><th>What is in it</th></tr></thead><tbody>
+<tr><td><code>agent/</code></td><td>Graphs, nodes, prompts, typed hand-offs, memory, config (<code>config.yaml</code>)</td></tr>
+<tr><td><code>rag/</code></td><td>Ingestion, retrieval variants, claim verification</td></tr>
+<tr><td><code>mcp_servers/</code></td><td>Portfolio, marketplace and workspace servers, adapters</td></tr>
+<tr><td><code>gigsim/</code></td><td>The marketplace simulator (frozen)</td></tr>
+<tr><td><code>apps/api</code>, <code>apps/web</code>, <code>worker/</code></td><td>Backend, React interface, background jobs</td></tr>
+<tr><td><code>evals/</code></td><td>Runners and every results file</td></tr>
+<tr><td><code>docs/</code></td><td>Architecture, data card, tools, runbook, decisions, report, viva, deploy guide</td></tr>
+<tr><td><code>infra/</code>, <code>scripts/</code></td><td>Docker, Caddy, deploy and helper scripts</td></tr></tbody></table></div>
+<h3>Run it on your Mac</h3>
+<p>With Redis and your <code>.env</code> in place, <code>scripts/dev.sh</code> starts GigSim, the marketplace server, the API, the worker and the web app. Open <code>http://localhost:3000</code>, sign in, press <b>Scout now</b>, then open a job that reaches "Ready for you".</p>
+<h3>Check it</h3>
+<p><code>make test</code> runs the offline tests. <code>cd apps/web &amp;&amp; npx playwright test</code> runs the browser tests. <code>python scripts/make_readme_tables.py</code> refreshes the README tables from the results files.</p>
+</section>
+</main>
+</div>
+
+<script>
+(function () {
+  var NS = "http://www.w3.org/2000/svg";
+  function el(n, a, t) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (t != null) e.textContent = t; return e; }
+  function bars(id, rows, max, o) {
+    var svg = document.getElementById(id); if (!svg) return; o = o || {};
+    var L = o.label || 170, W = 640, H = 28, G = 10, R = 54, x0 = L, x1 = W - R;
+    rows.forEach(function (r, i) {
+      var y = i * (H + G) + 6;
+      svg.appendChild(el("text", { x: 0, y: y + H / 2 + 4, "class": "bar-l" }, r[0]));
+      svg.appendChild(el("rect", { x: x0, y: y, width: x1 - x0, height: H, rx: 5, "class": "bar-t" }));
+      svg.appendChild(el("rect", { x: x0, y: y, width: Math.max(2, (x1 - x0) * r[1] / max), height: H, rx: 5, "class": r[2] || "bar-a" }));
+      svg.appendChild(el("text", { x: x1 + 8, y: y + H / 2 + 4, "class": "bar-v" }, r[3] != null ? r[3] : String(r[1])));
+    });
+  }
+  bars("c-mrr", [["V0 naive", 0.629, "bar-b", "0.63"], ["V1 decompose", 0.454, "bar-bad", "0.45"], ["V2 hybrid", 0.737, "bar-b", "0.74"], ["V3 hybrid + rerank", 0.917, "bar-a", "0.92"], ["V4 outcome boost", 0.737, "bar-b", "0.74"], ["V5 full pipeline", 0.469, "bar-bad", "0.47"], ["V8 corrective", 0.875, "bar-b", "0.87"]], 1, { label: 150 });
+  bars("c-abl", [["Full pipeline", 0.469, "bar-bad", "0.47"], ["minus decomposition", 0.917, "bar-a", "0.92"], ["minus BM25", 0.461, "bar-b", "0.46"], ["minus reranker", 0.470, "bar-b", "0.47"], ["minus outcome boost", 0.467, "bar-b", "0.47"]], 1, { label: 150 });
+  bars("c-arch", [["Hand-built graph", 1.0, "bar-a", "1.00"], ["Single agent", 0.6, "bar-bad", "0.60"], ["Prebuilt supervisor", 0.778, "bar-b", "0.78"]], 1, { label: 150 });
+  bars("c-judge", [["Judge said acceptable", 30, "bar-bad", "30 / 30"], ["I said acceptable", 12, "bar-a", "12 / 30"]], 30, { label: 150 });
+  var links = document.querySelectorAll("nav.toc a"), secs = [].slice.call(links).map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { links.forEach(function (l) { l.classList.toggle("on", l.getAttribute("href") === "#" + e.target.id); }); } }); }, { rootMargin: "-20% 0px -70% 0px" });
+    secs.forEach(function (s) { if (s) io.observe(s); });
+  }
+})();
+</script>
+
+</html>
