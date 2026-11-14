@@ -3,7 +3,12 @@
 #   DOMAIN=gigbid.example.com GROQ_API_KEY=... REPO=https://github.com/<you>/gigbid.git bash scripts/deploy_vm.sh
 # Point the domain's A record at the VM first (Caddy needs it to get a certificate). Secrets are generated on the VM and never leave it.
 set -euo pipefail
-: "${DOMAIN:?set DOMAIN}"; : "${GROQ_API_KEY:?set GROQ_API_KEY (paid/dev tier: the free tier cannot serve a grading run)}"; : "${REPO:?set REPO}"
+: "${DOMAIN:?set DOMAIN}"; : "${GROQ_API_KEY:?set GROQ_API_KEY (free tier works for a demo; see docs/DEPLOY.md for quota limits)}"; : "${REPO:?set REPO}"
+# Oracle Cloud Ubuntu images ship iptables rules that reject 80/443 even after the VCN security list allows them
+if command -v iptables >/dev/null && sudo iptables -S INPUT 2>/dev/null | grep -q REJECT; then
+  for port in 80 443; do sudo iptables -C INPUT -p tcp --dport $port -j ACCEPT 2>/dev/null || sudo iptables -I INPUT 5 -p tcp --dport $port -j ACCEPT; done
+  command -v netfilter-persistent >/dev/null && sudo netfilter-persistent save || true
+fi
 command -v docker >/dev/null || { curl -fsSL https://get.docker.com | sudo sh; sudo usermod -aG docker "$USER"; }
 [ -d gigbid ] || git clone "$REPO" gigbid
 cd gigbid

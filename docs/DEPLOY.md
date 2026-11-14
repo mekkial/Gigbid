@@ -1,14 +1,17 @@
 # Deploy checklist (single VM, Docker Compose, public HTTPS via Caddy)
 
-**Decisions you must make first**
-1. **LLM quota.** The Groq free tier (200,000 tokens/day per model) cannot serve a reviewer plus the hidden test run. Upgrade the Groq account to the pay-as-you-go **Dev tier** (the list-price cost of one proposal is about $0.005, so a few dollars covers a grading run) and use that key; or point `agent/config.yaml` at another OpenAI-compatible provider. The deployed link **must work on the open profile** (hosted open models are allowed).
-2. **Host.** Any Ubuntu VM with >= 4 GB RAM (the image is ~5 GB; embeddings and the reranker run on CPU), for example a small Hetzner, DigitalOcean or Oracle instance. Cost: a few dollars a month. Keep it up until grades are released.
-3. **Domain.** A subdomain with an A record pointing at the VM's IP (Caddy obtains the certificate automatically).
+**Where to host for free (researched 2026-11-14)**
+* **Hugging Face Docker Spaces: no longer free** (creating one returned "requires a PRO subscription"). `scripts/deploy_space.sh` and `infra/docker/space.Dockerfile` (single-container image, UI served by the API) are kept for anyone with PRO (about $9/month).
+* **Oracle Cloud Always Free** (recommended): an Ampere A1 VM with 4 OCPU / 24 GB RAM, no charge within the free limits; a card is needed for identity verification only. Create the VM with Ubuntu 24.04, open ports 80 and 443 in the VCN security list, get a free `*.duckdns.org` name pointing at the VM, then run the steps below. `deploy_vm.sh` also opens the VM's own iptables for 80/443.
+* **Not enough RAM for our models:** Fly.io, Google Cloud and other free micro VMs (about 1 GB), Render/Koyeb free (512 MB), Vercel (serverless only: it can host the web UI, not the torch-based backend).
+* **Laptop + Cloudflare tunnel:** free but the assignment requires the link to stay live until grades are released and to survive the hidden test run, so use it only as a stop-gap.
+
+**LLM quota.** The Groq free tier gives 200,000 tokens/day per model (about 13 proposals at ~15k tokens each, spread over three models by node routing). A grading run may need more: add a second free provider key in `agent/config.yaml`, or enable pay-as-you-go (about $0.005 per proposal). The deployed link **must work on the open profile** (hosted open models are allowed).
 
 **Steps**
 ```bash
 # on the VM (replace the values)
-DOMAIN=gigbid.example.com GROQ_API_KEY=<dev-tier key> REPO=https://github.com/<you>/gigbid.git bash <(curl -fsSL https://raw.githubusercontent.com/<you>/gigbid/main/scripts/deploy_vm.sh)
+DOMAIN=gigbid.duckdns.org GROQ_API_KEY=<key> REPO=https://github.com/<you>/gigbid.git bash <(curl -fsSL https://raw.githubusercontent.com/<you>/gigbid/main/scripts/deploy_vm.sh)
 ```
 The script installs Docker, clones the repo, generates secrets **on the VM** (`scripts/gen_secrets.py`), builds, starts `postgres redis gigsim mcp-marketplace api worker web caddy`, and seeds the reviewer account.
 Then open `https://<domain>`, sign in as the reviewer, run one job end to end, and **put the reviewer login in the Classroom private comment** (never in the repo).

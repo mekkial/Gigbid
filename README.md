@@ -15,7 +15,7 @@ manages the client conversation. A team of LangGraph agents does the legwork; **
 | Marketplace | **GigSim**, a simulator I wrote (the instructor's GigSim was not available to me). Live Upwork adapter is implemented and tested against a fake Upwork-style MCP server only |
 | Data | real Kaggle Upwork jobs for the stream and prices; **synthetic** personas, proposals, clients, scams, injections and labels (`docs/DATA_CARD.md`) |
 | Docker | `docker compose up` **ran locally** (7 services healthy; kill-and-resume drill passed: `docs/evidence/docker_kill_resume_drill.md`) |
-| Public deploy / GitHub Actions | **not done** / workflows written, never run on GitHub (`docs/RUNBOOK.md`) |
+| Public deploy / GitHub Actions | **not done yet** (free-host research and a ready VM script: `docs/DEPLOY.md`) / workflows written, never run on GitHub (`docs/RUNBOOK.md`) |
 | LLM judge | uncalibrated until the 30 human labels are added (`evals/runners/judge_calibration.py`) |
 | LLM quota | Groq's free tier caps **200,000 tokens/day per model**; evaluation beyond the first experiments therefore ran on a **local Qwen3 8B (Ollama)**. Every results file records which models produced it (`llm` field). The hosted deployment needs paid quota (see `docs/RUNBOOK.md`) |
 | Evaluation sizes | small, because the free LLM tier allows 8,000 tokens/min per model; each results file records its `n` and confidence intervals |
@@ -118,7 +118,7 @@ OAuth tokens are encrypted per user. What still gets through is in the injection
 ## Documents
 [R&D report (PDF, 7 pages)](docs/report/report.pdf) · [Architecture](docs/ARCHITECTURE.md) · [Data card](docs/DATA_CARD.md) · [Tool catalogue](docs/TOOLS.md) · [Change request](docs/CHANGE_REQUEST.md) ·
 [Runbook and verification status](docs/RUNBOOK.md) · [Docker kill-and-resume evidence](docs/evidence/docker_kill_resume_drill.md) · [Decision records](docs/adr/) · [Signature extension X3](docs/EXTENSION.md) ·
-[AI usage](docs/AI_USAGE.md) · [Write-up draft](docs/BLOG_DRAFT.md) · [Viva cheat-sheet](docs/VIVA.md)
+[AI usage](docs/AI_USAGE.md) · [Write-up draft](docs/BLOG_DRAFT.md) · [Viva cheat-sheet](docs/VIVA.md) · [Deploy guide](docs/DEPLOY.md) · [Demo video script](docs/VIDEO_SCRIPT.md)
 
 ## Layout
 `agent/` graphs, nodes, prompts, memory · `rag/` ingestion, variants, verification · `mcp_servers/` portfolio, marketplace, workspace · `gigsim/` simulator ·

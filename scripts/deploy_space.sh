@@ -8,6 +8,6 @@ T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
 git archive HEAD | tar -x -C "$T"
 cp infra/docker/space.Dockerfile "$T/Dockerfile"
 { printf -- '---\ntitle: GigBid\nemoji: 🧭\ncolorFrom: indigo\ncolorTo: blue\nsdk: docker\napp_port: 7860\npinned: false\n---\n\n'; cat README.md; } > "$T/README.md"
-$HF repo create "$SPACE" --repo-type space --space-sdk docker --exist-ok >/dev/null
+$HF repos create "$SPACE" --type space --space-sdk docker --exist-ok >/dev/null
 $HF upload "$SPACE" "$T" . --repo-type space --commit-message "Deploy $(git rev-parse --short HEAD)"
 echo "https://huggingface.co/spaces/$SPACE"
