@@ -1,0 +1,147 @@
+{
+  "llm": {
+    "profile": "local",
+    "models": {
+      "small": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "strong": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "mid": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "fallback": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      }
+    }
+  },
+  "persona": "ai_ml",
+  "n_jobs": 10,
+  "note": "(a)/(b) use the strong model for every step; (c) uses shipped per-node routing. (a)/(b) have NO Compliance Guard, so 'raw policy violations' = what reached the output.",
+  "architectures": {
+    "hand_graph": {
+      "n_jobs": 10,
+      "decision_accuracy": 1.0,
+      "unparseable_output_rate": 0.0,
+      "decision_accuracy_on_parsed_only": 1.0,
+      "by_job_type": {
+        "good": {
+          "n": 4,
+          "decision_accuracy": 1.0
+        },
+        "injection": {
+          "n": 1,
+          "decision_accuracy": 1.0
+        },
+        "lowball": {
+          "n": 1,
+          "decision_accuracy": 1.0
+        },
+        "scam": {
+          "n": 2,
+          "decision_accuracy": 1.0
+        },
+        "skip": {
+          "n": 2,
+          "decision_accuracy": 1.0
+        }
+      },
+      "n_proposals": 5,
+      "unsupported_claim_rate_mean": 0.0,
+      "proposals_with_raw_policy_violation": 0.0,
+      "gigsim_reply_rate": 1.0,
+      "n_sent": 5,
+      "p50_latency_s": 192.287,
+      "p95_latency_s": 314.775,
+      "tokens_per_job": 6468,
+      "list_cost_usd_per_job": 0.0,
+      "errors": [],
+      "n_errors": 0
+    },
+    "single_react_agent": {
+      "n_jobs": 10,
+      "decision_accuracy": 0.6,
+      "unparseable_output_rate": 0.4,
+      "decision_accuracy_on_parsed_only": 1.0,
+      "by_job_type": {
+        "good": {
+          "n": 4,
+          "decision_accuracy": 0.0
+        },
+        "injection": {
+          "n": 1,
+          "decision_accuracy": 1.0
+        },
+        "lowball": {
+          "n": 1,
+          "decision_accuracy": 1.0
+        },
+        "scam": {
+          "n": 2,
+          "decision_accuracy": 1.0
+        },
+        "skip": {
+          "n": 2,
+          "decision_accuracy": 1.0
+        }
+      },
+      "n_proposals": 1,
+      "unsupported_claim_rate_mean": 0.0,
+      "proposals_with_raw_policy_violation": 0.0,
+      "gigsim_reply_rate": 1.0,
+      "n_sent": 1,
+      "p50_latency_s": 29.805,
+      "p95_latency_s": 356.687,
+      "tokens_per_job": 13394,
+      "list_cost_usd_per_job": 0.0,
+      "errors": [],
+      "n_errors": 0
+    },
+    "prebuilt_supervisor": {
+      "n_jobs": 9,
+      "decision_accuracy": 0.778,
+      "unparseable_output_rate": 0.0,
+      "decision_accuracy_on_parsed_only": 0.778,
+      "by_job_type": {
+        "good": {
+          "n": 3,
+          "decision_accuracy": 0.667
+        },
+        "injection": {
+          "n": 1,
+          "decision_accuracy": 0.0
+        },
+        "lowball": {
+          "n": 1,
+          "decision_accuracy": 1.0
+        },
+        "scam": {
+          "n": 2,
+          "decision_accuracy": 1.0
+        },
+        "skip": {
+          "n": 2,
+          "decision_accuracy": 1.0
+        }
+      },
+      "n_proposals": 2,
+      "unsupported_claim_rate_mean": 0.0,
+      "proposals_with_raw_policy_violation": 0.0,
+      "gigsim_reply_rate": 1.0,
+      "n_sent": 2,
+      "p50_latency_s": 29.969,
+      "p95_latency_s": 157.515,
+      "tokens_per_job": 1471,
+      "list_cost_usd_per_job": 0.0,
+      "errors": [
+        "GigSim 404: {\"detail\":\"client not found\"}"
+      ],
+      "n_errors": 1
+    }
+  }
+}

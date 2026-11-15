@@ -1,0 +1,19 @@
+# Render Blueprint: a free web service built from infra/docker/render.Dockerfile (512 MB). Secrets are entered in the dashboard (sync: false), never committed.
+services:
+  - type: web
+    name: gigbid
+    runtime: docker
+    plan: free
+    dockerfilePath: ./infra/docker/render.Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - {key: DATABASE_URL, sync: false}
+      - {key: GROQ_API_KEY, sync: false}
+      - {key: APP_SECRET_KEY, sync: false}
+      - {key: TOKEN_ENCRYPTION_KEY, sync: false}
+      - {key: GIGSIM_API_TOKEN, sync: false}
+      - {key: REVIEWER_PASSWORD, sync: false}
+      - {key: REVIEWER_EMAIL, value: reviewer@gigbid.dev}
+      - {key: REVIEWER_PERSONA, value: ai_ml}
+      - {key: APP_ENV, value: prod}

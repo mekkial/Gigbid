@@ -1,0 +1,20 @@
+{
+  "n_jobs": 12,
+  "fit_matcher": {
+    "sequential_p50_s": 0.999,
+    "concurrent_p50_s": 0.898,
+    "sequential_p95_s": 1.466,
+    "concurrent_p95_s": 1.35,
+    "speedup_p50": 1.11,
+    "identical_output_rate": 1.0,
+    "note": "CPU-bound retrieval on a 4-core laptop: speedup is limited by the cores/GIL; with the MCP portfolio server it also overlaps IPC"
+  },
+  "prompt_trimming": {
+    "evidence_chars_per_prompt_before": 3622,
+    "after": 2366,
+    "estimated_tokens_before": 1207,
+    "after_tokens": 789,
+    "reduction_pct": 34.7,
+    "applies_to": "writer prompt (every revision) and verifier prompt (2 calls per revision)"
+  }
+}

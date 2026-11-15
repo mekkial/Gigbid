@@ -1,0 +1,31 @@
+{
+  "n": 30,
+  "human_acceptable": 12,
+  "judge_acceptable": 30,
+  "human_mean_overall": 2.5,
+  "judge_mean_overall": 4.1,
+  "by_variant": {
+    "v0_naive": {
+      "n": 16,
+      "human_acceptable": 5,
+      "judge_acceptable": 16,
+      "human_mean_overall": 2.38,
+      "judge_mean_overall": 4.12
+    },
+    "v3_rerank": {
+      "n": 14,
+      "human_acceptable": 7,
+      "judge_acceptable": 14,
+      "human_mean_overall": 2.64,
+      "judge_mean_overall": 4.07
+    }
+  },
+  "fisher_p_acceptable_v0_vs_v3": 0.457,
+  "copied_opening": {
+    "threshold_words": 6,
+    "n_copied": 17,
+    "human_acceptable_when_copied": "8/17",
+    "human_acceptable_otherwise": "4/13",
+    "fisher_p": 0.465
+  }
+}

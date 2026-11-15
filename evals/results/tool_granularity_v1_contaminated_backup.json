@@ -1,0 +1,137 @@
+{
+  "n_tasks": 40,
+  "hypothesis": "see docs/adr/0003-tool-granularity.md",
+  "results": {
+    "strong": {
+      "model": "qwen/qwen3.8-27b",
+      "toolsets": {
+        "fine": {
+          "n_tools": 37,
+          "tool_selection_accuracy": 0.975,
+          "argument_accuracy": 0.9,
+          "prompt_tokens_per_task": 2354,
+          "api_errors": 1,
+          "example_failures": [
+            {
+              "task": "What is the budget for job fullstack-job-0021?",
+              "got": null
+            }
+          ]
+        },
+        "coarse": {
+          "n_tools": 4,
+          "tool_selection_accuracy": 1.0,
+          "argument_accuracy": 0.925,
+          "prompt_tokens_per_task": 688,
+          "api_errors": 0,
+          "example_failures": []
+        },
+        "tuned": {
+          "n_tools": 15,
+          "tool_selection_accuracy": 0.325,
+          "argument_accuracy": 0.325,
+          "prompt_tokens_per_task": 551,
+          "api_errors": 26,
+          "example_failures": [
+            {
+              "task": "How many Connects will it cost me to apply to ai_ml-job-0003?",
+              "got": "create_email_draft"
+            },
+            {
+              "task": "Is client client-071 reliable? Look at their spend and rating.",
+              "got": null
+            },
+            {
+              "task": "Find open jobs about dashboard.",
+              "got": null
+            },
+            {
+              "task": "Find open jobs about chatbot.",
+              "got": null
+            }
+          ]
+        }
+      }
+    },
+    "small": {
+      "model": "openai/gpt-oss-20b",
+      "toolsets": {
+        "fine": {
+          "n_tools": 37,
+          "tool_selection_accuracy": 0.85,
+          "argument_accuracy": 0.75,
+          "prompt_tokens_per_task": 975,
+          "api_errors": 0,
+          "example_failures": [
+            {
+              "task": "Show me the full write-up of my case study churn-prediction.",
+              "got": null
+            },
+            {
+              "task": "Show me the full write-up of my case study shop-storefront.",
+              "got": null
+            },
+            {
+              "task": "Without sending anything, preview what proposal for ai_ml-job-0003 at a bid of $450 would cost in Connects.",
+              "got": "get_job_connects_cost"
+            },
+            {
+              "task": "Without sending anything, preview what proposal for fullstack-job-0021 at a bid of $900 would cost in Connects.",
+              "got": "get_job_connects_cost"
+            }
+          ]
+        },
+        "coarse": {
+          "n_tools": 4,
+          "tool_selection_accuracy": 0.85,
+          "argument_accuracy": 0.7,
+          "prompt_tokens_per_task": 384,
+          "api_errors": 2,
+          "example_failures": [
+            {
+              "task": "Do I have any experience with Power BI?",
+              "got": "portfolio"
+            },
+            {
+              "task": "Without sending anything, preview what proposal for ai_ml-job-0003 at a bid of $450 would cost in Connects.",
+              "got": "marketplace"
+            },
+            {
+              "task": "Without sending anything, preview what proposal for fullstack-job-0021 at a bid of $900 would cost in Connects.",
+              "got": "marketplace"
+            },
+            {
+              "task": "Without sending anything, preview what proposal for data_analyst-job-0007 at a bid of $1200 would cost in Connects.",
+              "got": "marketplace"
+            }
+          ]
+        },
+        "tuned": {
+          "n_tools": 15,
+          "tool_selection_accuracy": 0.9,
+          "argument_accuracy": 0.875,
+          "prompt_tokens_per_task": 811,
+          "api_errors": 0,
+          "example_failures": [
+            {
+              "task": "Do I have any experience with Power BI?",
+              "got": "list_skills"
+            },
+            {
+              "task": "Show me the full write-up of my case study churn-prediction.",
+              "got": "search_evidence"
+            },
+            {
+              "task": "Show me the full write-up of my case study shop-storefront.",
+              "got": "search_evidence"
+            },
+            {
+              "task": "Show me the full write-up of my case study warehouse-dbt.",
+              "got": "search_evidence"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "jobs_per_persona": 1,
+  "note": "simulated human approves each draft unchanged; judge = qwen3.8-27b (uncalibrated until judge_calibration.py is run with human labels)",
+  "variants": {
+    "v3_rerank": {
+      "overall": {
+        "n": 0
+      },
+      "by_persona": {
+        "ai_ml": {
+          "n": 0
+        },
+        "fullstack": {
+          "n": 0
+        },
+        "data_analyst": {
+          "n": 0
+        }
+      }
+    }
+  }
+}

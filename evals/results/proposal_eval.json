@@ -1,0 +1,270 @@
+{
+  "llm": {
+    "profile": "local",
+    "models": {
+      "small": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "strong": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "mid": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "fallback": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      }
+    }
+  },
+  "jobs_per_persona": 6,
+  "note": "simulated human approves each draft unchanged; judge = qwen3.8-27b (uncalibrated until judge_calibration.py is run with human labels)",
+  "variants": {
+    "v0_naive": {
+      "overall": {
+        "n_proposals": 18,
+        "reply_rate": 0.722,
+        "reply_ci95": [
+          0.491,
+          0.875
+        ],
+        "hire_rate": 0.222,
+        "hire_ci95": [
+          0.09,
+          0.452
+        ],
+        "unsupported_claims_per_proposal_before": 0.097,
+        "unsupported_rate_before_verification": 0.5,
+        "unsupported_rate_after_verification": 0.167,
+        "ungrounded_numbers_per_proposal": 0.0,
+        "judge_overall_mean": 4.167,
+        "judge_acceptable_rate": 1.0,
+        "p50_latency_s": 335.82,
+        "p95_latency_s": 574.23,
+        "tokens_per_proposal": 13261,
+        "list_cost_usd_per_proposal": 0.0,
+        "avg_revisions": 3.0,
+        "_counts": {
+          "replies": 13,
+          "hires": 4,
+          "n": 18
+        }
+      },
+      "by_persona": {
+        "ai_ml": {
+          "n_proposals": 6,
+          "reply_rate": 0.667,
+          "reply_ci95": [
+            0.3,
+            0.903
+          ],
+          "hire_rate": 0.167,
+          "hire_ci95": [
+            0.03,
+            0.564
+          ],
+          "unsupported_claims_per_proposal_before": 0.132,
+          "unsupported_rate_before_verification": 0.667,
+          "unsupported_rate_after_verification": 0.333,
+          "ungrounded_numbers_per_proposal": 0.0,
+          "judge_overall_mean": 4.333,
+          "judge_acceptable_rate": 1.0,
+          "p50_latency_s": 337.97,
+          "p95_latency_s": 376.84,
+          "tokens_per_proposal": 13512,
+          "list_cost_usd_per_proposal": 0.0,
+          "avg_revisions": 3.0,
+          "_counts": {
+            "replies": 4,
+            "hires": 1,
+            "n": 6
+          }
+        },
+        "fullstack": {
+          "n_proposals": 6,
+          "reply_rate": 0.5,
+          "reply_ci95": [
+            0.188,
+            0.812
+          ],
+          "hire_rate": 0.167,
+          "hire_ci95": [
+            0.03,
+            0.564
+          ],
+          "unsupported_claims_per_proposal_before": 0.102,
+          "unsupported_rate_before_verification": 0.5,
+          "unsupported_rate_after_verification": 0.167,
+          "ungrounded_numbers_per_proposal": 0.0,
+          "judge_overall_mean": 4.167,
+          "judge_acceptable_rate": 1.0,
+          "p50_latency_s": 390.47,
+          "p95_latency_s": 574.23,
+          "tokens_per_proposal": 13081,
+          "list_cost_usd_per_proposal": 0.0,
+          "avg_revisions": 3.0,
+          "_counts": {
+            "replies": 3,
+            "hires": 1,
+            "n": 6
+          }
+        },
+        "data_analyst": {
+          "n_proposals": 6,
+          "reply_rate": 1.0,
+          "reply_ci95": [
+            0.61,
+            1.0
+          ],
+          "hire_rate": 0.333,
+          "hire_ci95": [
+            0.097,
+            0.7
+          ],
+          "unsupported_claims_per_proposal_before": 0.057,
+          "unsupported_rate_before_verification": 0.333,
+          "unsupported_rate_after_verification": 0.0,
+          "ungrounded_numbers_per_proposal": 0.0,
+          "judge_overall_mean": 4.0,
+          "judge_acceptable_rate": 1.0,
+          "p50_latency_s": 329.22,
+          "p95_latency_s": 425.01,
+          "tokens_per_proposal": 13190,
+          "list_cost_usd_per_proposal": 0.0,
+          "avg_revisions": 3.0,
+          "_counts": {
+            "replies": 6,
+            "hires": 2,
+            "n": 6
+          }
+        }
+      }
+    },
+    "v3_rerank": {
+      "overall": {
+        "n_proposals": 18,
+        "reply_rate": 0.778,
+        "reply_ci95": [
+          0.548,
+          0.91
+        ],
+        "hire_rate": 0.056,
+        "hire_ci95": [
+          0.01,
+          0.258
+        ],
+        "unsupported_claims_per_proposal_before": 0.03,
+        "unsupported_rate_before_verification": 0.167,
+        "unsupported_rate_after_verification": 0.0,
+        "ungrounded_numbers_per_proposal": 0.0,
+        "judge_overall_mean": 4.056,
+        "judge_acceptable_rate": 1.0,
+        "p50_latency_s": 294.21,
+        "p95_latency_s": 364.86,
+        "tokens_per_proposal": 11530,
+        "list_cost_usd_per_proposal": 0.0,
+        "avg_revisions": 2.83,
+        "_counts": {
+          "replies": 14,
+          "hires": 1,
+          "n": 18
+        }
+      },
+      "by_persona": {
+        "ai_ml": {
+          "n_proposals": 6,
+          "reply_rate": 0.833,
+          "reply_ci95": [
+            0.436,
+            0.97
+          ],
+          "hire_rate": 0.0,
+          "hire_ci95": [
+            0.0,
+            0.39
+          ],
+          "unsupported_claims_per_proposal_before": 0.024,
+          "unsupported_rate_before_verification": 0.167,
+          "unsupported_rate_after_verification": 0.0,
+          "ungrounded_numbers_per_proposal": 0.0,
+          "judge_overall_mean": 4.0,
+          "judge_acceptable_rate": 1.0,
+          "p50_latency_s": 328.77,
+          "p95_latency_s": 364.86,
+          "tokens_per_proposal": 12169,
+          "list_cost_usd_per_proposal": 0.0,
+          "avg_revisions": 3.0,
+          "_counts": {
+            "replies": 5,
+            "hires": 0,
+            "n": 6
+          }
+        },
+        "fullstack": {
+          "n_proposals": 6,
+          "reply_rate": 0.667,
+          "reply_ci95": [
+            0.3,
+            0.903
+          ],
+          "hire_rate": 0.0,
+          "hire_ci95": [
+            0.0,
+            0.39
+          ],
+          "unsupported_claims_per_proposal_before": 0.033,
+          "unsupported_rate_before_verification": 0.167,
+          "unsupported_rate_after_verification": 0.0,
+          "ungrounded_numbers_per_proposal": 0.0,
+          "judge_overall_mean": 4.167,
+          "judge_acceptable_rate": 1.0,
+          "p50_latency_s": 292.99,
+          "p95_latency_s": 327.43,
+          "tokens_per_proposal": 10421,
+          "list_cost_usd_per_proposal": 0.0,
+          "avg_revisions": 2.5,
+          "_counts": {
+            "replies": 4,
+            "hires": 0,
+            "n": 6
+          }
+        },
+        "data_analyst": {
+          "n_proposals": 6,
+          "reply_rate": 0.833,
+          "reply_ci95": [
+            0.436,
+            0.97
+          ],
+          "hire_rate": 0.167,
+          "hire_ci95": [
+            0.03,
+            0.564
+          ],
+          "unsupported_claims_per_proposal_before": 0.033,
+          "unsupported_rate_before_verification": 0.167,
+          "unsupported_rate_after_verification": 0.0,
+          "ungrounded_numbers_per_proposal": 0.0,
+          "judge_overall_mean": 4.0,
+          "judge_acceptable_rate": 1.0,
+          "p50_latency_s": 296.15,
+          "p95_latency_s": 328.11,
+          "tokens_per_proposal": 12000,
+          "list_cost_usd_per_proposal": 0.0,
+          "avg_revisions": 3.0,
+          "_counts": {
+            "replies": 5,
+            "hires": 1,
+            "n": 6
+          }
+        }
+      }
+    }
+  },
+  "reply_rate_diff_p_value_two_proportion": {
+    "v0_naive_vs_v3_rerank": 0.7003
+  }
+}

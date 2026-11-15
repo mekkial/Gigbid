@@ -1,0 +1,58 @@
+{
+  "calibrated_on": "ai_ml",
+  "threshold": 0.45,
+  "calibration_rates": {
+    "abstain_on_skip": 1.0,
+    "false_abstain_on_gold_jobs": 0.0,
+    "n_skip": 12,
+    "n_gold": 39
+  },
+  "held_out": {
+    "fullstack": {
+      "abstain_on_skip": 1.0,
+      "false_abstain_on_gold_jobs": 0.0,
+      "n_skip": 12,
+      "n_gold": 39
+    },
+    "data_analyst": {
+      "abstain_on_skip": 1.0,
+      "false_abstain_on_gold_jobs": 0.0,
+      "n_skip": 12,
+      "n_gold": 39
+    }
+  },
+  "default_threshold_0.0": {
+    "ai_ml": {
+      "abstain_on_skip": 0.0,
+      "false_abstain_on_gold_jobs": 0.0,
+      "n_skip": 12,
+      "n_gold": 39
+    },
+    "fullstack": {
+      "abstain_on_skip": 0.0,
+      "false_abstain_on_gold_jobs": 0.0,
+      "n_skip": 12,
+      "n_gold": 39
+    },
+    "data_analyst": {
+      "abstain_on_skip": 0.0,
+      "false_abstain_on_gold_jobs": 0.0,
+      "n_skip": 12,
+      "n_gold": 39
+    }
+  },
+  "score_summary": {
+    "ai_ml": {
+      "top_logit_mean_gold": 0.93,
+      "top_logit_mean_skip": 0.05
+    },
+    "fullstack": {
+      "top_logit_mean_gold": 0.94,
+      "top_logit_mean_skip": 0.01
+    },
+    "data_analyst": {
+      "top_logit_mean_gold": 0.95,
+      "top_logit_mean_skip": 0.01
+    }
+  }
+}

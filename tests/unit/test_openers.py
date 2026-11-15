@@ -28,3 +28,16 @@ def test_compliance_keeps_interview_slots_but_strips_phone_numbers():
     assert "2026-11-16 10:00" in v.cleaned_text and "off_platform_contact" not in v.violations
     w = check("Call me on +92 300 1234567 to discuss. " + "Happy to discuss the project in detail and answer questions. " * 3)
     assert "1234567" not in w.cleaned_text and "off_platform_contact" in w.violations
+
+
+def test_bm25_mode_builds_no_embeddings_and_full_mode_default_is_v3(monkeypatch):
+    import rag.retriever as r
+    from rag.index.store import Index
+    chunks = [{"chunk_id": "a", "text": "RAG chatbot with Hugging Face", "skills": ["rag"], "project": "p1", "type": "case_study"},
+              {"chunk_id": "b", "text": "React dashboard", "skills": ["react"], "project": "p2", "type": "case_study"}]
+    monkeypatch.setenv("RAG_VARIANT", "v6_bm25")
+    idx = Index(chunks)
+    assert idx.emb is None and r.active_variant() == "v6_bm25"
+    assert r.get_retriever()("RAG chatbot", idx, k=1)[0]["project"] == "p1"
+    monkeypatch.delenv("RAG_VARIANT")
+    assert r.active_variant() == "v3_rerank"                    # the shipped, evaluated variant is the default

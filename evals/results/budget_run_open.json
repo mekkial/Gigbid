@@ -1,0 +1,55 @@
+{
+  "llm": {
+    "profile": "open",
+    "models": {
+      "small": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-20b"
+      },
+      "strong": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b"
+      },
+      "mid": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b"
+      },
+      "fallback": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b"
+      }
+    }
+  },
+  "declared": {
+    "analysis_p95_s": 25,
+    "analysis_list_cost_usd": 0.002,
+    "proposal_p95_s": 150,
+    "proposal_list_cost_usd": 0.012,
+    "proposal_tokens": 30000
+  },
+  "concurrency": 1,
+  "measured": {
+    "analysis": {
+      "n": 8,
+      "p50_latency_s": 1.765,
+      "p95_latency_s": 51.727,
+      "tokens_mean": 1251,
+      "list_cost_usd_mean": 0.000177
+    },
+    "proposal": {
+      "n": 3,
+      "p50_latency_s": 130.738,
+      "p95_latency_s": 222.028,
+      "tokens_mean": 20397,
+      "list_cost_usd_mean": 0.005593,
+      "avg_revisions": 3.0
+    }
+  },
+  "verdict": {
+    "analysis_p95_within_budget": false,
+    "proposal_p95_within_budget": false,
+    "proposal_tokens_within_budget": true,
+    "analysis_cost_within_budget": true,
+    "proposal_cost_within_budget": true
+  }
+}

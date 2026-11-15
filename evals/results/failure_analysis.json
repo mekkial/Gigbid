@@ -1,0 +1,29 @@
+{
+  "n_jobs": 240,
+  "note": "deterministic pipeline only (no LLM); 'base' = before the budget-floor rule, 'fixed' = shipped",
+  "taxonomy": {
+    "base": {
+      "wrong_bid:lowball_budget": 24
+    },
+    "fixed": {}
+  },
+  "examples": {},
+  "bid_or_skip": {
+    "base": {
+      "accuracy": 0.9,
+      "precision": 0.8462,
+      "recall": 1.0,
+      "f1": 0.9167
+    },
+    "fixed": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "failed_jobs_total": {
+    "base": 24,
+    "fixed": 0
+  }
+}

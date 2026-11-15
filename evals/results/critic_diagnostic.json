@@ -1,0 +1,201 @@
+{
+  "profile": "local (qwen3:8b), 3 jobs, ai_ml persona (a 3-job DIAGNOSTIC, not an evaluation)",
+  "context": "all 36 stored proposals from proposal_eval reached the revision cap; 0/36 reached 120 words (mean ~88)",
+  "before_fix": {
+    "change": "none: length target only in the system prompt",
+    "summary": {
+      "jobs": 3,
+      "rounds": 9,
+      "approved_rounds": 0,
+      "length_ok_rounds": 0,
+      "personalisation_mean": 0.42,
+      "final_words": [
+        76,
+        96,
+        80
+      ]
+    },
+    "jobs": [
+      {
+        "job": "ai_ml-job-0000",
+        "rounds": [
+          {
+            "round": 1,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          },
+          {
+            "round": 2,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          },
+          {
+            "round": 3,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.6,
+            "length_ok": false
+          }
+        ],
+        "final_words": 76
+      },
+      {
+        "job": "ai_ml-job-0003",
+        "rounds": [
+          {
+            "round": 1,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          },
+          {
+            "round": 2,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          },
+          {
+            "round": 3,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          }
+        ],
+        "final_words": 96
+      },
+      {
+        "job": "ai_ml-job-0004",
+        "rounds": [
+          {
+            "round": 1,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          },
+          {
+            "round": 2,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          },
+          {
+            "round": 3,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          }
+        ],
+        "final_words": 80
+      }
+    ]
+  },
+  "after_fix": {
+    "change": "explicit WORD BUDGET 130-200 in the writer task message; length bounds moved to config",
+    "summary": {
+      "jobs": 3,
+      "rounds": 9,
+      "approved_rounds": 0,
+      "length_ok_rounds": 7,
+      "personalisation_mean": 0.44,
+      "final_words": [
+        92,
+        111,
+        120
+      ]
+    },
+    "jobs": [
+      {
+        "job": "ai_ml-job-0000",
+        "rounds": [
+          {
+            "round": 1,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": true
+          },
+          {
+            "round": 2,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": true
+          },
+          {
+            "round": 3,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.6,
+            "length_ok": false
+          }
+        ],
+        "final_words": 92
+      },
+      {
+        "job": "ai_ml-job-0003",
+        "rounds": [
+          {
+            "round": 1,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": true
+          },
+          {
+            "round": 2,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": true
+          },
+          {
+            "round": 3,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.6,
+            "length_ok": true
+          }
+        ],
+        "final_words": 111
+      },
+      {
+        "job": "ai_ml-job-0004",
+        "rounds": [
+          {
+            "round": 1,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": false
+          },
+          {
+            "round": 2,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": true
+          },
+          {
+            "round": 3,
+            "approved": false,
+            "grounding": 0.8,
+            "personalisation": 0.4,
+            "length_ok": true
+          }
+        ],
+        "final_words": 120
+      }
+    ]
+  },
+  "remaining_blocker": "critic personalisation score stays ~0.4 (< 0.6) because the portfolio only partly matches the job; no round approved in either condition"
+}

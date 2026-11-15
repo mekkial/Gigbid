@@ -1,0 +1,51 @@
+{
+  "llm": {
+    "profile": "local",
+    "models": {
+      "small": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "strong": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "mid": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      },
+      "fallback": {
+        "provider": "ollama",
+        "model": "qwen3:8b"
+      }
+    }
+  },
+  "declared": {
+    "analysis_p95_s": 90,
+    "proposal_p95_s": 600,
+    "proposal_tokens": 30000
+  },
+  "concurrency": 1,
+  "measured": {
+    "analysis": {
+      "n": 8,
+      "p50_latency_s": 14.916,
+      "p95_latency_s": 17.378,
+      "tokens_mean": 1018,
+      "list_cost_usd_mean": 0.0
+    },
+    "proposal": {
+      "n": 3,
+      "p50_latency_s": 136.797,
+      "p95_latency_s": 164.423,
+      "tokens_mean": 11542,
+      "list_cost_usd_mean": 0.0,
+      "avg_revisions": 3.0
+    }
+  },
+  "verdict": {
+    "analysis_p95_within_budget": true,
+    "proposal_p95_within_budget": true,
+    "proposal_tokens_within_budget": true
+  }
+}

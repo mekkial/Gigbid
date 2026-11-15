@@ -1,0 +1,362 @@
+[
+ {
+  "item": 0,
+  "variant": "v0_naive",
+  "job_id": "ai_ml-job-0007",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 1,
+  "variant": "v3_rerank",
+  "job_id": "data_analyst-job-0008",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 2,
+  "variant": "v3_rerank",
+  "job_id": "ai_ml-job-0005",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 3,
+  "variant": "v0_naive",
+  "job_id": "data_analyst-job-0000",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 4,
+  "variant": "v0_naive",
+  "job_id": "data_analyst-job-0016",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 5,
+  "variant": "v3_rerank",
+  "job_id": "data_analyst-job-0016",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 6,
+  "variant": "v0_naive",
+  "job_id": "ai_ml-job-0006",
+  "judge": {
+   "grounding": 5,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 5,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 7,
+  "variant": "v0_naive",
+  "job_id": "fullstack-job-0007",
+  "judge": {
+   "grounding": 5,
+   "personalisation": 5,
+   "clarity": 5,
+   "overall": 5,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 8,
+  "variant": "v3_rerank",
+  "job_id": "data_analyst-job-0000",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 9,
+  "variant": "v0_naive",
+  "job_id": "fullstack-job-0009",
+  "judge": {
+   "grounding": 3,
+   "personalisation": 2,
+   "clarity": 4,
+   "overall": 3,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 10,
+  "variant": "v0_naive",
+  "job_id": "fullstack-job-0005",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 11,
+  "variant": "v3_rerank",
+  "job_id": "data_analyst-job-0013",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 12,
+  "variant": "v0_naive",
+  "job_id": "ai_ml-job-0000",
+  "judge": {
+   "grounding": 5,
+   "personalisation": 5,
+   "clarity": 5,
+   "overall": 5,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 13,
+  "variant": "v3_rerank",
+  "job_id": "ai_ml-job-0000",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 14,
+  "variant": "v3_rerank",
+  "job_id": "fullstack-job-0003",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 15,
+  "variant": "v3_rerank",
+  "job_id": "data_analyst-job-0002",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 16,
+  "variant": "v0_naive",
+  "job_id": "data_analyst-job-0013",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 17,
+  "variant": "v0_naive",
+  "job_id": "data_analyst-job-0017",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 18,
+  "variant": "v3_rerank",
+  "job_id": "fullstack-job-0009",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 19,
+  "variant": "v0_naive",
+  "job_id": "fullstack-job-0001",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 20,
+  "variant": "v3_rerank",
+  "job_id": "fullstack-job-0001",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 21,
+  "variant": "v3_rerank",
+  "job_id": "fullstack-job-0008",
+  "judge": {
+   "grounding": 5,
+   "personalisation": 5,
+   "clarity": 5,
+   "overall": 5,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 22,
+  "variant": "v3_rerank",
+  "job_id": "ai_ml-job-0003",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 23,
+  "variant": "v0_naive",
+  "job_id": "fullstack-job-0003",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 24,
+  "variant": "v0_naive",
+  "job_id": "ai_ml-job-0005",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 25,
+  "variant": "v0_naive",
+  "job_id": "data_analyst-job-0002",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 26,
+  "variant": "v3_rerank",
+  "job_id": "ai_ml-job-0006",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 5,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 27,
+  "variant": "v0_naive",
+  "job_id": "ai_ml-job-0003",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 4,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 28,
+  "variant": "v0_naive",
+  "job_id": "ai_ml-job-0004",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ },
+ {
+  "item": 29,
+  "variant": "v3_rerank",
+  "job_id": "ai_ml-job-0007",
+  "judge": {
+   "grounding": 4,
+   "personalisation": 3,
+   "clarity": 4,
+   "overall": 4,
+   "acceptable": true
+  }
+ }
+]

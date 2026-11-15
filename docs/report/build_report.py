@@ -96,7 +96,7 @@ def s4():
     if not d:
         return "<h2>4. R&amp;D question B: RAG</h2>" + NR()
     vs = d["variants"]
-    names = {"v0_naive": "V0 naive dense", "v1_decompose": "V1 requirement decomposition", "v2_hybrid": "V2 BM25+dense (RRF)", "v3_rerank": "V3 + cross-encoder rerank", "v4_outcome": "V4 outcome-aware boost", "v5_full": "composed (V1+V2+V3+V4)", "v8_corrective": "V8 corrective / self-RAG"}
+    names = {"v0_naive": "V0 naive dense", "v1_decompose": "V1 requirement decomposition", "v2_hybrid": "V2 BM25+dense (RRF)", "v3_rerank": "V3 + cross-encoder rerank", "v4_outcome": "V4 outcome-aware boost", "v5_full": "composed (V1+V2+V3+V4)", "v6_bm25": "V6 BM25 keyword only (deployment variant)", "v8_corrective": "V8 corrective / self-RAG"}
     rows = [[names.get(v, v), f(p["macro"]["recall@5"]), f(p["macro"]["mrr"]), f(p["macro"]["ndcg@10"]), f(p["macro"]["p95_s"], 2), "/".join(f(p[x]["abstain_rate_on_skip_jobs"], 2) for x in ("ai_ml", "fullstack", "data_analyst"))] for v, p in vs.items()]
     jt = []
     for v in ("v0_naive", "v2_hybrid", "v3_rerank", "v8_corrective"):
@@ -106,6 +106,9 @@ def s4():
             xs = [x for x in xs if x is not None]
             row.append(f(sum(xs) / len(xs)) if xs else "–")
         jt.append(row)
+    bm = vs.get("v6_bm25", {}).get("macro")
+    bm25 = (f" <b>V6, BM25 keyword search only</b> (no embedding model, no reranker, about 100 MB instead of about 1.4 GB, p95 under 1 ms) scores Recall@5 {f(bm['recall@5'])} and MRR {f(bm['mrr'])}: better than naive dense search and than hybrid without the reranker, and below the shipped V3 (MRR 0.92). "
+            "This corpus is templated, so keyword overlap is flattered; real portfolios describe skills less literally, so I expect the gap to V3 to be larger there. I measured V6 because the free public host has only 512 MB: <b>the public demo link runs V6; the full V3 system (and the separate MCP servers) run locally and in Docker, and are what every other number in this report measures.</b>") if bm else ""
     chunk = ""
     if ch:
         chunk = f" My first V1 merged per-requirement rankings at chunk level and measured MRR {f(ch['variants']['v1_decompose']['macro']['mrr'])}; merging at project level (shipped in the table) raised recall but still did not beat hybrid+rerank. Both files are kept (<code>rag_eval_v1_chunk_level_fusion.json</code>)."
@@ -137,7 +140,7 @@ def s4():
 H3 decomposition beats V0 on 4-requirement jobs; H4 outcome boost will <i>not</i> move gold-evidence metrics; H5 corrective retrieval abstains on jobs to skip. <b>Setup:</b> {d['config']['n_per_persona']} stratified jobs per persona (seeded), evidence-level metrics against gold projects, 3 personas macro-averaged. The corpus is synthetic and templated: read ordering, not absolute values.</p>
 {T(["variant", "Recall@5", "MRR", "nDCG@10", "p95 s/query", "abstain on skip jobs (persona 1/2/3)"], rows, "small")}{src("rag_eval.json")}
 <p><b>Scorecard.</b> H1 <b>confirmed</b> (Recall@5 {f(vs['v0_naive']['macro']['recall@5'])} &rarr; {f(vs['v2_hybrid']['macro']['recall@5'])}). H2 <b>confirmed</b> (MRR {f(vs['v2_hybrid']['macro']['mrr'])} &rarr; {f(vs['v3_rerank']['macro']['mrr'])}, p95 {f(vs['v3_rerank']['macro']['p95_s'], 2)} s vs {f(vs['v2_hybrid']['macro']['p95_s'], 2)} s).
-H3 <b>refuted</b>: decomposition lowered MRR ({f(vs['v1_decompose']['macro']['mrr'])} vs {f(vs['v0_naive']['macro']['mrr'])}).{chunk} H4 <b>supported, trivially</b>: outcome boost is identical to V2 on gold metrics; its value would have to show in reply rate,
+H3 <b>refuted</b>: decomposition lowered MRR ({f(vs['v1_decompose']['macro']['mrr'])} vs {f(vs['v0_naive']['macro']['mrr'])}).{chunk}{bm25} H4 <b>supported, trivially</b>: outcome boost is identical to V2 on gold metrics; its value would have to show in reply rate,
 which this sample cannot resolve. H5 <b>refuted as first implemented</b>.{thr}</p>
 {T(["variant", "MRR: good jobs", "low-ball jobs", "injected jobs"], jt, "small")}{abl}{cv}{calp}
 <p><b>Shipped:</b> V3 (hybrid BM25+dense with RRF, cross-encoder rerank). It is the best on every retrieval metric at ~0.7 s/query on CPU. V8 is the one to adopt when abstention on out-of-scope jobs matters; it did not improve retrieval metrics. Where better retrieval did not translate into replies is in the proposals table above (small n, wide intervals).</p>"""
@@ -226,6 +229,7 @@ def s10():
 {T(["profile", "job analysed p95", "proposal p95", "tokens / proposal", "list USD / proposal", "verdict"], rows, "small")}
 <p>One optimisation that helped (<code>evals/results/optimisation.json</code>): <b>prompt trimming</b> (writer/verifier evidence limited to 6 items x 600 chars) cut evidence tokens per prompt by {(J('optimisation.json') or {}).get('prompt_trimming', {}).get('reduction_pct', 'n/a')}%. One that did <b>not</b> help much: running the Fit Matcher's per-requirement searches concurrently gave only {(J('optimisation.json') or {}).get('fit_matcher', {}).get('speedup_p50', 'n/a')}x in-process because retrieval is CPU-bound.
 <b>Hosted open profile (measured 2026-11-14, n=8 analyses, n=3 proposals).</b> Analysis median 1.8 s but p95 51.7 s, and proposal p95 222 s against the declared 150 s: <b>both latency budgets are missed</b>; tokens (20.4k vs 30k) and cost ($0.0056 vs $0.012) are within budget. I did not isolate why the analysis tail is long (a rate-limit retry on a shared per-minute token cap is the likeliest cause) and n=3 proposals is too few for a stable p95; every proposal also used the full 3 revision rounds.</p>
+<p><b>Deployment footprint (measured locally, <code>scripts/measure_light_memory.sh</code>).</b> The full retrieval stack (embedding model plus reranker on CPU) needs about 1.4 GB of RAM by itself (555 MB after the embedding model, 1,368 MB after the reranker). The light configuration used for a free 512 MB host (V6 keyword retrieval, tools in-process, no PyTorch) reached about 220 MB in total (GigSim plus API) while analysing and drafting a job end to end; with the three MCP servers as separate processes it peaked at about 455 MB, too close to the limit, so the light deployment calls the same tool code in-process. In a clean environment without PyTorch or sentence-transformers a full draft reached the approval step.</p>
 <p>Earlier concurrent evaluation runs showed p95 &asymp; 120 s per analysed job: that was queueing behind my own token limiter, not per-job latency, which is why the budget run is sequential. On the free hosted tier the 200,000-tokens/day cap (about a dozen proposals per model per day) means <b>the hosted open profile cannot serve a grading run without paid quota</b>; I state that as a result, not an excuse.</p>"""
 
 

@@ -1,0 +1,716 @@
+{
+  "config": {
+    "n_per_persona": 60,
+    "seed": 4016,
+    "corpus": "synthetic personas (see docs/DATA_CARD.md)"
+  },
+  "variants": {
+    "v0_naive": {
+      "ai_ml": {
+        "recall@5": 0.8462,
+        "mrr": 0.4936,
+        "ndcg@10": 0.5849,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.8148,
+            "mrr": 0.4722,
+            "ndcg@10": 0.5605,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 0.8333,
+            "mrr": 0.4167,
+            "ndcg@10": 0.5258,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.6667,
+            "ndcg@10": 0.754,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0069,
+        "p95_s": 0.0088
+      },
+      "fullstack": {
+        "recall@5": 0.9487,
+        "mrr": 0.7393,
+        "ndcg@10": 0.7939,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.9259,
+            "mrr": 0.7531,
+            "ndcg@10": 0.7981,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.6667,
+            "ndcg@10": 0.754,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.75,
+            "ndcg@10": 0.8155,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.007,
+        "p95_s": 0.0078
+      },
+      "data_analyst": {
+        "recall@5": 0.9231,
+        "mrr": 0.6538,
+        "ndcg@10": 0.7237,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.963,
+            "mrr": 0.6975,
+            "ndcg@10": 0.7667,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 0.6667,
+            "mrr": 0.4167,
+            "ndcg@10": 0.4821,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.6944,
+            "ndcg@10": 0.7718,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.007,
+        "p95_s": 0.0081
+      },
+      "macro": {
+        "recall@5": 0.906,
+        "mrr": 0.6289,
+        "ndcg@10": 0.7008,
+        "p95_s": 0.0082
+      }
+    },
+    "v1_decompose": {
+      "ai_ml": {
+        "recall@5": 0.8718,
+        "mrr": 0.4316,
+        "ndcg@10": 0.5432,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.8889,
+            "mrr": 0.4383,
+            "ndcg@10": 0.5519,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 0.6667,
+            "mrr": 0.3056,
+            "ndcg@10": 0.3988,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.5278,
+            "ndcg@10": 0.6488,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0212,
+        "p95_s": 0.2822
+      },
+      "fullstack": {
+        "recall@5": 0.8205,
+        "mrr": 0.4295,
+        "ndcg@10": 0.5297,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.7407,
+            "mrr": 0.429,
+            "ndcg@10": 0.5089,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.4722,
+            "ndcg@10": 0.6091,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.3889,
+            "ndcg@10": 0.5436,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0231,
+        "p95_s": 0.0367
+      },
+      "data_analyst": {
+        "recall@5": 0.8205,
+        "mrr": 0.403,
+        "ndcg@10": 0.5062,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.8148,
+            "mrr": 0.3907,
+            "ndcg@10": 0.4946,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 0.8333,
+            "mrr": 0.4722,
+            "ndcg@10": 0.5655,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 0.8333,
+            "mrr": 0.3889,
+            "ndcg@10": 0.4987,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0238,
+        "p95_s": 0.03
+      },
+      "macro": {
+        "recall@5": 0.8376,
+        "mrr": 0.4214,
+        "ndcg@10": 0.5264,
+        "p95_s": 0.1163
+      }
+    },
+    "v2_hybrid": {
+      "ai_ml": {
+        "recall@5": 1.0,
+        "mrr": 0.6389,
+        "ndcg@10": 0.7326,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.6512,
+            "ndcg@10": 0.7417,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.5556,
+            "ndcg@10": 0.6706,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.6667,
+            "ndcg@10": 0.754,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0072,
+        "p95_s": 0.008
+      },
+      "fullstack": {
+        "recall@5": 1.0,
+        "mrr": 0.7735,
+        "ndcg@10": 0.8318,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.8519,
+            "ndcg@10": 0.8898,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.6389,
+            "ndcg@10": 0.7321,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.5556,
+            "ndcg@10": 0.6706,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0076,
+        "p95_s": 0.0085
+      },
+      "data_analyst": {
+        "recall@5": 1.0,
+        "mrr": 0.7991,
+        "ndcg@10": 0.8513,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.8457,
+            "ndcg@10": 0.8858,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.7222,
+            "ndcg@10": 0.7936,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.6667,
+            "ndcg@10": 0.754,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.008,
+        "p95_s": 0.009
+      },
+      "macro": {
+        "recall@5": 1.0,
+        "mrr": 0.7372,
+        "ndcg@10": 0.8052,
+        "p95_s": 0.0085
+      }
+    },
+    "v3_rerank": {
+      "ai_ml": {
+        "recall@5": 1.0,
+        "mrr": 0.9103,
+        "ndcg@10": 0.9338,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.9074,
+            "ndcg@10": 0.9317,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.9167,
+            "ndcg@10": 0.9385,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.9167,
+            "ndcg@10": 0.9385,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.534,
+        "p95_s": 0.6069
+      },
+      "fullstack": {
+        "recall@5": 1.0,
+        "mrr": 0.8675,
+        "ndcg@10": 0.902,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.8642,
+            "ndcg@10": 0.8995,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.8333,
+            "ndcg@10": 0.877,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.9167,
+            "ndcg@10": 0.9385,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.669,
+        "p95_s": 0.7674
+      },
+      "data_analyst": {
+        "recall@5": 1.0,
+        "mrr": 0.9744,
+        "ndcg@10": 0.9811,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 1.0,
+            "ndcg@10": 1.0,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 1.0,
+            "ndcg@10": 1.0,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.8333,
+            "ndcg@10": 0.877,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.7303,
+        "p95_s": 0.8301
+      },
+      "macro": {
+        "recall@5": 1.0,
+        "mrr": 0.9174,
+        "ndcg@10": 0.939,
+        "p95_s": 0.7348
+      }
+    },
+    "v4_outcome": {
+      "ai_ml": {
+        "recall@5": 1.0,
+        "mrr": 0.6389,
+        "ndcg@10": 0.7326,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.6512,
+            "ndcg@10": 0.7417,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.5556,
+            "ndcg@10": 0.6706,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.6667,
+            "ndcg@10": 0.754,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0076,
+        "p95_s": 0.0087
+      },
+      "fullstack": {
+        "recall@5": 1.0,
+        "mrr": 0.7735,
+        "ndcg@10": 0.8318,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.8519,
+            "ndcg@10": 0.8898,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.6389,
+            "ndcg@10": 0.7321,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.5556,
+            "ndcg@10": 0.6706,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0079,
+        "p95_s": 0.0088
+      },
+      "data_analyst": {
+        "recall@5": 1.0,
+        "mrr": 0.7991,
+        "ndcg@10": 0.8513,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.8457,
+            "ndcg@10": 0.8858,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.7222,
+            "ndcg@10": 0.7936,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.6667,
+            "ndcg@10": 0.754,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.0096,
+        "p95_s": 0.0108
+      },
+      "macro": {
+        "recall@5": 1.0,
+        "mrr": 0.7372,
+        "ndcg@10": 0.8052,
+        "p95_s": 0.0094
+      }
+    },
+    "v5_full": {
+      "ai_ml": {
+        "recall@5": 0.8974,
+        "mrr": 0.4568,
+        "ndcg@10": 0.5682,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.8889,
+            "mrr": 0.4284,
+            "ndcg@10": 0.5438,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 0.8333,
+            "mrr": 0.4583,
+            "ndcg@10": 0.5539,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.5833,
+            "ndcg@10": 0.6924,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.72,
+        "p95_s": 1.9195
+      },
+      "fullstack": {
+        "recall@5": 0.7949,
+        "mrr": 0.3868,
+        "ndcg@10": 0.4962,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.7037,
+            "mrr": 0.3426,
+            "ndcg@10": 0.442,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.5,
+            "ndcg@10": 0.627,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.4722,
+            "ndcg@10": 0.6091,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.6864,
+        "p95_s": 2.2235
+      },
+      "data_analyst": {
+        "recall@5": 0.8718,
+        "mrr": 0.4714,
+        "ndcg@10": 0.577,
+        "by_job_type": {
+          "good": {
+            "recall@5": 0.8889,
+            "mrr": 0.4864,
+            "ndcg@10": 0.5945,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 0.8333,
+            "mrr": 0.4444,
+            "ndcg@10": 0.5436,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 0.8333,
+            "mrr": 0.4306,
+            "ndcg@10": 0.5321,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.6014,
+        "p95_s": 2.2321
+      },
+      "macro": {
+        "recall@5": 0.8547,
+        "mrr": 0.4383,
+        "ndcg@10": 0.5471,
+        "p95_s": 2.125
+      }
+    },
+    "v8_corrective": {
+      "ai_ml": {
+        "recall@5": 1.0,
+        "mrr": 0.9103,
+        "ndcg@10": 0.9338,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.9074,
+            "ndcg@10": 0.9317,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.9167,
+            "ndcg@10": 0.9385,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.9167,
+            "ndcg@10": 0.9385,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.6486,
+        "p95_s": 0.8267
+      },
+      "fullstack": {
+        "recall@5": 1.0,
+        "mrr": 0.8675,
+        "ndcg@10": 0.902,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 0.8642,
+            "ndcg@10": 0.8995,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 0.8333,
+            "ndcg@10": 0.877,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.9167,
+            "ndcg@10": 0.9385,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.7879,
+        "p95_s": 0.964
+      },
+      "data_analyst": {
+        "recall@5": 1.0,
+        "mrr": 0.9744,
+        "ndcg@10": 0.9811,
+        "by_job_type": {
+          "good": {
+            "recall@5": 1.0,
+            "mrr": 1.0,
+            "ndcg@10": 1.0,
+            "n": 27
+          },
+          "injection": {
+            "recall@5": 1.0,
+            "mrr": 1.0,
+            "ndcg@10": 1.0,
+            "n": 6
+          },
+          "lowball": {
+            "recall@5": 1.0,
+            "mrr": 0.8333,
+            "ndcg@10": 0.877,
+            "n": 6
+          }
+        },
+        "n_scored": 39,
+        "false_abstain_rate": 0.0,
+        "abstain_rate_on_skip_jobs": 0.0,
+        "n_skip_jobs": 12,
+        "p50_s": 0.7176,
+        "p95_s": 1.0593
+      },
+      "macro": {
+        "recall@5": 1.0,
+        "mrr": 0.9174,
+        "ndcg@10": 0.939,
+        "p95_s": 0.95
+      }
+    }
+  }
+}

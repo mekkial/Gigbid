@@ -28,12 +28,17 @@ def tok(s: str) -> list[str]:
 
 
 class Index:
-    def __init__(self, chunks: list[dict]):
+    def __init__(self, chunks: list[dict], dense: bool | None = None):
+        """dense=None: build embeddings unless the active variant is BM25-only (the 512 MB deployment never loads a model)."""
+        from rag.retriever import active_variant
         self.chunks = chunks
-        self.emb = embedder().encode([c["text"] for c in chunks], normalize_embeddings=True, show_progress_bar=False)
+        self.use_dense = (active_variant() != "v6_bm25") if dense is None else dense
+        self.emb = embedder().encode([c["text"] for c in chunks], normalize_embeddings=True, show_progress_bar=False) if self.use_dense else None
         self.bm25 = BM25Okapi([tok(c["text"] + " " + " ".join(c["skills"])) for c in chunks])
 
     def dense(self, query: str, n: int = 30) -> list[tuple[int, float]]:
+        if self.emb is None:
+            raise RuntimeError("dense retrieval is disabled (BM25-only index); unset RAG_VARIANT=v6_bm25 to use the embedding variants")
         q = embedder().encode([query], normalize_embeddings=True)[0]
         sims = self.emb @ q
         top = np.argsort(-sims)[:n]
@@ -50,6 +55,7 @@ class Index:
         new = [c for c in new_chunks if c["chunk_id"] not in ids]
         if not new:
             return
-        self.emb = np.vstack([self.emb, embedder().encode([c["text"] for c in new], normalize_embeddings=True, show_progress_bar=False)])
+        if self.emb is not None:
+            self.emb = np.vstack([self.emb, embedder().encode([c["text"] for c in new], normalize_embeddings=True, show_progress_bar=False)])
         self.chunks = self.chunks + new
         self.bm25 = BM25Okapi([tok(c["text"] + " " + " ".join(c["skills"])) for c in self.chunks])

@@ -1,0 +1,59 @@
+{
+  "n_labelled": 30,
+  "kappa_acceptable": 0.0,
+  "weighted_kappa_overall_1to5": 0.028,
+  "raw_agreement_acceptable": 0.4,
+  "disagreements": [
+    {
+      "item": 0,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 2,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 3,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 4,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 7,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 9,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 10,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 11,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 12,
+      "human": 0,
+      "judge": 1
+    },
+    {
+      "item": 13,
+      "human": 0,
+      "judge": 1
+    }
+  ],
+  "interpretation": "kappa < 0.4 poor, 0.4-0.6 moderate, 0.6-0.8 substantial: report judge scores only alongside this number"
+}

@@ -1,0 +1,32 @@
+{
+  "taxonomy": {
+    "base": {
+      "wrong_bid:lowball_budget": 24,
+      "wrong_skip": 6,
+      "injection_changed_decision": 6
+    },
+    "fixed": {
+      "wrong_skip": 6,
+      "injection_changed_decision": 6
+    }
+  },
+  "bid_or_skip": {
+    "base": {
+      "accuracy": 0.875,
+      "precision": 0.84,
+      "recall": 0.9545,
+      "f1": 0.8936
+    },
+    "fixed": {
+      "accuracy": 0.975,
+      "precision": 1.0,
+      "recall": 0.9545,
+      "f1": 0.9767
+    }
+  },
+  "failed_jobs_total": {
+    "base": 30,
+    "fixed": 6
+  },
+  "note": "FIRST PASS of evals/runners/failure_analysis.py (n=80/persona) before any fix: 'base' = no budget-floor rule; 'fixed' = with budget-floor rule but the OLD scam scan that fired on injected instruction text. Preserved from the run log."
+}
