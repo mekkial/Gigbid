@@ -8,7 +8,7 @@ COPY apps/web ./
 RUN npm run build
 
 FROM python:3.12-slim
-ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 PYTHONPATH=/app
 WORKDIR /app
 COPY requirements-light.txt ./
 RUN pip install -r requirements-light.txt
