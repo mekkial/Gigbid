@@ -3,8 +3,9 @@
 GigBid finds freelance jobs, decides whether each is worth bidding on, writes proposals in which **every claim links to portfolio evidence**, and
 manages the client conversation. A team of LangGraph agents does the legwork; **you approve every proposal and message** before anything leaves the system.
 
-> **Live demo:** _TODO: public URL + reviewer login (private comment on the submission)_ · **3-minute video:** _TODO_ · **Traces:** _TODO: 3 public trace links (see `docs/RUNBOOK.md`)_
-> **Portfolio MCP server:** `uvx --from ./mcp_servers/portfolio gigbid-portfolio-mcp` (see `mcp_servers/portfolio/README.md`) · **Write-up:** _TODO_
+> **Live demo (light version, free 512 MB host; may take ~1 minute to wake):** https://gigbid-ma2c.onrender.com · reviewer login in the private Classroom comment
+> **3-minute video:** [watch on Google Drive](https://drive.google.com/file/d/1I9KDQyVrYNIe7mGn5Wev_QcsfM0Q_rwe/view) · **Traces:** [approved proposal](docs/traces/trace-approved_proposal-020359.json), [skipped scam](docs/traces/trace-skipped_scam-12b991.json) (exported from Phoenix, see `docs/traces/README.md`)
+> **Portfolio MCP server:** `uvx --from git+https://github.com/mekkial/Gigbid gigbid-portfolio-mcp` ([README](mcp_servers/portfolio/README.md)) · **Write-up:** _link to follow_ ([draft in the repo](docs/BLOG_DRAFT.md))
 
 ![GigBid landing page](docs/images/ui_landing_hero.png)
 ![GigBid inbox with live status](docs/images/ui_inbox.png)
@@ -16,7 +17,7 @@ manages the client conversation. A team of LangGraph agents does the legwork; **
 | Marketplace | **GigSim**, a simulator I wrote (the instructor's GigSim was not available to me). Live Upwork adapter is implemented and tested against a fake Upwork-style MCP server only |
 | Data | real Kaggle Upwork jobs for the stream and prices; **synthetic** personas, proposals, clients, scams, injections and labels (`docs/DATA_CARD.md`) |
 | Docker | `docker compose up` **ran locally** (7 services healthy; kill-and-resume drill passed: `docs/evidence/docker_kill_resume_drill.md`) |
-| Public deploy / GitHub Actions | **Public demo link = light version** on a free 512 MB host (Render): BM25 retrieval (V6, MRR 0.77) and in-process tools, ~220 MB (`docs/DEPLOY_RENDER.md`). The **full system** (hybrid + reranker V3, MRR 0.92, separate MCP servers) runs locally / in Docker for evaluation and any live demo. Link: _TODO until deployed_. GitHub Actions workflows are written, never run on GitHub (`docs/RUNBOOK.md`) |
+| Public deploy / GitHub Actions | **Public demo link = light version** on a free 512 MB host (Render): BM25 retrieval (V6, MRR 0.77) and in-process tools, ~220 MB (`docs/DEPLOY_RENDER.md`). The **full system** (hybrid + reranker V3, MRR 0.92, separate MCP servers) runs locally / in Docker for evaluation and any live demo. Link above. GitHub Actions workflows are written, never run on GitHub (`docs/RUNBOOK.md`) |
 | LLM judge | **calibrated against my 30 labels and found unreliable**: kappa 0.0, it accepted 30/30 proposals while I accepted 12/30. Judge columns carry no weight (`evals/results/judge_calibration.json`, `label_analysis.json`) |
 | LLM quota | Groq's free tier caps **200,000 tokens/day per model**; evaluation beyond the first experiments therefore ran on a **local Qwen3 8B (Ollama)**. Every results file records which models produced it (`llm` field). The hosted deployment needs paid quota (see `docs/RUNBOOK.md`) |
 | Evaluation sizes | small, because the free LLM tier allows 8,000 tokens/min per model; each results file records its `n` and confidence intervals |

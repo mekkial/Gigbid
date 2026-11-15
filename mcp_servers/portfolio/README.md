@@ -14,9 +14,9 @@ Layout (one folder per persona): `case_studies.json`, `proposals.jsonl` (with `o
 Point the server at it: `GIGBID_PORTFOLIO_DIR=/path/to/personas GIGBID_PERSONA=me`. See `data/personas/ai_ml/` for a complete example, or generate case studies from your GitHub repos with the X3 builder (`docs/EXTENSION.md`).
 
 ## Install
-**uvx (straight from the repository; needs a few hundred MB for the embedding/reranker models on first run):**
+**uvx (straight from the repository; the default retrieval downloads the embedding and reranker models on first run, about 1.5 GB):**
 ```bash
-uvx --from git+https://github.com/<you>/gigbid gigbid-portfolio-mcp
+uvx --from git+https://github.com/mekkial/Gigbid gigbid-portfolio-mcp
 ```
 **Docker:** `docker build -f infra/docker/python.Dockerfile -t gigbid-portfolio . && docker run -i --rm -v $PWD/my-portfolio:/portfolio -e GIGBID_PORTFOLIO_DIR=/portfolio -e GIGBID_PERSONA=me gigbid-portfolio python -m mcp_servers.portfolio.server`
 
@@ -24,10 +24,10 @@ uvx --from git+https://github.com/<you>/gigbid gigbid-portfolio-mcp
 ```json
 { "mcpServers": { "gigbid-portfolio": {
     "command": "uvx",
-    "args": ["--from", "git+https://github.com/<you>/gigbid", "gigbid-portfolio-mcp"],
+    "args": ["--from", "git+https://github.com/mekkial/Gigbid", "gigbid-portfolio-mcp"],
     "env": { "GIGBID_PERSONA": "me", "GIGBID_PORTFOLIO_DIR": "/absolute/path/to/personas" } } } }
 ```
 Try it: ask "Answer this screening question from my portfolio: have you built a RAG chatbot?" (uses the prompt template and `search_evidence`).
 
 ## Publishing status
-Not yet published to PyPI (needs the author's PyPI account); the `uvx --from git+...` path works once the repository is public. Tests: `pytest mcp_servers/portfolio`.
+Published as an installable package from the public repository (https://github.com/mekkial/Gigbid); there is no PyPI release. The `uvx --from git+...` command above installs the `gigbid-portfolio-mcp` entry point. Verified over MCP (stdio): 3 tools, `search_evidence` returns results, 2 resource templates, 3 prompts. For a small install with no model download, set `RAG_VARIANT=v6_bm25` (BM25 keyword retrieval; the full hybrid + reranker retrieval is the default). Tests: `pytest mcp_servers/portfolio`.
