@@ -3,7 +3,8 @@ Never used for reported quality numbers."""
 import os, threading
 
 os.environ.update(DATABASE_URL="postgresql://gigbid:gigbid@localhost:5433/gigbid_e2e", GIGBID_TOOLS="local", GIGBID_QUEUE="inline",
-                  GIGSIM_BASE_URL="http://127.0.0.1:8101", GIGSIM_API_TOKEN="dev-token", GIGBID_E2E="1")
+                  GIGSIM_BASE_URL="http://127.0.0.1:8101", GIGSIM_API_TOKEN="dev-token", GIGBID_E2E="1",
+                  RAG_VARIANT="v6_bm25")   # UI tests do not test retrieval quality: skip the model downloads (CI machines start empty)
 os.environ.pop("REDIS_URL", None)
 
 import psycopg

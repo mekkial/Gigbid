@@ -20,7 +20,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
       - name: Repo rules (no inline prompts, gigsim frozen, README numbers trace to evals/results)
-        run: make ci-checks
+        run: make ci-checks PY=python
       - name: Lint
         run: ruff check . --select E9,F63,F7,F82
       - name: Unit, contract (tool-schema snapshots), integration, API tests
