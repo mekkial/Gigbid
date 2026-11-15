@@ -5,7 +5,7 @@ manages the client conversation. A team of LangGraph agents does the legwork; **
 
 > **Live demo (light version, free 512 MB host; may take ~1 minute to wake):** https://gigbid-ma2c.onrender.com · reviewer login in the private Classroom comment
 > **3-minute video:** [watch on Google Drive](https://drive.google.com/file/d/1I9KDQyVrYNIe7mGn5Wev_QcsfM0Q_rwe/view) · **Traces:** [approved proposal](docs/traces/trace-approved_proposal-020359.json), [skipped scam](docs/traces/trace-skipped_scam-12b991.json) (exported from Phoenix, see `docs/traces/README.md`)
-> **Portfolio MCP server:** `uvx --from git+https://github.com/mekkial/Gigbid gigbid-portfolio-mcp` ([README](mcp_servers/portfolio/README.md)) · **Write-up:** _link to follow_ ([draft in the repo](docs/BLOG_DRAFT.md))
+> **Portfolio MCP server:** `uvx --from git+https://github.com/mekkial/Gigbid gigbid-portfolio-mcp` ([README](mcp_servers/portfolio/README.md)) · **Write-up:** [dev.to](https://dev.to/mekkial_bilal_e9f1a806a8d/the-clever-retrieval-trick-lost-a-boring-if-statement-won-12fd) ([source in the repo](docs/BLOG_DRAFT.md))
 
 ![GigBid landing page](docs/images/ui_landing_hero.png)
 ![GigBid inbox with live status](docs/images/ui_inbox.png)
