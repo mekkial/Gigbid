@@ -49,19 +49,39 @@ class MCPToolbox:
         self.names = list(connections)
         self.timeout, self.retries, self.backoff, self.cooldown = timeout, retries, backoff, cooldown
         self.sessions: dict[str, Any] = {}
-        self._stacks: dict[str, contextlib.AsyncExitStack] = {}
+        self._stacks: dict[str, tuple] = {}        # name -> (owner task, stop event)
         self.status: dict[str, dict] = {n: {"up": False, "since": time.time(), "error": None} for n in connections}
         self._lock = asyncio.Lock()
 
     # --- connection management -------------------------------------------------------------------------------
     async def _connect(self, name: str):
-        stack = contextlib.AsyncExitStack()
+        """Each MCP session is owned by one long-lived task that opens AND closes it. AnyIO cancel scopes must be exited by the task that
+        entered them, so opening a session inside one web request and closing it from another (the old behaviour) broke the session,
+        which then reconnected, over and over."""
+        loop = asyncio.get_running_loop()
+        ready: asyncio.Future = loop.create_future()
+        stop = asyncio.Event()
+
+        async def owner():
+            try:
+                async with self.client.session(name) as session:
+                    if not ready.done():
+                        ready.set_result(session)
+                    await stop.wait()
+            except BaseException as e:  # noqa: BLE001
+                if not ready.done():
+                    ready.set_exception(e)
+
+        task = asyncio.create_task(owner(), name=f"mcp-session-{name}")
         try:
-            session = await asyncio.wait_for(stack.enter_async_context(self.client.session(name)), self.timeout)
+            session = await asyncio.wait_for(asyncio.shield(ready), self.timeout)
         except BaseException:
-            await stack.aclose()
+            stop.set()
+            task.cancel()
+            with contextlib.suppress(BaseException):
+                await task
             raise
-        self.sessions[name], self._stacks[name] = session, stack
+        self.sessions[name], self._stacks[name] = session, (task, stop)
         self.status[name] = {"up": True, "since": time.time(), "error": None}
 
     async def start(self):
@@ -70,10 +90,16 @@ class MCPToolbox:
 
     async def _drop(self, name: str, err: str):
         self.sessions.pop(name, None)
-        st = self._stacks.pop(name, None)
-        if st:
-            with contextlib.suppress(BaseException):
-                await st.aclose()
+        owned = self._stacks.pop(name, None)
+        if owned:
+            task, stop = owned
+            stop.set()                                              # the owner task closes the session itself
+            try:
+                await asyncio.wait_for(asyncio.shield(task), 5)
+            except BaseException:  # noqa: BLE001
+                task.cancel()
+                with contextlib.suppress(BaseException):
+                    await task
         self.status[name] = {"up": False, "since": time.time(), "error": err}
 
     async def _ensure(self, name: str):
