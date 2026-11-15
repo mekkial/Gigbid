@@ -8,7 +8,7 @@
 | `docker compose up` | **executed locally (Colima, arm64)**: both images built (python image 5.1 GB, web 76 MB), 7 services up and healthy, scouting through the Arq worker and MCP servers worked, and the SIGKILL-and-resume exactly-once drill passed: `docs/evidence/docker_kill_resume_drill.md`. Not exercised: the `phoenix` and `ollama` services, the Caddy HTTPS profile, an x86 host. Bugs the real run found and fixed: PII log filter broke uvicorn access logs; Dockerfile pulled CUDA wheels. |
 | Public deployment | **not done** (host undecided). See "Deploy". |
 | Upwork live mode | adapter + OAuth implemented and tested with fakes; **not run against the real Upwork server** (no account yet) |
-| GitHub Actions | workflows written; never run on GitHub |
+| GitHub Actions | `ci` workflow runs and passes on GitHub (secret scan, repo rules, lint, tests, Playwright); `eval-smoke` not run there |
 
 ## LLM providers and quotas (important for deployment)
 * **Hosted open profile (Groq, free tier):** 8,000 tokens/min **and 200,000 tokens/day per model**. A proposal costs ~15-20k tokens, so the free tier serves roughly a dozen proposals per model per day. That is enough for development, **not** for a reviewer plus a hidden grading run. Before deploying, add paid quota (Groq Dev tier is pay-as-you-go; list-price cost per proposal is about $0.005) or point `agent/config.yaml` at another OpenAI-compatible provider.
