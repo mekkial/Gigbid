@@ -8,7 +8,7 @@ __pycache__/
 node_modules/
 .next/
 dist/
-build/
+/build/
 data/processed/*
 !data/processed/market_stats.json
 !data/processed/real_jobs.jsonl
