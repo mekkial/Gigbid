@@ -1,3 +1,9 @@
+---
+title: "The clever retrieval trick lost. A boring if statement won."
+published: true
+tags: ai, rag, python, langgraph
+---
+
 # The clever retrieval trick lost. A boring `if` statement won.
 
 *I built a multi-agent freelance copilot, measured it properly, and the results embarrassed my favourite idea.*
@@ -19,7 +25,8 @@ Evaluated on 60 stratified jobs per persona, three personas, evidence-level metr
 | naive dense retrieval | 0.91 | 0.63 |
 | hybrid BM25 + dense | 1.00 | 0.74 |
 | hybrid + cross-encoder rerank | 1.00 | **0.92** |
-| requirement decomposition | 0.84 | **0.42** |
+| requirement decomposition, first version (merged per chunk) | 0.84 | **0.42** |
+| requirement decomposition, fixed (merged per project) | 0.92 | **0.45** |
 
 Decomposition did not just fail to help. It made retrieval **worse than the baseline**, by a wide margin. My first implementation merged per-requirement rankings at the chunk level, which scatters a project's chunks across lists; merging at project level raised recall back up, but ranking quality stayed far below simple hybrid-plus-rerank.
 
@@ -68,6 +75,14 @@ Better retrieval did what it is supposed to do: the writer was given more releva
 
 One more thing the run exposed: the local reviewer model never approved a first draft. Average revisions were 3.0 and 2.8 against a cap of two loops, so every proposal paid for the full revision budget. The cap did its job (nothing looped forever), but a critic that never says yes is a cost centre, not a quality gate.
 
+## My automatic judge was no judge at all
+
+I also had a language model score proposals from 1 to 5. Before trusting it, I labelled 30 proposals myself without seeing its scores. Cohen's kappa between us was **0.0**: it called all 30 acceptable, and I accepted 12. Every disagreement ran the same way. One proposal for a "fraud detection model" cited a medical-document project and opened by repeating the client's own sentence; the judge gave it 5 out of 5. So every "judge score" in my results carries no weight, and no decision in the system depends on it. Labelling also showed me something the metrics had not: 17 of the 30 proposals opened by echoing the job post. The critic now rejects that.
+
+## Running it for free
+
+A free public host gave me 512 MB of memory. My retrieval stack (an embedding model plus a cross-encoder reranker) needs about 1.4 GB on its own, so I measured a keyword-only variant too: BM25 reaches MRR 0.77, better than naive embeddings and below hybrid-plus-rerank at 0.92. The public demo runs that light version in about 220 MB; the full system runs locally, and the report says which numbers come from which.
+
 ## What I would do differently
 
 - **Write the failure taxonomy before the second retrieval variant.** The biggest error was visible in the first pass over failures, and I had spent the day elsewhere.
@@ -78,4 +93,4 @@ One more thing the run exposed: the local reviewer model never approved a first 
 
 The corpus is synthetic and templated, so absolute scores are optimistic and the ordering is the finding. Samples are small because of the quotas above. The simulator that decides which proposals get replies is mine. The code, the results files, and every number in this post are in the repository.
 
-*Word count target: 1,200–1,800. Add one figure (the ablation bars) and re-count words before publishing.*
+**Links:** [code and results](https://github.com/mekkial/gigbid) · [live demo (light version)](https://gigbid-ma2c.onrender.com) · [R&D report (PDF)](https://github.com/mekkial/gigbid/blob/main/docs/report/report.pdf)
