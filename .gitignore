@@ -23,3 +23,21 @@ apps/web/test-results/
 apps/web/playwright-report/
 .neon
 gigbid.egg-info/
+
+# personal working notes, drafts and study material: kept locally, not published
+.DS_Store
+HANDOFF.md
+PRODUCT.md
+docs/VIVA.md
+docs/FIELD_GUIDE.html
+docs/VIDEO_SCRIPT.md
+docs/RESUME_BULLETS.md
+docs/IMPLEMENTATION_CHECKLIST.md
+docs/GETTING_STARTED.md
+docs/BLOG_DRAFT.md
+docs/images/demo.gif
+docs/images/screens/
+docs/images/ui_*.png
+!docs/images/ui_landing_hero.png
+!docs/images/ui_inbox.png
+!docs/images/ui_studio.png

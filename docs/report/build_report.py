@@ -149,7 +149,7 @@ which this sample cannot resolve. H5 <b>refuted as first implemented</b>.{thr}</
 def s5():
     d = J("arch_compare.json")
     if not d:
-        return "<h2>5. R&amp;D question C: is the multi-agent design worth it?</h2>" + NR("run pending: see HANDOFF.md")
+        return "<h2>5. R&amp;D question C: is the multi-agent design worth it?</h2>" + NR("run pending")
     rows = [[k, v["n_jobs"], f(v["decision_accuracy"]), f(v.get("unparseable_output_rate")), f(v.get("decision_accuracy_on_parsed_only")), f(v["unsupported_claim_rate_mean"]), f(v["proposals_with_raw_policy_violation"]), f"{f(v['gigsim_reply_rate'])} (n={v['n_sent']})", f(v["p95_latency_s"], 1), v["tokens_per_job"]] for k, v in d["architectures"].items()]
     by = [[k] + [f(v["by_job_type"].get(t, {}).get("decision_accuracy"), 2) for t in ("good", "skip", "scam", "lowball", "injection")] for k, v in d["architectures"].items()]
     models = sorted({m["model"] for m in d.get("llm", {}).get("models", {}).values()})
