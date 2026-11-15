@@ -15,8 +15,9 @@ async def main():
         await db.run("INSERT INTO users(id,email,pw_hash,persona,settings) VALUES(%s,%s,%s,%s,%s)", "u_reviewer", email, hash_password(pw),
                      os.environ.get("REVIEWER_PERSONA", "ai_ml"), db.J(Settings().model_dump()))
         print("created", email)
-    else:
-        print("reviewer already exists")
+    else:                                                     # keep the reviewer password equal to REVIEWER_PASSWORD (it may have been rotated)
+        await db.run("UPDATE users SET pw_hash=%s WHERE email=%s", hash_password(pw), email)
+        print("reviewer already exists; password synced from REVIEWER_PASSWORD")
     await db.close()
 
 asyncio.run(main())
