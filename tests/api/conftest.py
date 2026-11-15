@@ -1,7 +1,7 @@
 import os
 import uuid
 
-os.environ["DATABASE_URL"] = "postgresql://gigbid@localhost:5433/gigbid_test"
+os.environ["DATABASE_URL"] = "postgresql://gigbid:gigbid@localhost:5433/gigbid_test"
 os.environ["GIGBID_TOOLS"] = "local"
 os.environ["GIGBID_QUEUE"] = "inline"
 os.environ.pop("REDIS_URL", None)

@@ -11,6 +11,7 @@ jobs:
         options: --health-cmd "pg_isready -U gigbid" --health-interval 5s --health-retries 10
     env:
       DATABASE_URL: postgresql://gigbid:gigbid@localhost:5433/gigbid_test
+      RAG_VARIANT: v6_bm25      # CI machines start without the embedding/reranker models; retrieval quality is measured by the eval workflow, not by unit tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
