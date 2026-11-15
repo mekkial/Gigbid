@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: pip install uv && uv pip install --system -e ".[dev]" langchain-openai langgraph-supervisor
+      - name: Generate the synthetic data (personas, clients, job pool); not committed
+        run: python -m data.build.gen_data
       - name: Secrets scan
         uses: gitleaks/gitleaks-action@v2
         env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
@@ -43,6 +45,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: "22"}
       - run: pip install uv && uv pip install --system -e ".[dev]" && mkdir -p .venv/bin && ln -sf $(which python) .venv/bin/python
+      - name: Generate the synthetic data (personas, clients, job pool); not committed
+        run: python -m data.build.gen_data
       - run: cd apps/web && npm ci && npx playwright install --with-deps chromium
       - run: cd apps/web && npx playwright test
       - uses: actions/upload-artifact@v4
