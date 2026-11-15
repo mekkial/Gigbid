@@ -1,0 +1,7 @@
+# Secret scan configuration. The default rules apply, except for one path of public data.
+title = "gigbid gitleaks config"
+[extend]
+useDefault = true
+[allowlist]
+description = "Real, public Upwork job posts (Kaggle datasets, Apache 2.0 / ODC-By): their text contains third-party URLs with query keys and company ids. Not our credentials."
+paths = ['''data/processed/real_jobs\.jsonl''', '''data/processed/real_clients\.json''']

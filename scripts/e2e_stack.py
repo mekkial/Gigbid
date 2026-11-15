@@ -2,12 +2,12 @@
 Never used for reported quality numbers."""
 import os, threading
 
-os.environ.update(DATABASE_URL="postgresql://gigbid@localhost:5433/gigbid_e2e", GIGBID_TOOLS="local", GIGBID_QUEUE="inline",
+os.environ.update(DATABASE_URL="postgresql://gigbid:gigbid@localhost:5433/gigbid_e2e", GIGBID_TOOLS="local", GIGBID_QUEUE="inline",
                   GIGSIM_BASE_URL="http://127.0.0.1:8101", GIGSIM_API_TOKEN="dev-token", GIGBID_E2E="1")
 os.environ.pop("REDIS_URL", None)
 
 import psycopg
-adm = psycopg.connect("postgresql://gigbid@localhost:5433/postgres", autocommit=True)
+adm = psycopg.connect("postgresql://gigbid:gigbid@localhost:5433/postgres", autocommit=True)
 adm.execute("DROP DATABASE IF EXISTS gigbid_e2e WITH (FORCE)"); adm.execute("CREATE DATABASE gigbid_e2e"); adm.close()
 
 import uvicorn

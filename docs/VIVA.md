@@ -15,7 +15,7 @@ For each drill: **say** (one sentence), **show** (file / command), **be honest a
 * **Say:** the submit step uses idempotency keys derived from the graph thread id, so any replay returns the stored result instead of acting again; the approval itself is an atomic DB claim.
 * **Show:** `agent/graphs/bid_graph.py::submit` (`f"{tid}:create"`, `f"{tid}:submit"`) · `mcp_servers/common.py::Ledger` (idempotency table) · GigSim `gigsim/app.py::submit_proposal` (own idempotency, Connects debited once) · `apps/api/routers/approvals.py::decide` (`UPDATE ... WHERE status='awaiting_approval' RETURNING`, double click -> 409).
   * tests: `tests/integration/test_bid_graph.py::test_approve_submits_exactly_once...`, `::test_resume_after_crash_uses_persisted_checkpoint`, `tests/api/test_api.py::test_full_journey...` (two concurrent approvals -> one 200, one 409)
-  * Live drill: approve in UI, `kill -9` the API/worker, restart, check GigSim balance dropped once: `curl -H 'Authorization: Bearer dev-token' -H 'x-user: <id>' localhost:8081/connects`.
+  * Live drill: approve in UI, `kill -9` the API/worker, restart, check GigSim balance dropped once: `curl -H 'Authorization: Bearer $GIGSIM_API_TOKEN' -H 'x-user: <id>' localhost:8081/connects`.
 * **Honest:** the crash test restarts the checkpointer connection, not a literal process kill; the Postgres checkpointer is what makes the literal kill work.
 
 ## 3. Show a claim on screen, then the evidence behind it. Delete that evidence and regenerate: what happens to the claim?
