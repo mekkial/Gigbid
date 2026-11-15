@@ -16,7 +16,7 @@ async def startup(ctx):
 
 class WorkerSettings:
     functions = [tasks.run_bid, tasks.scout, tasks.resume_run, tasks.run_conversation, tasks.replay_run]
-    cron_jobs = [cron(tasks.scout_saved_searches, minute={0, 15, 30, 45}), cron(tasks.retry_waiting, second={0, 30})]
+    cron_jobs = [cron(tasks.scout_saved_searches, minute={0, 15, 30, 45}), cron(tasks.retry_waiting, second={0, 30}), cron(tasks.requeue_stale, second={15, 45})]
     on_startup = startup
     redis_settings = RedisSettings.from_dsn(os.environ.get("REDIS_URL", "redis://localhost:6380/0"))
     max_tries = 3

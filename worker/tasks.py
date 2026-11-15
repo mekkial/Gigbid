@@ -82,3 +82,33 @@ async def retry_waiting(ctx):
             continue
         kind = "conv" if r["thread_id"].startswith("conv:") else "bid"
         await RUNTIME.execute(r["thread_id"], user, kind, None)
+
+
+_bg: set = set()
+
+
+async def requeue_stale(ctx):
+    """Cron: a run stuck in `queued` or `running` with no progress means its queue entry was lost (worker restarted or killed mid-job).
+    Start it again; the graph resumes from its checkpoint, and the submit step is idempotent, so this cannot send anything twice."""
+    for r in await db.fetch("SELECT thread_id, user_id, job_id, status FROM runs WHERE kind='bid' AND "
+                            "((status='queued' AND updated_at < now() - interval '90 seconds') OR (status='running' AND updated_at < now() - interval '12 minutes'))"):
+        if r["thread_id"] in _inflight:
+            continue
+        user = await _user(r["user_id"])
+        try:
+            job = await (await RUNTIME.toolbox(user["persona"], user["id"])).call("scout", "get_job", job_id=r["job_id"])
+        except Exception:  # noqa: BLE001 - marketplace down: try again next tick
+            continue
+        await db.run("UPDATE runs SET updated_at=now() WHERE thread_id=%s", r["thread_id"])
+        _inflight.add(r["thread_id"])
+        t = asyncio.create_task(_run_and_release(r["user_id"], job, r["thread_id"])); _bg.add(t); t.add_done_callback(_bg.discard)
+
+
+_inflight: set = set()
+
+
+async def _run_and_release(user_id: str, job: dict, thread_id: str):
+    try:
+        await run_bid({}, user_id, job)
+    finally:
+        _inflight.discard(thread_id)
